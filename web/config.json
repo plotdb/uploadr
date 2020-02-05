@@ -1,0 +1,14 @@
+{
+  "port": 3005,
+  "watcher": {
+    "ignores": []
+  },
+  "assets": [],
+  "ioPg": {
+    "uri": "postgres://sharedb:sharedb@localhost/sharedb",
+    "database": "sharedb",
+    "user": "sharedb",
+    "password": "sharedb",
+    "host": "localhost"
+  }
+}

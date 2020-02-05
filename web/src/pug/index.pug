@@ -1,0 +1,36 @@
+doctype html
+include /../../static/assets/lib/ldui/pug/ldui.pug
+html
+  head
+    +css("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+    +css("assets/lib/ldui/ldui.min.css")
+  body
+    .p-4.m-4.text-center
+      .btn.btn-primary(ld="toggle") Upload File
+      .ldcv: .base(style="width:640px;height:480px"): .inner.card: .card-body.ld-over-full-inverse
+        .ld.ld-ring.ld-spin
+        .d-flex.w-100.h-100(style="flex-direction:column")
+          .w-100.flex-grow-1.bg-light.text-center.d-none(ld="list")
+            .d-none(ld="multiple"): +scope("file").bg-white.d-flex.align-items-center.p-1.m-2(ld-each="files")
+              .bg-portrait.bg-secondary(ld="thumb",style="width:1.8125rem;height:1.8125rem;background-size:contain")
+              .flex-grow-1.mx-1(ld="name") Somefile.jpg
+              .flex-grow-1.mx-1(ld="size") 25.7KB
+              .btn.btn-outline-danger.btn-sm remove &times;
+            .vertical-center(ld="single"): .text-center.w-100
+              .m-auto.shadow.border(ld="preview",style="max-width:90%;max-height:90%")
+
+          .w-100.flex-grow-1.bg-light(ld="upload"): .vertical-center: .text-center.w-100
+            b.text-lg.text-muted drag & drop#[br]files here
+            .text-sm.text-muted.m-4 or
+            .btn.btn-primary.btn-upload Choose File #[input(ld="input",type="file",multiple)]
+          .mt-3
+            .d-flex.justify-content-between
+              .btn.btn-outline-secondary(ld="cancel") Cancel
+              .btn.btn-primary.d-none(ld="add") Add
+    +scope("gallery").d-flex.m-4.p-4.bg-light.justify-content-around
+      +scope("image").card.m-2(ld-each="image"): .card-body.text-center
+        .bg-portrait.mx-auto.mb-1(ld="thumb",style="width:300px;height:300px")
+        a(href="#",ld="name")
+    +script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js")
+    +script("assets/lib/ldui/ldui.min.js")
+    +script("js/index.js")
