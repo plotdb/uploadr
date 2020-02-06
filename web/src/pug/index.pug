@@ -29,6 +29,7 @@ html
       .w-480.mx-auto.my-4
         .btn.btn-primary.mr-2(ld="upload") Upload
         .btn.btn-primary.mr-2(ld="clear") Clear
+        .btn.btn-primary.mr-2(ld="check") Check
 
 
     //-.p-4.m-4.text-center
@@ -61,13 +62,12 @@ html
     +script("assets/lib/ldui/ldui.min.js")
     +script("js/index.js")
     script: :lsc
+      uploader-native = do
+        host: \native
+        route: \/d/uploadr
+      uploader-imgbb = do
+        host: \imgbb
       up = new uploadr do
         root: document.body
         progress: -> console.log it
-        uploader: do
-          host: \imgbb
-        /*
-        uploader: do
-          host: \native
-          route: \/d/uploadr
-        */
+        uploader: uploader-native

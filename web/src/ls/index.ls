@@ -1,4 +1,21 @@
 (->
+  xhr = (url, o = {}, opt = {}) -> new Promise (res, rej) ->
+    x = new XMLHttpRequest!
+    x.onreadystatechange = ->
+      if xhr.readyState == XMLHttpRequest.DONE =>
+        if xhr.status == 200 =>
+          try
+            ret = if opt.type == \json => JSON.parse(xhr.responseText) else xhr.responseText
+          catch e
+            return rej new Error(e)
+          return res ret
+        else return rej new Error!
+    x.onloadstart = -> opt.progress {percent: 0, val: 0, len: 0}
+    if opt.progress => x.onprogress = (evt) ->
+      [val,len] = [evt.loaded, evt.total]
+      opt.progress {percent: (val/len), val, len}
+    x.open (o.method or \GET), url, true
+    x.send o.body
 
   uploadr = (opt = {}) ->
     @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
@@ -21,6 +38,11 @@
           click:
             upload: ({node, evt}) ~> @upload!then ~> @clear!; return it
             clear: ({node, evt}) ~> @clear!
+            check: ({node, evt}) ~>
+              fd = new FormData!
+              lc.files.map -> fd.append \file, it.file
+              fd.append \test, 123
+              console.log typeof(fd), (fd instanceof FormData)
           drop: do
             drop: ({node, evt}) ->
               evt.preventDefault!
@@ -85,11 +107,11 @@
 
   ext.native = ({files, progress, opt}) -> new Promise (res, rej) ->
     {merge, route} = (opt or {})
-    progress v: 0, count: 0, len: len
+    progress percent: 0, val: 0, len: len
     if merge => 
       fd = new FormData!
       files.map -> fd.append \file, it.file
-      ld$.fetch route, {method: \POST, body: fd}, {type: \json}
+      xhr route, {method: \POST, body: fd}, {type: \json}
         .then res
         .catch rej
     else =>
@@ -100,14 +122,14 @@
         if !item => return res ret
         fd = new FormData!
         fd.append \file, item.file
-        ld$.fetch route, {method: \POST, body: fd}, {type: \json}
+        xhr route, {method: \POST, body: fd}, {type: \json, progress}
           .then ->
             ret.push o = it.0
-            progress {v: (len - list.length) / len, count: (len - list.length), len: len, item: o}
+            progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
             _ list
           .catch ->
             ret.push o = {name: item.file.name, error: it}
-            progress {v: (len - list.length) / len, count: (len - list.length), len: len, item: o}
+            progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
       _ files
 
   # opt: {key}
@@ -115,13 +137,14 @@
   ext.imgbb = ({files, progress, opt}) -> new Promise (res, rej) ->
     ret = []
     len = files.length
-    progress v: 0, count: 0, len: len
+    progress percent: 0, val: 0, len: len
     _ = (list) ~>
       item = list.splice(0, 1).0
       if !item => return res ret
       fd = new FormData!
       fd.append \image, item.file
-      ld$.fetch(
+
+      xhr(
         "https://api.imgbb.com/1/upload?key=#{opt.key}",
         {method: \POST, body: fd}
         {type: \json}
@@ -129,11 +152,11 @@
         .then ->
           if !(it and it.data and it.status == 200) => return Promise.reject(it)
           ret.push o = {url: it.data.display_url, name: item.file.name, id: it.data.id, raw: it.data}
-          progress {v: (len - list.length) / len, count: (len - list.length), len: len, item: o}
+          progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
           _ list
         .catch ->
           ret.push o = {name: item.file.name, error: it}
-          progress {v: (len - list.length) / len, count: (len - list.length), len: len, item: o}
+          progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
     _ files
 
   if module? => module.exports = uploadr
