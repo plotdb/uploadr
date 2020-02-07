@@ -41,7 +41,7 @@ html
 
     +script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js")
     +script("assets/lib/ldui/ldui.min.js")
-    +script("js/index.js")
+    +script("assets/lib/uploadr/uploadr.js")
     script: :lsc
       lc = {files: []}
       uploader-native = do
@@ -49,6 +49,7 @@ html
         route: \/d/uploadr
       uploader-imgbb = do
         host: \imgbb
+        key: "97902907ac92c25e4c54b8d0b4c6eeac"
       up = new uploadr do
         root: ld$.find(document, '[ld-scope=uploadr]', 0)
         progress: -> console.log it
