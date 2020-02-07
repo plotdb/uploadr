@@ -10,12 +10,12 @@ var slice$ = [].slice;
       x = new XMLHttpRequest();
       x.onreadystatechange = function(){
         var ret, e;
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
+        if (x.readyState === XMLHttpRequest.DONE) {
+          if (x.status === 200) {
             try {
               ret = opt.type === 'json'
-                ? JSON.parse(xhr.responseText)
-                : xhr.responseText;
+                ? JSON.parse(x.responseText)
+                : x.responseText;
             } catch (e$) {
               e = e$;
               return rej(new Error(e));
@@ -49,6 +49,7 @@ var slice$ = [].slice;
     });
   };
   uploadr = function(opt){
+    var this$ = this;
     opt == null && (opt = {});
     this.root = typeof opt.root === 'string'
       ? document.querySelector(opt.root)
@@ -59,7 +60,25 @@ var slice$ = [].slice;
       route: '/d/uploadr',
       host: 'native'
     };
-    this.progress = opt.progress || function(){};
+    this.progress = function(v){
+      var n, p;
+      if (!(n = (v.item || (v.item = {})).node)) {
+        return;
+      }
+      if (!(p = ld$.find(n, '[ld=progress]')[0])) {
+        return;
+      }
+      p.style.width = v.percent * 100 + "%";
+      if (v.percent >= 1) {
+        return debounce(500).then(function(){
+          var i;
+          ld$.remove(n);
+          if (~(i = this$.lc.files.indexOf(v.item))) {
+            return this$.lc.files.splice(i, 1);
+          }
+        });
+      }
+    };
     this.lc = {
       files: []
     };
@@ -99,16 +118,6 @@ var slice$ = [].slice;
               var node, evt;
               node = arg$.node, evt = arg$.evt;
               return this$.clear();
-            },
-            check: function(arg$){
-              var node, evt, fd;
-              node = arg$.node, evt = arg$.evt;
-              fd = new FormData();
-              lc.files.map(function(it){
-                return fd.append('file', it.file);
-              });
-              fd.append('test', 123);
-              return console.log(typeof fd, fd instanceof FormData);
             }
           },
           drop: {
@@ -122,11 +131,9 @@ var slice$ = [].slice;
               return Promise.all(promises).then(function(it){
                 lc.files = it;
                 view.render();
-                return uploads({
-                  files: lc.files,
-                  progress: function(it){
-                    return console.log(it);
-                  }
+                return this$.upload().then(function(it){
+                  this$.clear();
+                  return it;
                 });
               });
             }
@@ -139,6 +146,48 @@ var slice$ = [].slice;
             }
           }
         },
+        init: {
+          input: function(arg$){
+            var node, ldf;
+            node = arg$.node;
+            lc.ldf = ldf = new ldFile({
+              root: node,
+              type: 'dataurl',
+              forceEncoding: 'utf-8'
+            });
+            node.addEventListener('change', function(){
+              return this$.fire('preview.loading');
+            });
+            return ldf.on('load', function(files){
+              var preview, promises;
+              preview = view.get('preview');
+              promises = files.map(function(file){
+                return new Promise(function(res, rej){
+                  var img;
+                  img = new Image;
+                  img.onload = function(){
+                    var x$, ref$;
+                    if (preview) {
+                      x$ = preview.style;
+                      x$.backgroundImage = "url(" + files[0].result + ")";
+                      x$.width = img.width + "px";
+                      x$.height = img.height + "px";
+                    }
+                    return res(import$((ref$ = {}, ref$.width = img.width, ref$.height = img.height, ref$), file));
+                  };
+                  return img.src = file.result;
+                });
+              });
+              return Promise.all(promises).then(function(){
+                lc.files = files;
+                return debounce(500);
+              }).then(function(){
+                view.render();
+                return this$.fire('preview.done');
+              });
+            });
+          }
+        },
         handler: {
           file: {
             list: function(){
@@ -147,6 +196,7 @@ var slice$ = [].slice;
             handle: function(arg$){
               var node, data, view;
               node = arg$.node, data = arg$.data;
+              data.node = node;
               return view = new ldView({
                 root: node,
                 action: {
@@ -180,40 +230,6 @@ var slice$ = [].slice;
                 }
               });
             }
-          },
-          input: function(arg$){
-            var node, ldf, this$ = this;
-            node = arg$.node;
-            lc.ldf = ldf = new ldFile({
-              root: node,
-              type: 'dataurl',
-              forceEncoding: 'utf-8'
-            });
-            return ldf.on('load', function(files){
-              var preview, promises;
-              preview = view.get('preview');
-              promises = files.map(function(file){
-                return new Promise(function(res, rej){
-                  var img;
-                  img = new Image;
-                  img.onload = function(){
-                    var x$, ref$;
-                    if (preview) {
-                      x$ = preview.style;
-                      x$.backgroundImage = "url(" + files[0].result + ")";
-                      x$.width = img.width + "px";
-                      x$.height = img.height + "px";
-                    }
-                    return res(import$((ref$ = {}, ref$.width = img.width, ref$.height = img.height, ref$), file));
-                  };
-                  return img.src = file.result;
-                });
-              });
-              return Promise.all(promises).then(function(){
-                lc.files = files;
-                return view.render();
-              });
-            });
           }
         }
       });
@@ -291,28 +307,18 @@ var slice$ = [].slice;
             body: fd
           }, {
             type: 'json',
-            progress: progress
+            progress: function(it){
+              return progress((it.item = item, it));
+            }
           }).then(function(it){
             var o;
             ret.push(o = it[0]);
-            progress({
-              percent: (len - list.length) / len,
-              val: len - list.length,
-              len: len,
-              item: o
-            });
             return _(list);
           })['catch'](function(it){
             var o;
-            ret.push(o = {
+            return ret.push(o = {
               name: item.file.name,
               error: it
-            });
-            return progress({
-              percent: (len - list.length) / len,
-              val: len - list.length,
-              len: len,
-              item: o
             });
           });
         };

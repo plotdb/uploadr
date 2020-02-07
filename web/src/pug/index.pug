@@ -8,66 +8,61 @@ html
     .w-1024.rwd.typeset.heading-contrast.mx-auto.p-4
       h2 uploadr
       p file uploader widgets and express route
-
-      //- input, drop
-      .w-480.mx-auto.my-4
-        .bg-light.w-100.text-white(ld="drop",style="height:300px")
-          .vertical-center
-            .w-100.text-center.text-secondary
-              .text-lg drag & drop #[br] files here
-              .my-4 or
-              .btn.btn-primary.btn-upload
-                span Choose File
-                input(ld="input", type="file", multiple)
-      //- file
-      .w-480.mx-auto.my-4
-        .bg-white.d-flex.align-items-center.p-1.m-2(ld-each="file")
-          .bg-portrait.bg-secondary(ld="thumb",style="width:1.8125rem;height:1.8125rem;background-size:contain")
-          .flex-grow-1.mx-1(ld="name") ...
-          .mx-2(ld="size") 0KB
-          .btn.btn-outline-danger.btn-sm(ld="delete") remove &times;
-      .w-480.mx-auto.my-4
-        .btn.btn-primary.mr-2(ld="upload") Upload
-        .btn.btn-primary.mr-2(ld="clear") Clear
-        .btn.btn-primary.mr-2(ld="check") Check
-
-
-    //-.p-4.m-4.text-center
-      .btn.btn-primary(ld="toggle") Upload File
-      .ldcv: .base(style="width:640px;height:480px"): .inner.card: .card-body.ld-over-full-inverse
-        .ld.ld-ring.ld-spin
-        .d-flex.w-100.h-100(style="flex-direction:column")
-          .w-100.flex-grow-1.bg-light.text-center.d-none(ld="list")
-            .d-none(ld="multiple"): +scope("file").bg-white.d-flex.align-items-center.p-1.m-2(ld-each="files")
+      .ldld.text-center: img(src="/assets/img/spinner.svg")
+      +scope("uploadr")
+        //- input, drop
+        .w-480.mx-auto.my-4
+          .bg-light.w-100.text-white(ld="drop",style="height:300px")
+            .vertical-center
+              .w-100.text-center.text-secondary
+                .text-lg drag & drop #[br] files here
+                .my-4 or
+                .btn.btn-primary.btn-upload
+                  span Choose File
+                  input(ld="input", type="file", multiple)
+        //- file
+        .w-480.mx-auto.my-4
+          .bg-white.p-1.m-2(ld-each="file")
+            .d-flex.align-items-center
               .bg-portrait.bg-secondary(ld="thumb",style="width:1.8125rem;height:1.8125rem;background-size:contain")
-              .flex-grow-1.mx-1(ld="name") Somefile.jpg
-              .flex-grow-1.mx-1(ld="size") 25.7KB
-              .btn.btn-outline-danger.btn-sm remove &times;
-            .vertical-center(ld="single"): .text-center.w-100
-              .m-auto.shadow.border(ld="preview",style="max-width:90%;max-height:90%")
+              .flex-grow-1.mx-1(ld="name") ...
+              .mx-2(ld="size") 0KB
+              .btn.btn-outline-danger.btn-sm(ld="delete") remove &times;
+            .mt-1.bg-primary(ld="progress",style="width:0;height:3px;transition:all .35s ease-in-out")
+        .w-480.mx-auto.my-4
+          .btn.btn-primary.mr-2(ld="upload") Upload
+          .btn.btn-primary.mr-2(ld="clear") Clear
+          .btn.btn-primary.mr-2(ld="check") Check
 
-          .w-100.flex-grow-1.bg-light(ld="upload"): .vertical-center: .text-center.w-100
-            b.text-lg.text-muted drag & drop#[br]files here
-            .text-sm.text-muted.m-4 or
-            .btn.btn-primary.btn-upload Choose File #[input(ld="input",type="file",multiple)]
-          .mt-3
-            .d-flex.justify-content-between
-              .btn.btn-outline-secondary(ld="cancel") Cancel
-              .btn.btn-primary.d-none(ld="add") Add
-    //-+scope("gallery").d-flex.m-4.p-4.bg-light.justify-content-around
-      +scope("image").card.m-2(ld-each="image"): .card-body.text-center
-        .bg-portrait.mx-auto.mb-1(ld="thumb",style="width:300px;height:300px")
-        a(href="#",ld="name")
+    .w-1024.rwd.mx-auto.my-4
+      +scope("viewer").d-flex.flex-wrap
+        div(ld-each="photo",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
+
+
     +script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js")
     +script("assets/lib/ldui/ldui.min.js")
     +script("js/index.js")
     script: :lsc
+      lc = {files: []}
       uploader-native = do
         host: \native
         route: \/d/uploadr
       uploader-imgbb = do
         host: \imgbb
       up = new uploadr do
-        root: document.body
+        root: ld$.find(document, '[ld-scope=uploadr]', 0)
         progress: -> console.log it
         uploader: uploader-native
+      up.on \upload.done, ->
+        lc.files ++= it
+        view.render!
+      ldld = new ldLoader root: '.ldld'
+      up.on \preview.loading, -> ldld.on!
+      up.on \preview.done, -> ldld.off!
+      view = new ldView do
+        root: ld$.find('[ld-scope=viewer]', 0)
+        handler: do
+          photo: do
+            list: -> lc.files or []
+            handle: ({node, data}) ->
+              node.style.backgroundImage = "url(#{data.url})"

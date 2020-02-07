@@ -2,10 +2,10 @@
   xhr = (url, o = {}, opt = {}) -> new Promise (res, rej) ->
     x = new XMLHttpRequest!
     x.onreadystatechange = ->
-      if xhr.readyState == XMLHttpRequest.DONE =>
-        if xhr.status == 200 =>
+      if x.readyState == XMLHttpRequest.DONE =>
+        if x.status == 200 =>
           try
-            ret = if opt.type == \json => JSON.parse(xhr.responseText) else xhr.responseText
+            ret = if opt.type == \json => JSON.parse(x.responseText) else x.responseText
           catch e
             return rej new Error(e)
           return res ret
@@ -22,7 +22,17 @@
     @evt-handler = {}
     @opt = opt
     @ucfg = opt.uploader or {route: '/d/uploadr', host: 'native'}
-    @progress = opt.progress or (->)
+    @progress = (v) ~>
+      if !(n = v.{}item.node) => return
+      if !(p = ld$.find n, '[ld=progress]' .0) => return
+      p.style.width = "#{(v.percent * 100)}%"
+      if v.percent >= 1 =>
+        debounce 500 .then ~>
+          ld$.remove n
+          if ~(i = @lc.files.indexOf(v.item)) => @lc.files.splice(i,1)
+      
+
+    # opt.progress or (->)
     @lc = {files: []}
     @init!
     @
@@ -38,40 +48,21 @@
           click:
             upload: ({node, evt}) ~> @upload!then ~> @clear!; return it
             clear: ({node, evt}) ~> @clear!
-            check: ({node, evt}) ~>
-              fd = new FormData!
-              lc.files.map -> fd.append \file, it.file
-              fd.append \test, 123
-              console.log typeof(fd), (fd instanceof FormData)
           drop: do
-            drop: ({node, evt}) ->
+            drop: ({node, evt}) ~>
               evt.preventDefault!
-              # TODO transform File to {result, file: File}
               promises = Array.from(evt.dataTransfer.files).map -> ldFile.from-file it, \dataurl, \utf-8
               Promise.all promises
-                .then ->
+                .then ~>
                   lc.files = it
                   view.render!
-                  uploads {files: lc.files, progress: -> console.log it}
+                  @upload!then ~> @clear!; return it
           dragover: do
             drop: ({node, evt}) -> evt.preventDefault!
-        handler:
-          file:
-            list: -> lc.files or []
-            handle: ({node, data}) ->
-              view = new ldView do
-                root: node
-                action: click: do
-                  delete: -> 
-                    node.parentNode.removeChild node
-                    idx = lc.files.indexOf(data)
-                    if idx >= 0 => lc.files.splice(idx, 1)
-                handler: do
-                  name: ({node}) -> node.textContent = data.file.name
-                  size: ({node}) -> node.textContent = "#{Math.round(data.file.size / 1024)}KB"
-                  thumb: ({node}) -> node.style.backgroundImage = "url(#{data.result})"
-          input: ({node}) ->
+        init: do
+          input: ({node}) ~>
             lc.ldf = ldf = new ldFile root: node, type: \dataurl, force-encoding: \utf-8
+            node.addEventListener \change, ~> @fire \preview.loading
             ldf.on \load, (files) ~>
               preview = view.get(\preview)
               promises = files.map (file) -> new Promise (res, rej) ->
@@ -83,9 +74,30 @@
                     ..height = "#{img.height}px"
                   res {} <<< img{width, height} <<< file
                 img.src = file.result
-              Promise.all(promises).then ->
-                lc.files = files
-                view.render!
+              Promise.all(promises)
+                .then ->
+                  lc.files = files
+                  debounce 500
+                .then ~>
+                  view.render!
+                  @fire \preview.done
+        handler:
+          file:
+            list: -> lc.files or []
+            handle: ({node, data}) ->
+              data.node = node
+              view = new ldView do
+                root: node
+                action: click: do
+                  delete: -> 
+                    node.parentNode.removeChild node
+                    idx = lc.files.indexOf(data)
+                    if idx >= 0 => lc.files.splice(idx, 1)
+                handler: do
+                  name: ({node}) -> node.textContent = data.file.name
+                  size: ({node}) -> node.textContent = "#{Math.round(data.file.size / 1024)}KB"
+                  thumb: ({node}) -> node.style.backgroundImage = "url(#{data.result})"
+
     get: -> return @lc.files
     clear: -> @lc.files.splice(0); @lc.view.render!
     upload: ->
@@ -122,14 +134,11 @@
         if !item => return res ret
         fd = new FormData!
         fd.append \file, item.file
-        xhr route, {method: \POST, body: fd}, {type: \json, progress}
+        xhr route, {method: \POST, body: fd}, {type: \json, progress: -> progress it <<< {item}}
           .then ->
             ret.push o = it.0
-            progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
             _ list
-          .catch ->
-            ret.push o = {name: item.file.name, error: it}
-            progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
+          .catch -> ret.push o = {name: item.file.name, error: it}
       _ files
 
   # opt: {key}
