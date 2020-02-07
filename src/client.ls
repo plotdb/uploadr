@@ -42,6 +42,27 @@
     fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
     init: ->
       lc = @lc
+      preview = (files) ->
+        preview = view.get(\preview)
+        promises = files.map (file) -> new Promise (res, rej) ->
+          img = new Image
+          img.onload = ->
+            if preview => preview.style
+              ..backgroundImage = "url(#{files.0.result})"
+              ..width = "#{img.width}px"
+              ..height = "#{img.height}px"
+            res {} <<< img{width, height} <<< file
+          img.src = file.result
+        Promise.all(promises)
+          .then ->
+            lc.files = files
+            debounce 500
+          .then ~>
+            view.render!
+            @fire \preview.done
+            @fire \file.chosen, lc.files
+
+
       @lc.view = view = new ldView do
         root: @root
         action: do
@@ -51,36 +72,18 @@
           drop: do
             drop: ({node, evt}) ~>
               evt.preventDefault!
+              @fire \preview.loading
               promises = Array.from(evt.dataTransfer.files).map -> ldFile.from-file it, \dataurl, \utf-8
               Promise.all promises
-                .then ~>
-                  lc.files = it
-                  view.render!
-                  @upload!then ~> @clear!; return it
+                .then ~> perview files
           dragover: do
             drop: ({node, evt}) -> evt.preventDefault!
         init: do
           input: ({node}) ~>
             lc.ldf = ldf = new ldFile root: node, type: \dataurl, force-encoding: \utf-8
             node.addEventListener \change, ~> @fire \preview.loading
-            ldf.on \load, (files) ~>
-              preview = view.get(\preview)
-              promises = files.map (file) -> new Promise (res, rej) ->
-                img = new Image
-                img.onload = ->
-                  if preview => preview.style
-                    ..backgroundImage = "url(#{files.0.result})"
-                    ..width = "#{img.width}px"
-                    ..height = "#{img.height}px"
-                  res {} <<< img{width, height} <<< file
-                img.src = file.result
-              Promise.all(promises)
-                .then ->
-                  lc.files = files
-                  debounce 500
-                .then ~>
-                  view.render!
-                  @fire \preview.done
+            ldf.on \load, (files) ~> preview files
+
         handler:
           file:
             list: -> lc.files or []
