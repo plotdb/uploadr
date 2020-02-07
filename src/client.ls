@@ -15,6 +15,7 @@
       [val,len] = [evt.loaded, evt.total]
       opt.progress {percent: (val/len), val, len}
     x.open (o.method or \GET), url, true
+    for k,v of (o.headers or {}) => x.setRequestHeader k, v
     x.send o.body
 
   uploadr = (opt = {}) ->
@@ -42,7 +43,7 @@
     fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
     init: ->
       lc = @lc
-      preview = (files) ->
+      preview = (files) ~>
         preview = view.get(\preview)
         promises = files.map (file) -> new Promise (res, rej) ->
           img = new Image
@@ -126,7 +127,7 @@
     if merge => 
       fd = new FormData!
       files.map -> fd.append \file, it.file
-      xhr route, {method: \POST, body: fd}, {type: \json}
+      xhr route, ({method: \POST, body: fd} <<< opt{headers}), {type: \json}
         .then res
         .catch rej
     else =>
@@ -137,7 +138,7 @@
         if !item => return res ret
         fd = new FormData!
         fd.append \file, item.file
-        xhr route, {method: \POST, body: fd}, {type: \json, progress: -> progress it <<< {item}}
+        xhr route, {method: \POST, body: fd} <<< opt{headers}, {type: \json, progress: -> progress it <<< {item}}
           .then ->
             ret.push o = it.0
             _ list

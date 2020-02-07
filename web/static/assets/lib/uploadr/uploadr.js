@@ -6,7 +6,7 @@ var slice$ = [].slice;
     o == null && (o = {});
     opt == null && (opt = {});
     return new Promise(function(res, rej){
-      var x;
+      var x, k, ref$, v;
       x = new XMLHttpRequest();
       x.onreadystatechange = function(){
         var ret, e;
@@ -45,6 +45,10 @@ var slice$ = [].slice;
         };
       }
       x.open(o.method || 'GET', url, true);
+      for (k in ref$ = o.headers || {}) {
+        v = ref$[k];
+        x.setRequestHeader(k, v);
+      }
       return x.send(o.body);
     });
   };
@@ -103,7 +107,7 @@ var slice$ = [].slice;
       var lc, preview, view, this$ = this;
       lc = this.lc;
       preview = function(files){
-        var preview, promises, this$ = this;
+        var preview, promises;
         preview = view.get('preview');
         promises = files.map(function(file){
           return new Promise(function(res, rej){
@@ -285,27 +289,27 @@ var slice$ = [].slice;
         files.map(function(it){
           return fd.append('file', it.file);
         });
-        return xhr(route, {
+        return xhr(route, (ref$ = {
           method: 'POST',
           body: fd
-        }, {
+        }, ref$.headers = opt.headers, ref$), {
           type: 'json'
         }).then(res)['catch'](rej);
       } else {
         ret = [];
         len = files.length;
         _ = function(list){
-          var item, fd;
+          var item, fd, ref$;
           item = list.splice(0, 1)[0];
           if (!item) {
             return res(ret);
           }
           fd = new FormData();
           fd.append('file', item.file);
-          return xhr(route, {
+          return xhr(route, (ref$ = {
             method: 'POST',
             body: fd
-          }, {
+          }, ref$.headers = opt.headers, ref$), {
             type: 'json',
             progress: function(it){
               return progress((it.item = item, it));
