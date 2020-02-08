@@ -70,6 +70,10 @@
           click:
             upload: ({node, evt}) ~> @upload!then ~> @clear!; return it
             clear: ({node, evt}) ~> @clear!
+            picker: ({node, evt}) ->
+              img = ld$.find node, 'img', 0
+              src = img.getAttribute(\src)
+              @fire \file.picked, src
           drop: do
             drop: ({node, evt}) ~>
               evt.preventDefault!
@@ -86,6 +90,14 @@
             ldf.on \load, (files) ~> preview files
 
         handler:
+          pickimg: do
+            list: -> lc.images or []
+            handle: ({node, data}) ->
+              img = ld$.find node, \img, 0
+              div = ld$.find node, \div, 0
+              img.setAttribute \src, data.data
+              div.style.backgroundImage = "url(#{data.data})"
+
           file:
             list: -> lc.files or []
             handle: ({node, data}) ->
@@ -102,6 +114,12 @@
                   size: ({node}) -> node.textContent = "#{Math.round(data.file.size / 1024)}KB"
                   thumb: ({node}) -> node.style.backgroundImage = "url(#{data.result})"
 
+    set: ->
+      @lc.images = it.map -> {data: it}
+      @lc.view.render!
+    add: ->
+      @lc.images ++= it.map -> {data: it}
+      @lc.view.render!
     get: -> return @lc.files
     clear: -> @lc.files.splice(0); @lc.view.render!
     upload: ->

@@ -151,6 +151,13 @@ var slice$ = [].slice;
               var node, evt;
               node = arg$.node, evt = arg$.evt;
               return this$.clear();
+            },
+            picker: function(arg$){
+              var node, evt, img, src;
+              node = arg$.node, evt = arg$.evt;
+              img = ld$.find(node, 'img', 0);
+              src = img.getAttribute('src');
+              return alert(src);
             }
           },
           drop: {
@@ -193,6 +200,19 @@ var slice$ = [].slice;
           }
         },
         handler: {
+          pickimg: {
+            list: function(){
+              return lc.images || [];
+            },
+            handle: function(arg$){
+              var node, data, img, div;
+              node = arg$.node, data = arg$.data;
+              img = ld$.find(node, 'img', 0);
+              div = ld$.find(node, 'div', 0);
+              img.setAttribute('src', data.data);
+              return div.style.backgroundImage = "url(" + data.data + ")";
+            }
+          },
           file: {
             list: function(){
               return lc.files || [];
@@ -237,6 +257,23 @@ var slice$ = [].slice;
           }
         }
       });
+    },
+    set: function(it){
+      this.lc.images = it.map(function(it){
+        return {
+          data: it
+        };
+      });
+      return this.lc.view.render();
+    },
+    add: function(it){
+      var ref$;
+      (ref$ = this.lc).images = ref$.images.concat(it.map(function(it){
+        return {
+          data: it
+        };
+      }));
+      return this.lc.view.render();
     },
     get: function(){
       return this.lc.files;

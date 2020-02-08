@@ -2279,7 +2279,7 @@ ldPage.prototype = import$(Object.create(Object.prototype), {
   },
   setHost: function(host){
     var f, update, this$ = this;
-    if (!host || (host === window || host === document || host === document.body)) {
+    if (!host) {
       host = document.scrollingElement;
     }
     f = function(e){
