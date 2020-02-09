@@ -71,6 +71,10 @@ To use `upload`, `clear` and `uploadr-list` and `uploadr-upload`, wrap them in a
 ```
 
 
+## Customization
+
+Uploadr UI uses loading-ui and bootstrap, which might not be what you need. instead, you can implement your own UI without bootstrap and loading-ui. You will still need loading-ui's javascript since uploadr uses it.
+
 To attach the dynamics with your own ui, use following `ld` names:
 
  * supported by client.js:

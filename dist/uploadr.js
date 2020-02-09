@@ -189,23 +189,6 @@ var slice$ = [].slice;
         }
       });
     },
-    set: function(it){
-      this.lc.images = it.map(function(it){
-        return {
-          data: it
-        };
-      });
-      return this.lc.view.render();
-    },
-    add: function(it){
-      var ref$;
-      (ref$ = this.lc).images = ref$.images.concat(it.map(function(it){
-        return {
-          data: it
-        };
-      }));
-      return this.lc.view.render();
-    },
     get: function(){
       return this.lc.files;
     },
@@ -228,7 +211,7 @@ var slice$ = [].slice;
       });
     }
   });
-  ext = {};
+  uploadr.ext = ext = {};
   ext.dummy = function(arg$){
     var files, progress, opt;
     files = arg$.files, progress = arg$.progress, opt = arg$.opt;

@@ -14,8 +14,8 @@ echo "minifying viewer.js ..."
 ./node_modules/.bin/uglifyjs dist/viewer.js > dist/viewer.min.js
 #echo "minifying uploadr.css ..."
 #./node_modules/.bin/uglifycss dist/uploadr.css > dist/uploadr.min.css
-#echo "copy pug file to dist/ ..."
-#cp src/uploadr.pug dist/uploadr.pug
+echo "copy pug file to dist/ ..."
+cp src/uploadr.pug dist/uploadr.pug
 echo "deploy into local web ..."
 mkdir -p web/static/assets/lib/uploadr/
 cp -R dist/* web/static/assets/lib/uploadr/
