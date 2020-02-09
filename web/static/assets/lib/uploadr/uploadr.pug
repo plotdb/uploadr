@@ -1,13 +1,12 @@
 //- module
 mixin uploadr-viewer(name)
-  +scope(name)&attributes(attributes): .w-1024.mx-auto.my-4
-    .d-flex.flex-wrap(ld="list")
-      .flex-grow-1.mr-1.mb-1.bg-light.text-center.position-relative.border.ld.ld-float-btt-in(ld-each="item")
-        img(style="max-height:200px;opacity:0")
-        .w-100.h-100.position-absolute(style="top:0;left:0;" + 
-        "background-position:center center;background-repeat:no-repeat;" +
-        "background-size:cover")
-      div(Style="flex:10 0 auto")
+  .d-flex.flex-wrap(ld="list")
+    .flex-grow-1.mr-1.mb-1.bg-light.text-center.position-relative.border.ld.ld-float-btt-in(ld-each="item")
+      img(style="max-height:200px;opacity:0")
+      .w-100.h-100.position-absolute(style="top:0;left:0;" + 
+      "background-position:center center;background-repeat:no-repeat;" +
+      "background-size:cover")
+    div(Style="flex:10 0 auto")
 
 mixin uploadr-upload(name)
   .bg-light.w-100.text-white(ld="drop")

@@ -3,24 +3,26 @@ var slice$ = [].slice;
 (function(){
   var viewer;
   (window.uploadr || (window.uploadr = {})).viewer = viewer = function(opt){
-    var view, this$ = this;
+    var lc, view, this$ = this;
     this.root = typeof opt.root === 'string'
       ? ld$.find(opt.root, 0)
       : opt.root;
     this.evtHandler = {};
-    this.lc = {};
+    this.lc = lc = {};
     this.images = lc.images = [];
     this.view = view = new ldView({
       root: this.root,
       action: {
         click: {
           list: function(arg$){
-            var node, evt, img, src;
+            var node, evt, n, src;
             node = arg$.node, evt = arg$.evt;
-            img = ld$.find(node, 'img', 0);
-            src = img.getAttribute('src');
+            if (!(n = ld$.parent(evt.target, '[data-src]', node))) {
+              return;
+            }
+            src = n.getAttribute('data-src');
             return this$.fire('choose', {
-              src: src
+              url: src
             });
           }
         }
@@ -35,15 +37,16 @@ var slice$ = [].slice;
             node = arg$.node, data = arg$.data;
             img = ld$.find(node, 'img', 0);
             div = ld$.find(node, 'div', 0);
-            if (img.getAttribute('src') === data.data) {
+            if (img.getAttribute('src') === data.url) {
               return;
             }
+            node.setAttribute('data-src', data.url);
             node.style.display = 'none';
             img.onload = function(){
               return node.style.display = 'block';
             };
-            img.setAttribute('src', data.data);
-            return div.style.backgroundImage = "url(" + data.data + ")";
+            img.setAttribute('src', data.url);
+            return div.style.backgroundImage = "url(" + data.url + ")";
           }
         }
       }

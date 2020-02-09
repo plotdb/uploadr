@@ -11,9 +11,8 @@ uploadr = function(opt){
   folder = opt.folder || 'uploads';
   rooturl = opt.url || folder;
   archive = function(obj){
-    var p;
     obj == null && (obj = {});
-    p = new Promise(function(res, rej){
+    return new Promise(function(res, rej){
       var name, promise;
       name = obj.name || '';
       promise = obj.buf
@@ -76,23 +75,25 @@ uploadr = function(opt){
         });
       });
     });
-    return p.then(function(ret){
-      return (opt.adopt
-        ? opt.adopt(ret)
-        : Promise.resolve()).then(function(){
-        return ret;
-      });
-    });
   };
   route = function(req, res){
-    var files;
+    var files, promises;
     files = req.files.file;
     files = !files
       ? []
       : Array.isArray(files)
         ? files
         : [files];
-    return Promise.all(files.map(archive)).then(function(it){
+    promises = files.map(archive).map(function(it){
+      return it.then(function(ret){
+        return (opt.adopt
+          ? opt.adopt(req, ret)
+          : Promise.resolve()).then(function(){
+          return ret;
+        });
+      });
+    });
+    return Promise.all(promises).then(function(it){
       return res.send(it);
     })['catch'](function(it){
       console.log(it);

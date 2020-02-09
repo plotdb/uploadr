@@ -112,6 +112,7 @@ To attach the dynamics with your own ui, use following `ld` names:
 * viewer
   - root: element / selector for the root element of uploadr ui.
   - page: option for constructing ldPage element. see ldPage for more information.
+    - items in returned list from fetch should contain at least a member `url` for showing the url of the image.
 
 
 ## API
