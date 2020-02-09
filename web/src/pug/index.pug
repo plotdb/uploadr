@@ -1,5 +1,6 @@
 doctype html
 include /../../static/assets/lib/ldui/pug/ldui.pug
+include uploadr.pug
 html
   head
     +css("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
@@ -11,37 +12,16 @@ html
       p file uploader widgets and express route
       .ldld.text-center: img(src="/assets/img/spinner.svg")
       +scope("uploadr")
-        //- input, drop
-        .w-480.mx-auto.my-4
-          .bg-light.w-100.text-white(ld="drop",style="height:300px")
-            .vertical-center
-              .w-100.text-center.text-secondary
-                .text-lg drag & drop #[br] files here
-                .my-4 or
-                .btn.btn-primary.btn-upload
-                  span Choose File
-                  input(ld="input", type="file", multiple)
-        //- file
-        .w-480.mx-auto.my-4
-          .bg-white.p-1.m-2(ld-each="file")
-            .d-flex.align-items-center
-              .bg-portrait.bg-secondary(ld="thumb",style="width:1.8125rem;height:1.8125rem;background-size:contain")
-              .flex-grow-1.mx-1(ld="name") ...
-              .mx-2(ld="size") 0KB
-              .btn.btn-outline-danger.btn-sm(ld="delete") remove &times;
-            .mt-1.bg-primary(ld="progress",style="width:0;height:3px;transition:all .35s ease-in-out")
+        .w-480.mx-auto
+          +uploadr-upload
+        +uploadr-list
+
         .w-480.mx-auto.my-4
           .btn.btn-primary.mr-2(ld="upload") Upload
           .btn.btn-primary.mr-2(ld="clear") Clear
-          .btn.btn-primary.mr-2(ld="check") Check
-        .w-1024.mx-auto.my-4
-          .d-flex.flex-wrap(ld="picker")
-            .flex-grow-1.mr-1.mb-1.bg-light.text-center.position-relative.border(ld-each="pickimg")
-              img(style="max-height:200px;opacity:0")
-              .w-100.h-100.position-absolute(style="top:0;left:0;" + 
-              "background-position:center center;background-repeat:no-repeat;" +
-              "background-size:cover")
-            div(Style="flex:10 0 auto")
+
+    +uploadr-viewer("image-viewer")
+
     .w-1024.rwd.mx-auto.my-4
       +scope("viewer").d-flex.flex-wrap
         div(ld-each="photo",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
@@ -50,6 +30,7 @@ html
     +script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js")
     +script("assets/lib/ldui/ldui.min.js")
     +script("assets/lib/uploadr/uploadr.js")
+    +script("assets/lib/uploadr/viewer.js")
     script: :lsc
       lc = {files: []}
       uploader-native = do
@@ -57,33 +38,36 @@ html
         route: \/d/uploadr
       uploader-imgbb = do
         host: \imgbb
-        key: "97902907ac92c25e4c54b8d0b4c6eeac"
       up = new uploadr do
         root: ld$.find(document, '[ld-scope=uploadr]', 0)
         progress: -> console.log it
         uploader: uploader-native
-      up.set [1,2,3,4,5,6,7,8,9].map -> "/assets/img/sample/#{it}.jpg"
       up.on \upload.done, ->
         lc.files ++= it
         view.render!
       ldld = new ldLoader root: '.ldld'
       up.on \preview.loading, -> ldld.on!
       up.on \preview.done, -> ldld.off!
+
       view = new ldView do
         root: ld$.find('[ld-scope=viewer]', 0)
-
         handler: do
           photo: do
             list: -> lc.files or []
             handle: ({node, data}) ->
               node.style.backgroundImage = "url(#{data.url})"
-      mypal = new ldPage do
-        host: window
-        fetch-on-scroll: true
-        limit: 9
-        fetch: -> new Promise (res, rej) ->
-          ret = [1,2,3,4,5,6,7,8,9].map -> "/assets/img/sample/#{it}.jpg"
-          console.log ret
-          up.add ret
-          res ret
-      mypal.init!
+
+      count = 0
+      viewer = new uploadr.viewer do
+        root: '[ld-scope=image-viewer]'
+        page: 
+          host: window
+          fetch-on-scroll: true
+          limit: 9
+          boundary: 100
+          fetch: -> new Promise (res, rej) ->
+            res [1,2,3,4,5,6,7,8,9].map ->
+              count := count + 1
+              {data: "/assets/img/sample/#{it}.jpg", value: count}
+      viewer.page.fetch!
+

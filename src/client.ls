@@ -1,23 +1,5 @@
 (->
-  xhr = (url, o = {}, opt = {}) -> new Promise (res, rej) ->
-    x = new XMLHttpRequest!
-    x.onreadystatechange = ->
-      if x.readyState == XMLHttpRequest.DONE =>
-        if x.status == 200 =>
-          try
-            ret = if opt.type == \json => JSON.parse(x.responseText) else x.responseText
-          catch e
-            return rej new Error(e)
-          return res ret
-        else return rej new Error!
-    x.onloadstart = -> opt.progress {percent: 0, val: 0, len: 0}
-    if opt.progress => x.onprogress = (evt) ->
-      [val,len] = [evt.loaded, evt.total]
-      opt.progress {percent: (val/len), val, len}
-    x.open (o.method or \GET), url, true
-    for k,v of (o.headers or {}) => x.setRequestHeader k, v
-    x.send o.body
-
+  viewer = if window.{}uploadr.viewer => that else null
   uploadr = (opt = {}) ->
     @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
     @evt-handler = {}
@@ -70,10 +52,6 @@
           click:
             upload: ({node, evt}) ~> @upload!then ~> @clear!; return it
             clear: ({node, evt}) ~> @clear!
-            picker: ({node, evt}) ->
-              img = ld$.find node, 'img', 0
-              src = img.getAttribute(\src)
-              @fire \file.picked, src
           drop: do
             drop: ({node, evt}) ~>
               evt.preventDefault!
@@ -90,14 +68,6 @@
             ldf.on \load, (files) ~> preview files
 
         handler:
-          pickimg: do
-            list: -> lc.images or []
-            handle: ({node, data}) ->
-              img = ld$.find node, \img, 0
-              div = ld$.find node, \div, 0
-              img.setAttribute \src, data.data
-              div.style.backgroundImage = "url(#{data.data})"
-
           file:
             list: -> lc.files or []
             handle: ({node, data}) ->
@@ -113,13 +83,6 @@
                   name: ({node}) -> node.textContent = data.file.name
                   size: ({node}) -> node.textContent = "#{Math.round(data.file.size / 1024)}KB"
                   thumb: ({node}) -> node.style.backgroundImage = "url(#{data.result})"
-
-    set: ->
-      @lc.images = it.map -> {data: it}
-      @lc.view.render!
-    add: ->
-      @lc.images ++= it.map -> {data: it}
-      @lc.view.render!
     get: -> return @lc.files
     clear: -> @lc.files.splice(0); @lc.view.render!
     upload: ->
@@ -135,7 +98,7 @@
           @fire \upload.fail, it
           Promise.reject it
 
-  ext = {}
+  uploadr.ext = ext = {}
   ext.dummy = ({files, progress, opt}) -> new Promise (res, rej) ->
     res files.map -> {url: "https://i.ibb.co/frf90x6/only-support.png", name: it.file.name}
 
@@ -145,7 +108,7 @@
     if merge => 
       fd = new FormData!
       files.map -> fd.append \file, it.file
-      xhr route, ({method: \POST, body: fd} <<< opt{headers}), {type: \json}
+      ld$.xhr route, ({method: \POST, body: fd} <<< opt{headers}), {type: \json}
         .then res
         .catch rej
     else =>
@@ -156,7 +119,7 @@
         if !item => return res ret
         fd = new FormData!
         fd.append \file, item.file
-        xhr route, {method: \POST, body: fd} <<< opt{headers}, {type: \json, progress: -> progress it <<< {item}}
+        ld$.xhr route, {method: \POST, body: fd} <<< opt{headers}, {type: \json, progress: -> progress it <<< {item}}
           .then ->
             ret.push o = it.0
             _ list
@@ -175,7 +138,7 @@
       fd = new FormData!
       fd.append \image, item.file
 
-      xhr(
+      ld$.xhr(
         "https://api.imgbb.com/1/upload?key=#{opt.key}",
         {method: \POST, body: fd}
         {type: \json}
@@ -190,6 +153,7 @@
           progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
     _ files
 
+  if viewer => uploadr.viewer = that
   if module? => module.exports = uploadr
   if window? => window.uploadr = uploadr
 )!
