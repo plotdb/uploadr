@@ -36,8 +36,6 @@ html
       uploader-native = do
         host: \native
         route: \/d/uploadr
-      uploader-imgbb = do
-        host: \imgbb
       up = new uploadr do
         root: ld$.find(document, '[ld-scope=uploadr]', 0)
         progress: -> console.log it

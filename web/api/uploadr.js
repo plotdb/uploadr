@@ -5,14 +5,15 @@ fsExtra = require('fs-extra');
 path = require('path');
 crypto = require('crypto');
 imgtype = require('imgtype');
-uploadr = function(opts){
+uploadr = function(opt){
   var folder, rooturl, archive, route;
-  opts == null && (opts = {});
-  folder = opts.folder || 'uploads';
-  rooturl = opts.url || folder;
+  opt == null && (opt = {});
+  folder = opt.folder || 'uploads';
+  rooturl = opt.url || folder;
   archive = function(obj){
+    var p;
     obj == null && (obj = {});
-    return new Promise(function(res, rej){
+    p = new Promise(function(res, rej){
       var name, promise;
       name = obj.name || '';
       promise = obj.buf
@@ -73,6 +74,13 @@ uploadr = function(opts){
         return res({
           name: name
         });
+      });
+    });
+    return p.then(function(ret){
+      return (opt.adopt
+        ? opt.adopt(ret)
+        : Promise.resolve()).then(function(){
+        return ret;
       });
     });
   };

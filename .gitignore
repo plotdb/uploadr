@@ -1,2 +1,5 @@
 node_modules
 .*.swp
+web/src/ls/imgbb.ls
+web/static/js/imgbb.js
+web/static/js/imgbb.min.js

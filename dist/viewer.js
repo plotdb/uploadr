@@ -39,7 +39,6 @@ var slice$ = [].slice;
               return;
             }
             node.style.display = 'none';
-            node.classList.add('ld', 'ld-float-btt-in');
             img.onload = function(){
               return node.style.display = 'block';
             };

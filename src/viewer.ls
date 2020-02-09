@@ -24,7 +24,6 @@
             div = ld$.find node, \div, 0
             if img.getAttribute(\src) == data.data => return
             node.style.display = \none
-            node.classList.add \ld, \ld-float-btt-in
             img.onload = -> node.style.display = \block
             img.setAttribute \src, data.data
             div.style.backgroundImage = "url(#{data.data})"
