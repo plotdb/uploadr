@@ -34,7 +34,7 @@ uploadr = (opt = {}) ->
               if e => return res {name}
               (e, b) <- fs.write-file des, buf, _
               if e => return res {name}
-              res {url, name, md5}
+              res {url, name, id: md5}
         .catch -> res {name}
     p.then (ret) ->
       (if opt.adopt => opt.adopt(ret) else Promise.resolve!)

@@ -64,7 +64,7 @@ uploadr = function(opt){
                 return res({
                   url: url,
                   name: name,
-                  md5: md5
+                  id: md5
                 });
               });
             });
