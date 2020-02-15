@@ -3,3 +3,4 @@ node_modules
 web/src/ls/imgbb.ls
 web/static/js/imgbb.js
 web/static/js/imgbb.min.js
+web/static/assets/files/
