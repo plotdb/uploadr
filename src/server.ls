@@ -40,7 +40,7 @@ uploadr = (opt = {}) ->
   # we will leave the multipart parsing to user.
   # for example:
   #   app.post \/d/uploadr, express-formidable({multiples:true}), uploadr.route
-  route = (req, res) ->
+  route = (req, res, next) ->
     files = req.files.file
     files = if !files => [] else if Array.isArray(files) => files else [files]
     promises = files
@@ -52,7 +52,11 @@ uploadr = (opt = {}) ->
 
     Promise.all promises
       .then -> res.send it
-      .catch -> console.log it; res.status(500).send!
+      .catch (err) ->
+        if opt.catch => opt.catch(err, req, res, next);
+        else
+          console.log err
+          res.status(500).send!
   return { route, archive }
 
 module.exports = uploadr

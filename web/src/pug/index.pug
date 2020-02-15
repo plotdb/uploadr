@@ -5,22 +5,37 @@ html
   head
     +css("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
     +css("assets/lib/ldui/ldui.min.css")
+    +css("assets/lib/uploadr/uploadr.min.css")
 
   body
     .w-1024.rwd.typeset.heading-contrast.mx-auto.p-4
       h2 uploadr
       p file uploader widgets and express route
+      .card.w-480.mx-auto.rwd.shadow: +scope("uploadr").card-body.position-relative
+        .w-100: .aspect-ratio.ratio-3by2.text-center(style="overflow-y:scroll")
+          .position-absolute.w-100.h-100(style="top:0;left:0"): .vertical-center
+            .w-100.text-lg.text-light drag & drop #[br] files here
+          //-+uploadr-list
+          .uploadr-viewer
+            .item(ld-each="file")
+              img(ld="thumb")
+              .img(ld="thumb")
+              .bg-primary(ld="progress",style="position:absolute;bottom:0;left:0;width:0;height:3px;")
+              div(style="position:absolute;top:.5em;left:.5em;background:rgba(0,0,0,.25);color:#fff;border-radius:50%;padding:.125em;width:1.25em;height:1.25em;line-height:.75em;font-size:1.25em;cursor:pointer;",ld="delete") &times;
+            .placeholder
+            .placeholder
+            .placeholder
+
+        hr
+        .d-flex.justify-content-between
+          .btn.btn-primary.mr-2.btn-upload Add File ... #[input(type="file",ld="input",multiple)]
+          .text-right
+            .btn.btn-primary.ml-2(ld="upload") Upload
+            .btn.btn-primary.ml-2(ld="clear") Clear
       .ldld.text-center: img(src="/assets/img/spinner.svg")
-      +scope("uploadr")
-        .w-480.mx-auto
-          +uploadr-upload
-        +uploadr-list
 
-        .w-480.mx-auto.my-4
-          .btn.btn-primary.mr-2(ld="upload") Upload
-          .btn.btn-primary.mr-2(ld="clear") Clear
-
-    +uploadr-viewer("image-viewer")
+      .card.w-768.mx-auto.rwd.shadow: +scope("image-viewer").card-body
+        +uploadr-viewer
 
     .w-1024.rwd.mx-auto.my-4
       +scope("viewer").d-flex.flex-wrap
@@ -32,39 +47,40 @@ html
     +script("assets/lib/uploadr/uploadr.js")
     +script("assets/lib/uploadr/viewer.js")
     script: :lsc
-      lc = {files: []}
-      uploader-native = do
-        host: \native
-        route: \/d/uploadr
-      up = new uploadr do
-        root: ld$.find(document, '[ld-scope=uploadr]', 0)
-        progress: -> console.log it
-        uploader: uploader-native
-      up.on \upload.done, ->
-        lc.files ++= it
-        view.render!
-      ldld = new ldLoader root: '.ldld'
-      up.on \preview.loading, -> ldld.on!
-      up.on \preview.done, -> ldld.off!
+      (->
+        lc = {files: []}
+        uploader-native = do
+          host: \native
+          route: \/d/uploadr
+        up = new uploadr do
+          root: '[ld-scope=uploadr]'
+          progress: -> console.log it
+          uploader: uploader-native
+        up.on \upload.done, ->
+          lc.files ++= it
+          view.render!
+        ldld = new ldLoader root: '.ldld'
+        up.on \preview.loading, -> ldld.on!
+        up.on \preview.done, -> ldld.off!
 
-      view = new ldView do
-        root: ld$.find('[ld-scope=viewer]', 0)
-        handler: do
-          photo: do
-            list: -> lc.files or []
-            handle: ({node, data}) ->
-              node.style.backgroundImage = "url(#{data.url})"
+        view = new ldView do
+          root: '[ld-scope=viewer]'
+          handler: do
+            photo: do
+              list: -> lc.files or []
+              handle: ({node, data}) ->
+                node.style.backgroundImage = "url(#{data.url})"
 
-      count = 0
-      viewer = new uploadr.viewer do
-        root: '[ld-scope=image-viewer]'
-        page: 
-          host: window
-          fetch-on-scroll: true
-          limit: 9
-          boundary: 100
-          fetch: -> new Promise (res, rej) ->
-            res [1,2,3,4,5,6,7,8,9].map ->
-              {url: "/assets/img/sample/#{it}.jpg"}
-      viewer.page.fetch!
-
+        count = 0
+        viewer = new uploadr.viewer do
+          root: '[ld-scope=image-viewer]'
+          page: 
+            host: window
+            fetch-on-scroll: true
+            limit: 9
+            boundary: 100
+            fetch: -> new Promise (res, rej) ->
+              res [1,2,3,4,5,6,7,8,9].map ->
+                {url: "/assets/img/sample/#{it}.jpg"}
+        viewer.page.fetch!
+      )!

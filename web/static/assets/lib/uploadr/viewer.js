@@ -7,6 +7,9 @@ var slice$ = [].slice;
     this.root = typeof opt.root === 'string'
       ? ld$.find(opt.root, 0)
       : opt.root;
+    if (!this.root) {
+      console.warn("[uploadr] warning: no node found for root ", opt.root);
+    }
     this.evtHandler = {};
     this.lc = lc = {};
     this.images = lc.images = [];

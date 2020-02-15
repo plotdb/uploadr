@@ -9,6 +9,9 @@ var slice$ = [].slice;
     this.root = typeof opt.root === 'string'
       ? document.querySelector(opt.root)
       : opt.root;
+    if (!this.root) {
+      console.warn("[uploadr] warning: no node found for root ", opt.root);
+    }
     this.evtHandler = {};
     this.opt = opt;
     this.ucfg = opt.uploader || {
@@ -68,17 +71,17 @@ var slice$ = [].slice;
               var x$, ref$;
               if (preview) {
                 x$ = preview.style;
-                x$.backgroundImage = "url(" + files[0].result + ")";
+                x$.backgroundImage = "url(" + file.thumb + ")";
                 x$.width = img.width + "px";
                 x$.height = img.height + "px";
               }
               return res(import$((ref$ = {}, ref$.width = img.width, ref$.height = img.height, ref$), file));
             };
-            return img.src = file.result;
+            return img.src = file.thumb;
           });
         });
         return Promise.all(promises).then(function(){
-          lc.files = files;
+          lc.files = (lc.files || []).concat(files);
           return debounce(500);
         }).then(function(){
           view.render();
@@ -89,6 +92,59 @@ var slice$ = [].slice;
       return this.lc.view = view = new ldView({
         root: this.root,
         action: {
+          input: {
+            input: function(arg$){
+              var node, evt, thumb;
+              node = arg$.node, evt = arg$.evt;
+              thumb = function(list){
+                return new Promise(function(res, rej){
+                  var ret, _;
+                  ret = [];
+                  _ = function(list){
+                    var file, src, img;
+                    file = list.splice(0, 1)[0];
+                    if (!file) {
+                      return res(ret);
+                    }
+                    src = URL.createObjectURL(file);
+                    img = new Image();
+                    img.onload = function(){
+                      var ref$, w, h, c1, ctx;
+                      ref$ = [img.width, img.height], w = ref$[0], h = ref$[1];
+                      if (w > 200) {
+                        ref$ = [200, h * 200 / w], w = ref$[0], h = ref$[1];
+                      }
+                      if (h > 150) {
+                        ref$ = [w * 150 / h, 150], w = ref$[0], h = ref$[1];
+                      }
+                      c1 = document.createElement("canvas");
+                      c1.width = w;
+                      c1.height = h;
+                      ctx = c1.getContext('2d');
+                      ctx.drawImage(img, 0, 0, w, h);
+                      return c1.toBlob(function(blob){
+                        var f;
+                        ret.push(f = {
+                          thumb: URL.createObjectURL(blob),
+                          file: file
+                        });
+                        preview([f]);
+                        return _(list);
+                      });
+                    };
+                    return img.src = src;
+                  };
+                  return _(list);
+                });
+              };
+              return thumb(Array.from(node.files)).then(function(files){
+                var that;
+                if (that = node.form) {
+                  return that.reset();
+                }
+              });
+            }
+          },
           click: {
             upload: function(arg$){
               var node, evt;
@@ -124,23 +180,6 @@ var slice$ = [].slice;
               node = arg$.node, evt = arg$.evt;
               return evt.preventDefault();
             }
-          }
-        },
-        init: {
-          input: function(arg$){
-            var node, ldf;
-            node = arg$.node;
-            lc.ldf = ldf = new ldFile({
-              root: node,
-              type: 'dataurl',
-              forceEncoding: 'utf-8'
-            });
-            node.addEventListener('change', function(){
-              return this$.fire('preview.loading');
-            });
-            return ldf.on('load', function(files){
-              return preview(files);
-            });
           }
         },
         handler: {
@@ -180,7 +219,11 @@ var slice$ = [].slice;
                   thumb: function(arg$){
                     var node;
                     node = arg$.node;
-                    return node.style.backgroundImage = "url(" + data.result + ")";
+                    if (node.nodeName.toLowerCase() === 'img') {
+                      return node.setAttribute('src', data.thumb);
+                    } else {
+                      return node.style.backgroundImage = "url(" + data.thumb + ")";
+                    }
                   }
                 }
               });

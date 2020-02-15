@@ -1,6 +1,14 @@
 # ldUpload
 
-File Upload Widget
+File Upload Widget base on Loading-ui. Provide following functionalities:
+
+ * Customizable UI widget for 
+   - upload
+   - upload progress
+   - view ( image list )
+ * backend adopter for express
+   - 
+
 
 
 ## Usage
@@ -136,6 +144,22 @@ To attach the dynamics with your own ui, use following `ld` names:
   - upload.fail
 * viewer
   - choose
+
+
+
+## Server Usage and Configuration
+
+```
+    cfg = do
+      uploadr: do
+        folder: '...'
+        url: '...'
+        adopt: (req, {url, name, id}) -> new Promise (res, rej) -> ...
+        catch: (err, req, res, next) -> ...
+      formidable: {multiples: true}
+
+    app.post \/d/uploadr, express-formidable(cfg.formidable), uploadr(cfg.uploadr).route
+```
 
 
 ## License

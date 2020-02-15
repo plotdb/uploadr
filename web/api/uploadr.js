@@ -76,7 +76,7 @@ uploadr = function(opt){
       });
     });
   };
-  route = function(req, res){
+  route = function(req, res, next){
     var files, promises;
     files = req.files.file;
     files = !files
@@ -95,9 +95,13 @@ uploadr = function(opt){
     });
     return Promise.all(promises).then(function(it){
       return res.send(it);
-    })['catch'](function(it){
-      console.log(it);
-      return res.status(500).send();
+    })['catch'](function(err){
+      if (opt['catch']) {
+        return opt['catch'](err, req, res, next);
+      } else {
+        console.log(err);
+        return res.status(500).send();
+      }
     });
   };
   return {

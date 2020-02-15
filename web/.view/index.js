@@ -94,6 +94,34 @@ if(!blockLoader) { blockLoader = {name: {}, config: {}}; }
 var b64img = {};
 ;pug_debug_line = 38;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fcore\u002Futil.pug";
 b64img.px1 = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAQAICRAEAOw=="
+;pug_debug_line = 39;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fcore\u002Futil.pug";
+var loremtext = {
+  zh: "料何緊許團人受間口語日是藝一選去，得系目、再驗現表爸示片球法中轉國想我樹我，色生早都沒方上情精一廣發！能生運想毒一生人一身德接地，說張在未安人、否臺重壓車亞是我！終力邊技的大因全見起？切問去火極性現中府會行多他千時，來管表前理不開走於展長因，現多上我，工行他眼。總務離子方區面人話同下，這國當非視後得父能民觀基作影輕印度民雖主他是一，星月死較以太就而開後現：國這作有，他你地象的則，引管戰照十都是與行求證來亞電上地言裡先保。大去形上樹。計太風何不先歡的送但假河線己綠？計像因在……初人快政爭連合多考超的得麼此是間不跟代光離制不主政重造的想高據的意臺月飛可成可有時情乎為灣臺我養家小，叫轉於可！錢因其他節，物如盡男府我西上事是似個過孩而過要海？更神施一關王野久沒玩動一趣庭顧倒足要集我民雲能信爸合以物頭容戰度系士我多學一、區作一，過業手：大不結獨星科表小黨上千法值之兒聲價女去大著把己。",
+  en: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+};
+
+;pug_debug_line = 45;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fcore\u002Futil.pug";
+
+
+
+
+
+
+
+;pug_debug_line = 47;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fcore\u002Futil.pug";
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;pug_debug_line = 3;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fext\u002Findex.pug";
 
 
@@ -418,7 +446,7 @@ pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv
 
 
 ;pug_debug_line = 97;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fext\u002Findex.pug";
-var anikit = {"groupName":["No Animation","Popular Animation","Repeat Animation","Transition"],"members":[["static"],["blink","bounce","bounce-in","bounce-out","breath","fade","flip-h","float-btt-in","slide-ltr","spin","tremble"],["beat","blink","blur","bounce","bounceAlt","breath","clock","coin-h","coin-v","cycle","cycle-alt","damage","dim","fade","flip","flip-h","flip-v","float","heartbeat","hit","jelly","jelly-alt","jingle","jump","measure","metronome","move-btt","move-fade-btt","move-fade-ltr","move-fade-rtl","move-fade-ttb","move-ltr","move-rtl","move-ttb","orbit","pulse","rubber-h","rubber-v","rush-btt","rush-ltr","rush-rtl","rush-ttb","shake-h","shake-v","shiver","skew","skew-alt","slide-btt","slide-ltr","slide-rtl","slide-ttb","smash","spin","spin-fast","squeeze","surprise","swim","swing","tick","tick-alt","tremble","vortex","vortex-alt","wander-h","wander-v","wrench"],["blur-in","blur-out","bounce-alt-in","bounce-alt-out","bounce-in","bounce-out","fade-in","fade-out","fall-btt-in","fall-ltr-in","fall-rtl-in","fall-ttb-in","flip-h-in","flip-h-out","flip-v-in","flip-v-out","float-btt-in","float-btt-out","float-ltr-in","float-ltr-out","float-rtl-in","float-rtl-out","float-ttb-in","float-ttb-out","grow-btt-in","grow-btt-out","grow-ltr-in","grow-ltr-out","grow-rtl-in","grow-rtl-out","grow-ttb-in","grow-ttb-out","jump-alt-in","jump-alt-out","jump-in","jump-out","power-off","power-on","rush-btt-in","rush-ltr-in","rush-rtl-in","rush-ttb-in","slide-btt-in","slide-btt-out","slide-ltr-in","slide-ltr-out","slide-rtl-in","slide-rtl-out","slide-ttb-in","slide-ttb-out","spring-btt-in","spring-ltr-in","spring-rtl-in","spring-ttb-in","throw-btt-in","throw-ltr-in","throw-rtl-in","throw-ttb-in","vortex-alt-in","vortex-alt-out","vortex-in","vortex-out","zoom-in","zoom-out"]],"group":{"static":["static"],"popular":["blink","bounce","bounce-in","bounce-out","breath","fade","flip-h","float-btt-in","slide-ltr","spin","tremble"],"repeat":["beat","blink","blur","bounce","bounceAlt","breath","clock","coin-h","coin-v","cycle","cycle-alt","damage","dim","fade","flip","flip-h","flip-v","float","heartbeat","hit","jelly","jelly-alt","jingle","jump","measure","metronome","move-btt","move-fade-btt","move-fade-ltr","move-fade-rtl","move-fade-ttb","move-ltr","move-rtl","move-ttb","orbit","pulse","rubber-h","rubber-v","rush-btt","rush-ltr","rush-rtl","rush-ttb","shake-h","shake-v","shiver","skew","skew-alt","slide-btt","slide-ltr","slide-rtl","slide-ttb","smash","spin","spin-fast","squeeze","surprise","swim","swing","tick","tick-alt","tremble","vortex","vortex-alt","wander-h","wander-v","wrench"],"transition":["blur-in","blur-out","bounce-alt-in","bounce-alt-out","bounce-in","bounce-out","fade-in","fade-out","fall-btt-in","fall-ltr-in","fall-rtl-in","fall-ttb-in","flip-h-in","flip-h-out","flip-v-in","flip-v-out","float-btt-in","float-btt-out","float-ltr-in","float-ltr-out","float-rtl-in","float-rtl-out","float-ttb-in","float-ttb-out","grow-btt-in","grow-btt-out","grow-ltr-in","grow-ltr-out","grow-rtl-in","grow-rtl-out","grow-ttb-in","grow-ttb-out","jump-alt-in","jump-alt-out","jump-in","jump-out","power-off","power-on","rush-btt-in","rush-ltr-in","rush-rtl-in","rush-ttb-in","slide-btt-in","slide-btt-out","slide-ltr-in","slide-ltr-out","slide-rtl-in","slide-rtl-out","slide-ttb-in","slide-ttb-out","spring-btt-in","spring-ltr-in","spring-rtl-in","spring-ttb-in","throw-btt-in","throw-ltr-in","throw-rtl-in","throw-ttb-in","vortex-alt-in","vortex-alt-out","vortex-in","vortex-out","zoom-in","zoom-out"]}};
+var anikit = {"groupName":["No Animation","Popular Animation","Repeat Animation","Transition"],"members":[[["static","static"]],[["blink","blink"],["bounce","bounce"],["bounce-in","bounce-in"],["bounce-out","bounce-out"],["breath","breath"],["fade","fade"],["flip-h","flip (horizontally)"],["float-btt-in","float-in (bottom to top)"],["slide-ltr","slide (left to right)"],["spin","spin"],["tremble","tremble"]],[["beat","beat"],["blink","blink"],["blur","blur"],["bounce","bounce"],["bounceAlt","bounceAlt"],["breath","breath"],["clock","clock"],["coin-h","coin (horizontally)"],["coin-v","coin (vertically)"],["cycle","cycle"],["cycle-alt","cycle-alt"],["damage","damage"],["dim","dim"],["fade","fade"],["flip","flip"],["flip-h","flip (horizontally)"],["flip-v","flip (vertically)"],["float","float"],["heartbeat","heartbeat"],["hit","hit"],["jelly","jelly"],["jelly-alt","jelly-alt"],["jingle","jingle"],["jump","jump"],["measure","measure"],["metronome","metronome"],["move-btt","move (bottom to top)"],["move-fade-btt","move faded (bottom to top)"],["move-fade-ltr","move faded (left to right)"],["move-fade-rtl","move faded (right to left)"],["move-fade-ttb","move faded (top to bottom)"],["move-ltr","move (left to right)"],["move-rtl","move (right to left)"],["move-ttb","move (top to bottom)"],["orbit","orbit"],["pulse","pulse"],["rubber-h","rubber (horizontally)"],["rubber-v","rubber (vertically)"],["rush-btt","rush (bottom to top)"],["rush-ltr","rush (left to right)"],["rush-rtl","rush (right to left)"],["rush-ttb","rush (top to bottom)"],["shake-h","shake (horizontally)"],["shake-v","shake (vertically)"],["shiver","shiver"],["skew","skew"],["skew-alt","skew-alt"],["slide-btt","slide (bottom to top)"],["slide-ltr","slide (left to right)"],["slide-rtl","slide (right to left)"],["slide-ttb","slide (top to bottom)"],["smash","smash"],["spin","spin"],["spin-fast","spin-fast"],["squeeze","squeeze"],["surprise","surprise"],["swim","swim"],["swing","swing"],["tick","tick"],["tick-alt","tick-alt"],["tremble","tremble"],["vortex","vortex"],["vortex-alt","vortex-alt"],["wander-h","wander (horizontally)"],["wander-v","wander (vertically)"],["wrench","wrench"]],[["blur-in","blur-in"],["blur-out","blur-out"],["bounce-alt-in","bounce-alt-in"],["bounce-alt-out","bounce-alt-out"],["bounce-in","bounce-in"],["bounce-out","bounce-out"],["fade-in","fade-in"],["fade-out","fade-out"],["fall-btt-in","fall-in (bottom to top)"],["fall-ltr-in","fall-in (left to right)"],["fall-rtl-in","fall-in (right to left)"],["fall-ttb-in","fall-in (top to bottom)"],["flip-h-in","flip-in (horizontally)"],["flip-h-out","flip-out (horizontally)"],["flip-v-in","flip-in (vertically)"],["flip-v-out","flip-out (vertically)"],["float-btt-in","float-in (bottom to top)"],["float-btt-out","float-out (bottom to top)"],["float-ltr-in","float-in (left to right)"],["float-ltr-out","float-out (left to right)"],["float-rtl-in","float-in (right to left)"],["float-rtl-out","float-out (right to left)"],["float-ttb-in","float-in (top to bottom)"],["float-ttb-out","float-out (top to bottom)"],["grow-btt-in","grow-in (bottom to top)"],["grow-btt-out","grow-out (bottom to top)"],["grow-ltr-in","grow-in (left to right)"],["grow-ltr-out","grow-out (left to right)"],["grow-rtl-in","grow-in (right to left)"],["grow-rtl-out","grow-out (right to left)"],["grow-ttb-in","grow-in (top to bottom)"],["grow-ttb-out","grow-out (top to bottom)"],["jump-alt-in","jump-alt-in"],["jump-alt-out","jump-alt-out"],["jump-in","jump-in"],["jump-out","jump-out"],["power-off","power-off"],["power-on","power-on"],["rush-btt-in","rush-in (bottom to top)"],["rush-ltr-in","rush-in (left to right)"],["rush-rtl-in","rush-in (right to left)"],["rush-ttb-in","rush-in (top to bottom)"],["slide-btt-in","slide-in (bottom to top)"],["slide-btt-out","slide-out (bottom to top)"],["slide-ltr-in","slide-in (left to right)"],["slide-ltr-out","slide-out (left to right)"],["slide-rtl-in","slide-in (right to left)"],["slide-rtl-out","slide-out (right to left)"],["slide-ttb-in","slide-in (top to bottom)"],["slide-ttb-out","slide-out (top to bottom)"],["spring-btt-in","spring-in (bottom to top)"],["spring-ltr-in","spring-in (left to right)"],["spring-rtl-in","spring-in (right to left)"],["spring-ttb-in","spring-in (top to bottom)"],["throw-btt-in","throw-in (bottom to top)"],["throw-ltr-in","throw-in (left to right)"],["throw-rtl-in","throw-in (right to left)"],["throw-ttb-in","throw-in (top to bottom)"],["vortex-alt-in","vortex-alt-in"],["vortex-alt-out","vortex-alt-out"],["vortex-in","vortex-in"],["vortex-out","vortex-out"],["zoom-in","zoom-in"],["zoom-out","zoom-out"]]],"group":{"static":[["static","static"]],"popular":[["blink","blink"],["bounce","bounce"],["bounce-in","bounce-in"],["bounce-out","bounce-out"],["breath","breath"],["fade","fade"],["flip-h","flip (horizontally)"],["float-btt-in","float-in (bottom to top)"],["slide-ltr","slide (left to right)"],["spin","spin"],["tremble","tremble"]],"repeat":[["beat","beat"],["blink","blink"],["blur","blur"],["bounce","bounce"],["bounceAlt","bounceAlt"],["breath","breath"],["clock","clock"],["coin-h","coin (horizontally)"],["coin-v","coin (vertically)"],["cycle","cycle"],["cycle-alt","cycle-alt"],["damage","damage"],["dim","dim"],["fade","fade"],["flip","flip"],["flip-h","flip (horizontally)"],["flip-v","flip (vertically)"],["float","float"],["heartbeat","heartbeat"],["hit","hit"],["jelly","jelly"],["jelly-alt","jelly-alt"],["jingle","jingle"],["jump","jump"],["measure","measure"],["metronome","metronome"],["move-btt","move (bottom to top)"],["move-fade-btt","move faded (bottom to top)"],["move-fade-ltr","move faded (left to right)"],["move-fade-rtl","move faded (right to left)"],["move-fade-ttb","move faded (top to bottom)"],["move-ltr","move (left to right)"],["move-rtl","move (right to left)"],["move-ttb","move (top to bottom)"],["orbit","orbit"],["pulse","pulse"],["rubber-h","rubber (horizontally)"],["rubber-v","rubber (vertically)"],["rush-btt","rush (bottom to top)"],["rush-ltr","rush (left to right)"],["rush-rtl","rush (right to left)"],["rush-ttb","rush (top to bottom)"],["shake-h","shake (horizontally)"],["shake-v","shake (vertically)"],["shiver","shiver"],["skew","skew"],["skew-alt","skew-alt"],["slide-btt","slide (bottom to top)"],["slide-ltr","slide (left to right)"],["slide-rtl","slide (right to left)"],["slide-ttb","slide (top to bottom)"],["smash","smash"],["spin","spin"],["spin-fast","spin-fast"],["squeeze","squeeze"],["surprise","surprise"],["swim","swim"],["swing","swing"],["tick","tick"],["tick-alt","tick-alt"],["tremble","tremble"],["vortex","vortex"],["vortex-alt","vortex-alt"],["wander-h","wander (horizontally)"],["wander-v","wander (vertically)"],["wrench","wrench"]],"transition":[["blur-in","blur-in"],["blur-out","blur-out"],["bounce-alt-in","bounce-alt-in"],["bounce-alt-out","bounce-alt-out"],["bounce-in","bounce-in"],["bounce-out","bounce-out"],["fade-in","fade-in"],["fade-out","fade-out"],["fall-btt-in","fall-in (bottom to top)"],["fall-ltr-in","fall-in (left to right)"],["fall-rtl-in","fall-in (right to left)"],["fall-ttb-in","fall-in (top to bottom)"],["flip-h-in","flip-in (horizontally)"],["flip-h-out","flip-out (horizontally)"],["flip-v-in","flip-in (vertically)"],["flip-v-out","flip-out (vertically)"],["float-btt-in","float-in (bottom to top)"],["float-btt-out","float-out (bottom to top)"],["float-ltr-in","float-in (left to right)"],["float-ltr-out","float-out (left to right)"],["float-rtl-in","float-in (right to left)"],["float-rtl-out","float-out (right to left)"],["float-ttb-in","float-in (top to bottom)"],["float-ttb-out","float-out (top to bottom)"],["grow-btt-in","grow-in (bottom to top)"],["grow-btt-out","grow-out (bottom to top)"],["grow-ltr-in","grow-in (left to right)"],["grow-ltr-out","grow-out (left to right)"],["grow-rtl-in","grow-in (right to left)"],["grow-rtl-out","grow-out (right to left)"],["grow-ttb-in","grow-in (top to bottom)"],["grow-ttb-out","grow-out (top to bottom)"],["jump-alt-in","jump-alt-in"],["jump-alt-out","jump-alt-out"],["jump-in","jump-in"],["jump-out","jump-out"],["power-off","power-off"],["power-on","power-on"],["rush-btt-in","rush-in (bottom to top)"],["rush-ltr-in","rush-in (left to right)"],["rush-rtl-in","rush-in (right to left)"],["rush-ttb-in","rush-in (top to bottom)"],["slide-btt-in","slide-in (bottom to top)"],["slide-btt-out","slide-out (bottom to top)"],["slide-ltr-in","slide-in (left to right)"],["slide-ltr-out","slide-out (left to right)"],["slide-rtl-in","slide-in (right to left)"],["slide-rtl-out","slide-out (right to left)"],["slide-ttb-in","slide-in (top to bottom)"],["slide-ttb-out","slide-out (top to bottom)"],["spring-btt-in","spring-in (bottom to top)"],["spring-ltr-in","spring-in (left to right)"],["spring-rtl-in","spring-in (right to left)"],["spring-ttb-in","spring-in (top to bottom)"],["throw-btt-in","throw-in (bottom to top)"],["throw-ltr-in","throw-in (left to right)"],["throw-rtl-in","throw-in (right to left)"],["throw-ttb-in","throw-in (top to bottom)"],["vortex-alt-in","vortex-alt-in"],["vortex-alt-out","vortex-alt-out"],["vortex-in","vortex-in"],["vortex-out","vortex-out"],["zoom-in","zoom-in"],["zoom-out","zoom-out"]]}};
 ;pug_debug_line = 98;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fext\u002Findex.pug";
 
 
@@ -584,84 +612,93 @@ prefix.currentName = parentName;
 
 
 
+;pug_debug_line = 131;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fldui\u002Fpug\u002Fext\u002Findex.pug";
+
+
+
+
+
+
+
+
+
+
+
+
 ;pug_debug_line = 2;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
 pug_mixins["uploadr-viewer"] = pug_interp = function(name){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
 ;pug_debug_line = 3;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_mixins["scope"].call({
-block: function(){
-;pug_debug_line = 3;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-1024 mx-auto my-4\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"uploadr-viewer\" ld=\"list\"\u003E";
 ;pug_debug_line = 4;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"d-flex flex-wrap\" ld=\"list\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"item\" ld-each=\"item\"\u003E";
 ;pug_debug_line = 5;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"flex-grow-1 mr-1 mb-1 bg-light text-center position-relative border ld ld-float-btt-in\" ld-each=\"item\"\u003E";
+pug_html = pug_html + "\u003Cimg\u003E";
 ;pug_debug_line = 6;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cimg style=\"max-height:200px;opacity:0\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"img\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 7;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-100 h-100 position-absolute\" style=\"top:0;left:0;background-position:center center;background-repeat:no-repeat;background-size:cover\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 10;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv Style=\"flex:10 0 auto\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-},
-attributes: attributes
-}, name);
+pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 8;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 9;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 };
-;pug_debug_line = 12;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_mixins["uploadr-upload"] = pug_interp = function(name){
-var block = (this && this.block), attributes = (this && this.attributes) || {};
-;pug_debug_line = 13;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"bg-light w-100 text-white\" ld=\"drop\"\u003E";
-;pug_debug_line = 14;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"vertical-center\"\u003E";
-;pug_debug_line = 15;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-100 text-center text-secondary p-4\"\u003E";
-;pug_debug_line = 16;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"text-lg\"\u003E";
-;pug_debug_line = 16;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "drag & drop ";
-;pug_debug_line = 16;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cbr\u003E";
-;pug_debug_line = 16;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + " files here\u003C\u002Fdiv\u003E";
-;pug_debug_line = 17;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"my-4\"\u003E";
-;pug_debug_line = 17;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "or\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 18;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary btn-upload\"\u003E";
-;pug_debug_line = 19;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cspan\u003E";
-;pug_debug_line = 19;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "Choose File\u003C\u002Fspan\u003E";
-;pug_debug_line = 20;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cinput" + (" ld=\"input\" type=\"file\""+pug_attr("multiple", true, true, true)) + "\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-};
-;pug_debug_line = 22;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_mixins["uploadr-list"] = pug_interp = function(name){
-var block = (this && this.block), attributes = (this && this.attributes) || {};
-;pug_debug_line = 23;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-480 mx-auto my-4\"\u003E";
-;pug_debug_line = 24;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"bg-white p-1 m-2\" ld-each=\"file\"\u003E";
-;pug_debug_line = 25;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"d-flex align-items-center\"\u003E";
-;pug_debug_line = 26;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"bg-portrait bg-secondary\" ld=\"thumb\" style=\"width:1.8125rem;height:1.8125rem;background-size:contain\"\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 27;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"flex-grow-1 mx-1\" ld=\"name\"\u003E";
-;pug_debug_line = 27;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "...\u003C\u002Fdiv\u003E";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;pug_debug_line = 28;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"mx-2\" ld=\"size\"\u003E";
-;pug_debug_line = 28;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "0KB\u003C\u002Fdiv\u003E";
-;pug_debug_line = 29;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"btn btn-outline-danger btn-sm\" ld=\"delete\"\u003E";
-;pug_debug_line = 29;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "remove &times;\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 30;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"mt-1 bg-primary\" ld=\"progress\" style=\"width:0;height:3px;transition:all .35s ease-in-out\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;pug_debug_line = 4;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Chtml\u003E";
 ;pug_debug_line = 5;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
@@ -670,68 +707,123 @@ pug_html = pug_html + "\u003Chead\u003E";
 pug_mixins["css"]("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css");
 ;pug_debug_line = 7;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("assets/lib/ldui/ldui.min.css");
+;pug_debug_line = 8;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["css"]("assets/lib/uploadr/uploadr.min.css");
 pug_html = pug_html + "\u003C\u002Fhead\u003E";
-;pug_debug_line = 9;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cbody\u003E";
 ;pug_debug_line = 10;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cbody\u003E";
+;pug_debug_line = 11;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"w-1024 rwd typeset heading-contrast mx-auto p-4\"\u003E";
-;pug_debug_line = 11;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 12;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Ch2\u003E";
-;pug_debug_line = 11;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 12;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "uploadr\u003C\u002Fh2\u003E";
-;pug_debug_line = 12;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 13;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cp\u003E";
-;pug_debug_line = 12;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 13;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "file uploader widgets and express route\u003C\u002Fp\u003E";
-;pug_debug_line = 13;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"ldld text-center\"\u003E";
-;pug_debug_line = 13;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cimg src=\"\u002Fassets\u002Fimg\u002Fspinner.svg\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 14;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"card w-480 mx-auto rwd shadow\"\u003E";
 ;pug_debug_line = 14;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["scope"].call({
 block: function(){
 ;pug_debug_line = 15;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-480 mx-auto\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"w-100\"\u003E";
+;pug_debug_line = 15;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"aspect-ratio ratio-3by2 text-center\" style=\"overflow-y:scroll\"\u003E";
 ;pug_debug_line = 16;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["uploadr-upload"]();
-pug_html = pug_html + "\u003C\u002Fdiv\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"position-absolute w-100 h-100\" style=\"top:0;left:0\"\u003E";
+;pug_debug_line = 16;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"vertical-center\"\u003E";
 ;pug_debug_line = 17;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["uploadr-list"]();
+pug_html = pug_html + "\u003Cdiv class=\"w-100 text-lg text-light\"\u003E";
+;pug_debug_line = 17;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "drag & drop ";
+;pug_debug_line = 17;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cbr\u003E";
+;pug_debug_line = 17;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + " files here\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 19;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-480 mx-auto my-4\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"uploadr-viewer\"\u003E";
 ;pug_debug_line = 20;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary mr-2\" ld=\"upload\"\u003E";
-;pug_debug_line = 20;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"item\" ld-each=\"file\"\u003E";
+;pug_debug_line = 21;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cimg ld=\"thumb\"\u003E";
+;pug_debug_line = 22;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"img\" ld=\"thumb\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 23;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"bg-primary\" ld=\"progress\" style=\"position:absolute;bottom:0;left:0;width:0;height:3px;\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 24;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv style=\"position:absolute;top:.5em;left:.5em;background:rgba(0,0,0,.25);color:#fff;border-radius:50%;padding:.125em;width:1.25em;height:1.25em;line-height:.75em;font-size:1.25em;cursor:pointer;\" ld=\"delete\"\u003E";
+;pug_debug_line = 24;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "&times;\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 25;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 26;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 27;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 29;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Chr\u003E";
+;pug_debug_line = 30;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"d-flex justify-content-between\"\u003E";
+;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary mr-2 btn-upload\"\u003E";
+;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "Add File ... ";
+;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cinput" + (" type=\"file\" ld=\"input\""+pug_attr("multiple", true, true, true)) + "\u003E";
+;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003C\u002Fdiv\u003E";
+;pug_debug_line = 32;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"text-right\"\u003E";
+;pug_debug_line = 33;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary ml-2\" ld=\"upload\"\u003E";
+;pug_debug_line = 33;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "Upload\u003C\u002Fdiv\u003E";
-;pug_debug_line = 21;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary mr-2\" ld=\"clear\"\u003E";
-;pug_debug_line = 21;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "Clear\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-}
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary ml-2\" ld=\"clear\"\u003E";
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "Clear\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+},
+attributes: {"class": "card-body position-relative"}
 }, "uploadr");
 pug_html = pug_html + "\u003C\u002Fdiv\u003E";
-;pug_debug_line = 23;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["uploadr-viewer"]("image-viewer");
-;pug_debug_line = 25;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-1024 rwd mx-auto my-4\"\u003E";
-;pug_debug_line = 26;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 35;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"ldld text-center\"\u003E";
+;pug_debug_line = 35;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cimg src=\"\u002Fassets\u002Fimg\u002Fspinner.svg\"\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 37;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"card w-768 mx-auto rwd shadow\"\u003E";
+;pug_debug_line = 37;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["scope"].call({
 block: function(){
-;pug_debug_line = 27;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 38;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["uploadr-viewer"]();
+},
+attributes: {"class": "card-body"}
+}, "image-viewer");
+pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 40;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"w-1024 rwd mx-auto my-4\"\u003E";
+;pug_debug_line = 41;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["scope"].call({
+block: function(){
+;pug_debug_line = 42;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv ld-each=\"photo\" style=\"width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat\"\u003E\u003C\u002Fdiv\u003E";
 },
 attributes: {"class": "d-flex flex-wrap"}
 }, "viewer");
 pug_html = pug_html + "\u003C\u002Fdiv\u003E";
-;pug_debug_line = 30;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 45;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js");
-;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 46;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/ldui/ldui.min.js");
-;pug_debug_line = 32;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 47;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/uploadr/uploadr.js");
-;pug_debug_line = 33;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 48;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/uploadr/viewer.js");
-;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 49;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cscript\u003E";
-;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u002F\u002F Generated by LiveScript 1.3.1\nvar lc, uploaderNative, up, ldld, view, count, viewer;\nlc = {\n  files: []\n};\nuploaderNative = {\n  host: 'native',\n  route: '\u002Fd\u002Fuploadr'\n};\nup = new uploadr({\n  root: ld$.find(document, '[ld-scope=uploadr]', 0),\n  progress: function(it){\n    return console.log(it);\n  },\n  uploader: uploaderNative\n});\nup.on('upload.done', function(it){\n  lc.files = lc.files.concat(it);\n  return view.render();\n});\nldld = new ldLoader({\n  root: '.ldld'\n});\nup.on('preview.loading', function(){\n  return ldld.on();\n});\nup.on('preview.done', function(){\n  return ldld.off();\n});\nview = new ldView({\n  root: ld$.find('[ld-scope=viewer]', 0),\n  handler: {\n    photo: {\n      list: function(){\n        return lc.files || [];\n      },\n      handle: function(arg$){\n        var node, data;\n        node = arg$.node, data = arg$.data;\n        return node.style.backgroundImage = \"url(\" + data.url + \")\";\n      }\n    }\n  }\n});\ncount = 0;\nviewer = new uploadr.viewer({\n  root: '[ld-scope=image-viewer]',\n  page: {\n    host: window,\n    fetchOnScroll: true,\n    limit: 9,\n    boundary: 100,\n    fetch: function(){\n      return new Promise(function(res, rej){\n        return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){\n          count = count + 1;\n          return {\n            data: \"\u002Fassets\u002Fimg\u002Fsample\u002F\" + it + \".jpg\",\n            value: count\n          };\n        }));\n      });\n    }\n  }\n});\nviewer.page.fetch();\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";}.call(this,"Array" in locals_for_with?locals_for_with.Array:typeof Array!=="undefined"?Array:undefined,"JSON" in locals_for_with?locals_for_with.JSON:typeof JSON!=="undefined"?JSON:undefined,"blockLoader" in locals_for_with?locals_for_with.blockLoader:typeof blockLoader!=="undefined"?blockLoader:undefined,"cssLoader" in locals_for_with?locals_for_with.cssLoader:typeof cssLoader!=="undefined"?cssLoader:undefined,"decache" in locals_for_with?locals_for_with.decache:typeof decache!=="undefined"?decache:undefined,"escape" in locals_for_with?locals_for_with.escape:typeof escape!=="undefined"?escape:undefined,"parentName" in locals_for_with?locals_for_with.parentName:typeof parentName!=="undefined"?parentName:undefined,"prefix" in locals_for_with?locals_for_with.prefix:typeof prefix!=="undefined"?prefix:undefined,"scriptLoader" in locals_for_with?locals_for_with.scriptLoader:typeof scriptLoader!=="undefined"?scriptLoader:undefined,"version" in locals_for_with?locals_for_with.version:typeof version!=="undefined"?version:undefined));} catch (err) {pug_rethrow(err, pug_debug_filename, pug_debug_line);};return pug_html;}; module.exports = template; })() 
+;pug_debug_line = 49;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u002F\u002F Generated by LiveScript 1.3.1\n(function(){\n  var lc, uploaderNative, up, ldld, view, count, viewer;\n  lc = {\n    files: []\n  };\n  uploaderNative = {\n    host: 'native',\n    route: '\u002Fd\u002Fuploadr'\n  };\n  up = new uploadr({\n    root: '[ld-scope=uploadr]',\n    progress: function(it){\n      return console.log(it);\n    },\n    uploader: uploaderNative\n  });\n  up.on('upload.done', function(it){\n    lc.files = lc.files.concat(it);\n    return view.render();\n  });\n  ldld = new ldLoader({\n    root: '.ldld'\n  });\n  up.on('preview.loading', function(){\n    return ldld.on();\n  });\n  up.on('preview.done', function(){\n    return ldld.off();\n  });\n  view = new ldView({\n    root: '[ld-scope=viewer]',\n    handler: {\n      photo: {\n        list: function(){\n          return lc.files || [];\n        },\n        handle: function(arg$){\n          var node, data;\n          node = arg$.node, data = arg$.data;\n          return node.style.backgroundImage = \"url(\" + data.url + \")\";\n        }\n      }\n    }\n  });\n  count = 0;\n  viewer = new uploadr.viewer({\n    root: '[ld-scope=image-viewer]',\n    page: {\n      host: window,\n      fetchOnScroll: true,\n      limit: 9,\n      boundary: 100,\n      fetch: function(){\n        return new Promise(function(res, rej){\n          return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){\n            return {\n              url: \"\u002Fassets\u002Fimg\u002Fsample\u002F\" + it + \".jpg\"\n            };\n          }));\n        });\n      }\n    }\n  });\n  return viewer.page.fetch();\n})();\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";}.call(this,"Array" in locals_for_with?locals_for_with.Array:typeof Array!=="undefined"?Array:undefined,"JSON" in locals_for_with?locals_for_with.JSON:typeof JSON!=="undefined"?JSON:undefined,"blockLoader" in locals_for_with?locals_for_with.blockLoader:typeof blockLoader!=="undefined"?blockLoader:undefined,"cssLoader" in locals_for_with?locals_for_with.cssLoader:typeof cssLoader!=="undefined"?cssLoader:undefined,"decache" in locals_for_with?locals_for_with.decache:typeof decache!=="undefined"?decache:undefined,"escape" in locals_for_with?locals_for_with.escape:typeof escape!=="undefined"?escape:undefined,"parentName" in locals_for_with?locals_for_with.parentName:typeof parentName!=="undefined"?parentName:undefined,"prefix" in locals_for_with?locals_for_with.prefix:typeof prefix!=="undefined"?prefix:undefined,"scriptLoader" in locals_for_with?locals_for_with.scriptLoader:typeof scriptLoader!=="undefined"?scriptLoader:undefined,"version" in locals_for_with?locals_for_with.version:typeof version!=="undefined"?version:undefined));} catch (err) {pug_rethrow(err, pug_debug_filename, pug_debug_line);};return pug_html;}; module.exports = template; })() 

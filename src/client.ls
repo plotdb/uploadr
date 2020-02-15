@@ -2,6 +2,7 @@
   viewer = if window.{}uploadr.viewer => that else null
   uploadr = (opt = {}) ->
     @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
+    if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
     @evt-handler = {}
     @opt = opt
     @ucfg = opt.uploader or {route: '/d/uploadr', host: 'native'}
@@ -14,7 +15,6 @@
           ld$.remove n
           if ~(i = @lc.files.indexOf(v.item)) => @lc.files.splice(i,1)
       
-
     # opt.progress or (->)
     @lc = {files: []}
     @init!
@@ -31,24 +31,51 @@
           img = new Image
           img.onload = ->
             if preview => preview.style
-              ..backgroundImage = "url(#{files.0.result})"
+              ..backgroundImage = "url(#{file.thumb})"
               ..width = "#{img.width}px"
               ..height = "#{img.height}px"
             res {} <<< img{width, height} <<< file
-          img.src = file.result
+          img.src = file.thumb
         Promise.all(promises)
           .then ->
-            lc.files = files
+            lc.files = (lc.files or []) ++  files
             debounce 500
           .then ~>
             view.render!
             @fire \preview.done
             @fire \file.chosen, lc.files
 
-
       @lc.view = view = new ldView do
         root: @root
         action: do
+          input: input: ({node, evt}) ->
+            thumb = (list) -> new Promise (res, rej) ->
+              ret = []
+              _ = (list) ->
+                file = list.splice(0,1).0
+                if !file =>
+                  return res ret
+                src = URL.createObjectURL(file)
+                img = new Image!
+                img.onload = ->
+                  [w, h] = [img.width, img.height]
+                  if w > 200 => [w, h] = [200, h * 200/w]
+                  if h > 150 => [w, h] = [w * 150/h, 150]
+                  c1 = document.createElement("canvas")
+                  c1 <<< {width: w, height: h}
+                  ctx = c1.getContext \2d
+                  ctx.drawImage img, 0, 0, w, h
+                  c1.toBlob (blob) ->
+                    ret.push f = {thumb: URL.createObjectURL(blob), file: file}
+                    preview [f]
+                    _ list
+                img.src = src
+              _ list
+            thumb Array.from(node.files)
+              .then (files) ->
+                if node.form => that.reset!
+
+
           click:
             upload: ({node, evt}) ~> @upload!then ~> @clear!; return it
             clear: ({node, evt}) ~> @clear!
@@ -61,11 +88,6 @@
                 .then ~> perview files
           dragover: do
             drop: ({node, evt}) -> evt.preventDefault!
-        init: do
-          input: ({node}) ~>
-            lc.ldf = ldf = new ldFile root: node, type: \dataurl, force-encoding: \utf-8
-            node.addEventListener \change, ~> @fire \preview.loading
-            ldf.on \load, (files) ~> preview files
 
         handler:
           file:
@@ -82,7 +104,10 @@
                 handler: do
                   name: ({node}) -> node.textContent = data.file.name
                   size: ({node}) -> node.textContent = "#{Math.round(data.file.size / 1024)}KB"
-                  thumb: ({node}) -> node.style.backgroundImage = "url(#{data.result})"
+                  thumb: ({node}) ->
+                    if node.nodeName.toLowerCase! == \img =>
+                      node.setAttribute \src, data.thumb
+                    else node.style.backgroundImage = "url(#{data.thumb})"
     get: -> return @lc.files
     clear: -> @lc.files.splice(0); @lc.view.render!
     upload: ->

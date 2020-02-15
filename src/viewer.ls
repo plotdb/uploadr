@@ -6,6 +6,7 @@
 
   window.{}uploadr.viewer = viewer = (opt) ->
     @root = if typeof(opt.root) == \string => ld$.find(opt.root,0) else opt.root
+    if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
     @evt-handler = {}
     @lc = lc = {}
     @images = lc.images = []
