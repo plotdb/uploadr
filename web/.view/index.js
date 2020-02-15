@@ -730,7 +730,7 @@ block: function(){
 ;pug_debug_line = 15;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"w-100\"\u003E";
 ;pug_debug_line = 15;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"aspect-ratio ratio-3by2 text-center\" style=\"overflow-y:scroll\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"aspect-ratio ratio-3by2 text-center\" ld=\"drop\" style=\"overflow-y:scroll\"\u003E";
 ;pug_debug_line = 16;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"position-absolute w-100 h-100\" style=\"top:0;left:0\"\u003E";
 ;pug_debug_line = 16;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
@@ -762,68 +762,74 @@ pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003
 ;pug_debug_line = 26;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 27;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 28;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"position-absolute w-100 h-100\" style=\"pointer-events:none;top:0;left:0\"\u003E";
+;pug_debug_line = 28;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"vertical-center\"\u003E";
+;pug_debug_line = 28;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"w-100 text-center\"\u003E";
 ;pug_debug_line = 29;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Chr\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"ldld text-center\"\u003E";
 ;pug_debug_line = 30;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"d-flex justify-content-between\"\u003E";
-;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary mr-2 btn-upload\"\u003E";
-;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "Add File ... ";
-;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cinput" + (" type=\"file\" ld=\"input\""+pug_attr("multiple", true, true, true)) + "\u003E";
-;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003C\u002Fdiv\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"ld ld-ring ld-spin text-lg text-light bg-secondary rounded-circle p-2\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 32;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Chr\u003E";
+;pug_debug_line = 33;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"d-flex justify-content-between\"\u003E";
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary mr-2 btn-upload\"\u003E";
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "Add File ... ";
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cinput" + (" type=\"file\" ld=\"input\""+pug_attr("multiple", true, true, true)) + "\u003E";
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003C\u002Fdiv\u003E";
+;pug_debug_line = 35;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"text-right\"\u003E";
-;pug_debug_line = 33;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 36;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary ml-2\" ld=\"upload\"\u003E";
-;pug_debug_line = 33;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 36;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "Upload\u003C\u002Fdiv\u003E";
-;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 37;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary ml-2\" ld=\"clear\"\u003E";
-;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 37;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "Clear\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 },
 attributes: {"class": "card-body position-relative"}
 }, "uploadr");
 pug_html = pug_html + "\u003C\u002Fdiv\u003E";
-;pug_debug_line = 35;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"ldld text-center\"\u003E";
-;pug_debug_line = 35;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cimg src=\"\u002Fassets\u002Fimg\u002Fspinner.svg\"\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 37;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 39;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"card w-768 mx-auto rwd shadow\"\u003E";
-;pug_debug_line = 37;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 39;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["scope"].call({
 block: function(){
-;pug_debug_line = 38;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 40;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["uploadr-viewer"]();
 },
 attributes: {"class": "card-body"}
 }, "image-viewer");
 pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 40;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 42;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"w-1024 rwd mx-auto my-4\"\u003E";
-;pug_debug_line = 41;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 43;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["scope"].call({
 block: function(){
-;pug_debug_line = 42;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 44;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv ld-each=\"photo\" style=\"width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat\"\u003E\u003C\u002Fdiv\u003E";
 },
 attributes: {"class": "d-flex flex-wrap"}
 }, "viewer");
 pug_html = pug_html + "\u003C\u002Fdiv\u003E";
-;pug_debug_line = 45;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js");
-;pug_debug_line = 46;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/ldui/ldui.min.js");
 ;pug_debug_line = 47;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/uploadr/uploadr.js");
+pug_mixins["script"]("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js");
 ;pug_debug_line = 48;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("assets/lib/ldui/ldui.min.js");
+;pug_debug_line = 49;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("assets/lib/uploadr/uploadr.js");
+;pug_debug_line = 50;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/uploadr/viewer.js");
-;pug_debug_line = 49;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 51;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cscript\u003E";
-;pug_debug_line = 49;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 51;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u002F\u002F Generated by LiveScript 1.3.1\n(function(){\n  var lc, uploaderNative, up, ldld, view, count, viewer;\n  lc = {\n    files: []\n  };\n  uploaderNative = {\n    host: 'native',\n    route: '\u002Fd\u002Fuploadr'\n  };\n  up = new uploadr({\n    root: '[ld-scope=uploadr]',\n    progress: function(it){\n      return console.log(it);\n    },\n    uploader: uploaderNative\n  });\n  up.on('upload.done', function(it){\n    lc.files = lc.files.concat(it);\n    return view.render();\n  });\n  ldld = new ldLoader({\n    root: '.ldld'\n  });\n  up.on('preview.loading', function(){\n    return ldld.on();\n  });\n  up.on('preview.done', function(){\n    return ldld.off();\n  });\n  view = new ldView({\n    root: '[ld-scope=viewer]',\n    handler: {\n      photo: {\n        list: function(){\n          return lc.files || [];\n        },\n        handle: function(arg$){\n          var node, data;\n          node = arg$.node, data = arg$.data;\n          return node.style.backgroundImage = \"url(\" + data.url + \")\";\n        }\n      }\n    }\n  });\n  count = 0;\n  viewer = new uploadr.viewer({\n    root: '[ld-scope=image-viewer]',\n    page: {\n      host: window,\n      fetchOnScroll: true,\n      limit: 9,\n      boundary: 100,\n      fetch: function(){\n        return new Promise(function(res, rej){\n          return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){\n            return {\n              url: \"\u002Fassets\u002Fimg\u002Fsample\u002F\" + it + \".jpg\"\n            };\n          }));\n        });\n      }\n    }\n  });\n  return viewer.page.fetch();\n})();\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";}.call(this,"Array" in locals_for_with?locals_for_with.Array:typeof Array!=="undefined"?Array:undefined,"JSON" in locals_for_with?locals_for_with.JSON:typeof JSON!=="undefined"?JSON:undefined,"blockLoader" in locals_for_with?locals_for_with.blockLoader:typeof blockLoader!=="undefined"?blockLoader:undefined,"cssLoader" in locals_for_with?locals_for_with.cssLoader:typeof cssLoader!=="undefined"?cssLoader:undefined,"decache" in locals_for_with?locals_for_with.decache:typeof decache!=="undefined"?decache:undefined,"escape" in locals_for_with?locals_for_with.escape:typeof escape!=="undefined"?escape:undefined,"parentName" in locals_for_with?locals_for_with.parentName:typeof parentName!=="undefined"?parentName:undefined,"prefix" in locals_for_with?locals_for_with.prefix:typeof prefix!=="undefined"?prefix:undefined,"scriptLoader" in locals_for_with?locals_for_with.scriptLoader:typeof scriptLoader!=="undefined"?scriptLoader:undefined,"version" in locals_for_with?locals_for_with.version:typeof version!=="undefined"?version:undefined));} catch (err) {pug_rethrow(err, pug_debug_filename, pug_debug_line);};return pug_html;}; module.exports = template; })() 

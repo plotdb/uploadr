@@ -45,36 +45,39 @@
             @fire \preview.done
             @fire \file.chosen, lc.files
 
+      thumbing = (list) ->
+        list = Array.from(list)
+        new Promise (res, rej) ->
+          ret = []
+          _ = (list) ->
+            file = list.splice(0,1).0
+            if !file =>
+              return res ret
+            src = URL.createObjectURL(file)
+            img = new Image!
+            img.onload = ->
+              [w, h] = [img.width, img.height]
+              if w > 200 => [w, h] = [200, h * 200/w]
+              if h > 150 => [w, h] = [w * 150/h, 150]
+              c1 = document.createElement("canvas")
+              c1 <<< {width: w, height: h}
+              ctx = c1.getContext \2d
+              ctx.drawImage img, 0, 0, w, h
+              c1.toBlob (blob) ->
+                ret.push f = {thumb: URL.createObjectURL(blob), file: file}
+                preview [f]
+                _ list
+            img.src = src
+          _ list
+
+
       @lc.view = view = new ldView do
         root: @root
         action: do
           input: input: ({node, evt}) ->
-            thumb = (list) -> new Promise (res, rej) ->
-              ret = []
-              _ = (list) ->
-                file = list.splice(0,1).0
-                if !file =>
-                  return res ret
-                src = URL.createObjectURL(file)
-                img = new Image!
-                img.onload = ->
-                  [w, h] = [img.width, img.height]
-                  if w > 200 => [w, h] = [200, h * 200/w]
-                  if h > 150 => [w, h] = [w * 150/h, 150]
-                  c1 = document.createElement("canvas")
-                  c1 <<< {width: w, height: h}
-                  ctx = c1.getContext \2d
-                  ctx.drawImage img, 0, 0, w, h
-                  c1.toBlob (blob) ->
-                    ret.push f = {thumb: URL.createObjectURL(blob), file: file}
-                    preview [f]
-                    _ list
-                img.src = src
-              _ list
-            thumb Array.from(node.files)
+            thumbing node.files
               .then (files) ->
                 if node.form => that.reset!
-
 
           click:
             upload: ({node, evt}) ~> @upload!then ~> @clear!; return it
@@ -83,9 +86,7 @@
             drop: ({node, evt}) ~>
               evt.preventDefault!
               @fire \preview.loading
-              promises = Array.from(evt.dataTransfer.files).map -> ldFile.from-file it, \dataurl, \utf-8
-              Promise.all promises
-                .then ~> perview files
+              thumbing evt.dataTransfer.files
           dragover: do
             drop: ({node, evt}) -> evt.preventDefault!
 
@@ -98,6 +99,7 @@
                 root: node
                 action: click: do
                   delete: -> 
+                    if !node.parentNode => return
                     node.parentNode.removeChild node
                     idx = lc.files.indexOf(data)
                     if idx >= 0 => lc.files.splice(idx, 1)

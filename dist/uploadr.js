@@ -58,7 +58,7 @@ var slice$ = [].slice;
       return results$;
     },
     init: function(){
-      var lc, preview, view, this$ = this;
+      var lc, preview, thumbing, view, this$ = this;
       lc = this.lc;
       preview = function(files){
         var preview, promises;
@@ -89,55 +89,56 @@ var slice$ = [].slice;
           return this$.fire('file.chosen', lc.files);
         });
       };
+      thumbing = function(list){
+        list = Array.from(list);
+        return new Promise(function(res, rej){
+          var ret, _;
+          ret = [];
+          _ = function(list){
+            var file, src, img;
+            file = list.splice(0, 1)[0];
+            if (!file) {
+              return res(ret);
+            }
+            src = URL.createObjectURL(file);
+            img = new Image();
+            img.onload = function(){
+              var ref$, w, h, c1, ctx;
+              ref$ = [img.width, img.height], w = ref$[0], h = ref$[1];
+              if (w > 200) {
+                ref$ = [200, h * 200 / w], w = ref$[0], h = ref$[1];
+              }
+              if (h > 150) {
+                ref$ = [w * 150 / h, 150], w = ref$[0], h = ref$[1];
+              }
+              c1 = document.createElement("canvas");
+              c1.width = w;
+              c1.height = h;
+              ctx = c1.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              return c1.toBlob(function(blob){
+                var f;
+                ret.push(f = {
+                  thumb: URL.createObjectURL(blob),
+                  file: file
+                });
+                preview([f]);
+                return _(list);
+              });
+            };
+            return img.src = src;
+          };
+          return _(list);
+        });
+      };
       return this.lc.view = view = new ldView({
         root: this.root,
         action: {
           input: {
             input: function(arg$){
-              var node, evt, thumb;
+              var node, evt;
               node = arg$.node, evt = arg$.evt;
-              thumb = function(list){
-                return new Promise(function(res, rej){
-                  var ret, _;
-                  ret = [];
-                  _ = function(list){
-                    var file, src, img;
-                    file = list.splice(0, 1)[0];
-                    if (!file) {
-                      return res(ret);
-                    }
-                    src = URL.createObjectURL(file);
-                    img = new Image();
-                    img.onload = function(){
-                      var ref$, w, h, c1, ctx;
-                      ref$ = [img.width, img.height], w = ref$[0], h = ref$[1];
-                      if (w > 200) {
-                        ref$ = [200, h * 200 / w], w = ref$[0], h = ref$[1];
-                      }
-                      if (h > 150) {
-                        ref$ = [w * 150 / h, 150], w = ref$[0], h = ref$[1];
-                      }
-                      c1 = document.createElement("canvas");
-                      c1.width = w;
-                      c1.height = h;
-                      ctx = c1.getContext('2d');
-                      ctx.drawImage(img, 0, 0, w, h);
-                      return c1.toBlob(function(blob){
-                        var f;
-                        ret.push(f = {
-                          thumb: URL.createObjectURL(blob),
-                          file: file
-                        });
-                        preview([f]);
-                        return _(list);
-                      });
-                    };
-                    return img.src = src;
-                  };
-                  return _(list);
-                });
-              };
-              return thumb(Array.from(node.files)).then(function(files){
+              return thumbing(node.files).then(function(files){
                 var that;
                 if (that = node.form) {
                   return that.reset();
@@ -162,16 +163,11 @@ var slice$ = [].slice;
           },
           drop: {
             drop: function(arg$){
-              var node, evt, promises;
+              var node, evt;
               node = arg$.node, evt = arg$.evt;
               evt.preventDefault();
               this$.fire('preview.loading');
-              promises = Array.from(evt.dataTransfer.files).map(function(it){
-                return ldFile.fromFile(it, 'dataurl', 'utf-8');
-              });
-              return Promise.all(promises).then(function(){
-                return perview(files);
-              });
+              return thumbing(evt.dataTransfer.files);
             }
           },
           dragover: {
@@ -197,6 +193,9 @@ var slice$ = [].slice;
                   click: {
                     'delete': function(){
                       var idx;
+                      if (!node.parentNode) {
+                        return;
+                      }
                       node.parentNode.removeChild(node);
                       idx = lc.files.indexOf(data);
                       if (idx >= 0) {
