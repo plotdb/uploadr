@@ -35,8 +35,12 @@ uploadr = function(opt){
         return imgtype(buf).then(function(arg$){
           var ext, des, url, ref$;
           ext = arg$.ext;
-          des = path.join(dir, md5);
-          url = path.join(rooturl, t1, t2, md5);
+          des = target
+            ? path.join(dir, target, md5)
+            : path.join(dir, md5);
+          url = target
+            ? path.join(rooturl, target, t1, t2, md5)
+            : path.join(rooturl, t1, t2, md5);
           if (ext) {
             ref$ = [des + "." + ext, url + "." + ext], des = ref$[0], url = ref$[1];
           }
@@ -77,7 +81,11 @@ uploadr = function(opt){
     });
   };
   route = function(req, res, next){
-    return handler(req, res, next).then(function(it){
+    return handler({
+      opt: {},
+      req: req,
+      res: res
+    }).then(function(it){
       return res.send(it);
     })['catch'](function(err){
       if (opt['catch']) {
@@ -88,14 +96,22 @@ uploadr = function(opt){
       }
     });
   };
-  handler = function(req, res, next){
-    var files, promises;
+  handler = function(o){
+    var req, res, cfg, files, promises;
+    o == null && (o = {});
+    req = o.req, res = o.res;
+    cfg = o.opt || {};
     files = (req.files || {}).file;
     files = !files
       ? []
       : Array.isArray(files)
         ? files
         : [files];
+    if (cfg && cfg.target) {
+      files = files.map(function(it){
+        return it.target = cfg.target, it;
+      });
+    }
     promises = files.map(archive).map(function(it){
       return it.then(function(ret){
         return (opt.adopt

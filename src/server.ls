@@ -5,7 +5,7 @@ uploadr = (opt = {}) ->
   rooturl = opt.url or folder
 
   # input: one of following ( name is optional in both case )
-  #  - {path, name}
+  #  - {path, name, target}
   #  - {buf, name}
   # return:
   #  - { name, url, id } if succeed
@@ -24,8 +24,8 @@ uploadr = (opt = {}) ->
         dir = path.join(folder, t1, t2)
         imgtype(buf)
           .then ({ext}) ->
-            des = path.join(dir, md5)
-            url = path.join(rooturl, t1, t2, md5)
+            des = if target => path.join(dir, target, md5) else path.join(dir, md5)
+            url = if target => path.join(rooturl, target, t1, t2, md5) else path.join(rooturl, t1, t2, md5)
             if ext => [des,url] = ["#des.#ext", "#url.#ext"]
             <- fs.exists des, _
             if it => res {url, name, id: md5}
@@ -41,7 +41,7 @@ uploadr = (opt = {}) ->
   # for example:
   #   app.post \/d/uploadr, express-formidable({multiples:true}), uploadr.route
   route = (req, res, next) ->
-    handler(req, res, next)
+    handler({opt: {}, req, res})
       .then -> res.send it
       .catch (err) ->
         if opt.catch => opt.catch(err, req, res, next);
@@ -49,9 +49,12 @@ uploadr = (opt = {}) ->
           console.log err
           res.status(500).send!
 
-  handler = (req, res, next) ->
+  handler = (o = {}) ->
+    {req, res} = o
+    cfg = o.opt or {}
     files = (req.files or {}).file
     files = if !files => [] else if Array.isArray(files) => files else [files]
+    if cfg and cfg.target => files = files.map -> it <<< {target: cfg.target}
     promises = files
       .map archive
       .map ->
