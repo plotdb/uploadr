@@ -41,7 +41,16 @@ uploadr = (opt = {}) ->
   # for example:
   #   app.post \/d/uploadr, express-formidable({multiples:true}), uploadr.route
   route = (req, res, next) ->
-    files = req.files.file
+    handler(req, res, next)
+      .then -> res.send it
+      .catch (err) ->
+        if opt.catch => opt.catch(err, req, res, next);
+        else
+          console.log err
+          res.status(500).send!
+
+  handler = (req, res, next) ->
+    files = (req.files or {}).file
     files = if !files => [] else if Array.isArray(files) => files else [files]
     promises = files
       .map archive
@@ -49,14 +58,8 @@ uploadr = (opt = {}) ->
         it.then (ret) ->
           (if opt.adopt => opt.adopt(req, ret) else Promise.resolve!)
             .then -> return ret
-
     Promise.all promises
-      .then -> res.send it
-      .catch (err) ->
-        if opt.catch => opt.catch(err, req, res, next);
-        else
-          console.log err
-          res.status(500).send!
-  return { route, archive }
+
+  return { handler, route, archive }
 
 module.exports = uploadr

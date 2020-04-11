@@ -45,7 +45,8 @@
             @fire \preview.done
             @fire \file.chosen, lc.files
 
-      thumbing = (list) ->
+      thumbing = (list) ~>
+        @fire \preview.loading
         list = Array.from(list)
         new Promise (res, rej) ->
           ret = []
@@ -75,6 +76,7 @@
         root: @root
         action: do
           input: input: ({node, evt}) ->
+            console.log node.files
             thumbing node.files
               .then (files) ->
                 if node.form => that.reset!
@@ -85,7 +87,6 @@
           drop: do
             drop: ({node, evt}) ~>
               evt.preventDefault!
-              @fire \preview.loading
               thumbing evt.dataTransfer.files
           dragover: do
             drop: ({node, evt}) -> evt.preventDefault!

@@ -90,6 +90,7 @@ var slice$ = [].slice;
         });
       };
       thumbing = function(list){
+        this$.fire('preview.loading');
         list = Array.from(list);
         return new Promise(function(res, rej){
           var ret, _;
@@ -138,6 +139,7 @@ var slice$ = [].slice;
             input: function(arg$){
               var node, evt;
               node = arg$.node, evt = arg$.evt;
+              console.log(node.files);
               return thumbing(node.files).then(function(files){
                 var that;
                 if (that = node.form) {
@@ -166,7 +168,6 @@ var slice$ = [].slice;
               var node, evt;
               node = arg$.node, evt = arg$.evt;
               evt.preventDefault();
-              this$.fire('preview.loading');
               return thumbing(evt.dataTransfer.files);
             }
           },

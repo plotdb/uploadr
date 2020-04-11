@@ -161,6 +161,18 @@ To attach the dynamics with your own ui, use following `ld` names:
     app.post \/d/uploadr, express-formidable(cfg.formidable), uploadr(cfg.uploadr).route
 ```
 
+uploadr exposes following APIs:
+
+ * handler(req, res, next): process req.files and return promise, resolving url, id and name as array of objects.
+ * route(req, res, next): wrap handler as a route which pass data to res.send, or report 500 on error.
+ * archive(opt): function that takes care of files
+   - input: one of following ( name is optional in both case )
+     - {path, name}
+     - {buf, name}
+   - return:
+     - { name, url, id } if succeed
+     - { name } otherwise
+
 
 ## License
 

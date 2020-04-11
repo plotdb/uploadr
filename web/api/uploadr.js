@@ -6,7 +6,7 @@ path = require('path');
 crypto = require('crypto');
 imgtype = require('imgtype');
 uploadr = function(opt){
-  var folder, rooturl, archive, route;
+  var folder, rooturl, archive, route, handler;
   opt == null && (opt = {});
   folder = opt.folder || 'uploads';
   rooturl = opt.url || folder;
@@ -77,8 +77,20 @@ uploadr = function(opt){
     });
   };
   route = function(req, res, next){
+    return handler(req, res, next).then(function(it){
+      return res.send(it);
+    })['catch'](function(err){
+      if (opt['catch']) {
+        return opt['catch'](err, req, res, next);
+      } else {
+        console.log(err);
+        return res.status(500).send();
+      }
+    });
+  };
+  handler = function(req, res, next){
     var files, promises;
-    files = req.files.file;
+    files = (req.files || {}).file;
     files = !files
       ? []
       : Array.isArray(files)
@@ -93,18 +105,10 @@ uploadr = function(opt){
         });
       });
     });
-    return Promise.all(promises).then(function(it){
-      return res.send(it);
-    })['catch'](function(err){
-      if (opt['catch']) {
-        return opt['catch'](err, req, res, next);
-      } else {
-        console.log(err);
-        return res.status(500).send();
-      }
-    });
+    return Promise.all(promises);
   };
   return {
+    handler: handler,
     route: route,
     archive: archive
   };
