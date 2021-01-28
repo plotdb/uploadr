@@ -1,4 +1,4 @@
-# ldUpload
+# @plotdb/uploadr
 
 File Upload Widget base on Loading-ui. Provide following functionalities:
 
@@ -10,46 +10,40 @@ File Upload Widget base on Loading-ui. Provide following functionalities:
    - 
 
 
-
 ## Usage
 
 upload widget: 
 
 js:
-```
+
     uploadr({
       root: 'selector-to-my-upload-scope`
       progress: ->
       uploadr: { ... }
     })
-```
 
 
 pug:
-```
+
     script(src="path-to-client.js")
     +scope("my-upload-scope")
       +uploadr-list
       +uploadr-upload
       div(ld="upload") ...
-```
 
 picker widget:
 
 js:
-```
+
     uploadr.viewer({
       root: 'selector-to-my-viewer-scope`
       page: (ldPage instnace)
     })
-```
 
 pug:
-```
     script(src="path-to-viewer.js")
     +scope("my-viewer-scope")
       +uploadr-viewer
-```
 
 
 ## Widget
@@ -64,19 +58,15 @@ uploadr client use ldView to implement the dynamics of frontend elements. UI ele
 
 To use `upload`, `clear` and `uploadr-list` and `uploadr-upload`, wrap them in a ld scope element:
 
-```
-  +scope("my-scope")
-    +uploadr-upload
-    +uploadr-list
-    div(ld="upload")
-```
+    +scope("my-scope")
+      +uploadr-upload
+      +uploadr-list
+      div(ld="upload")
 
 `uploadr-viewer` is supported in standalone scope:
 
-```
-  +scope("my-another-scope")
-    +uploadr-viewer
-```
+    +scope("my-another-scope")
+      +uploadr-viewer
 
 
 ## Customization
@@ -106,13 +96,14 @@ To attach the dynamics with your own ui, use following `ld` names:
   - root: element / selector for the root element of uploadr ui.
   - uploader: an object containing information for backend api"
     * native:
-      ```
+
       { host: "native", route: "<path-to-api-endpoint>" }
-      ```
+
     * imgbb:
-      ```
+
       { host: "imgbb", key: "api-key-to-imgbb" }
-    extend `uploadr.ext` to add more backend adapter.
+
+      extend `uploadr.ext` to add more backend adapter.
   - progress({percent, val, len}): upload progress information 
     - percent: 0 ~ 1, 1 means finished.
     - val: current progress
@@ -124,6 +115,7 @@ To attach the dynamics with your own ui, use following `ld` names:
 
 
 ## API
+
 * uploadr
   - init - initialize uploadr.
   - upload - upload chosen files.
@@ -149,7 +141,6 @@ To attach the dynamics with your own ui, use following `ld` names:
 
 ## Server Usage and Configuration
 
-```
     cfg = do
       uploadr: do
         folder: '...'
@@ -159,7 +150,7 @@ To attach the dynamics with your own ui, use following `ld` names:
       formidable: {multiples: true}
 
     app.post \/d/uploadr, express-formidable(cfg.formidable), uploadr(cfg.uploadr).route
-```
+
 
 uploadr exposes following APIs:
 
