@@ -1,10 +1,13 @@
 {
   "author": "zbryikt",
-  "name": "uploadr",
+  "name": "@plotdb/uploadr",
   "license": "MIT",
   "description": "File Upload Library",
   "version": "0.1.0",
   "main": "dist/server.js",
+  "files": [
+    "dist/**/*"
+  ],
   "homepage": "https://github.com/plotdb/uploadr",
   "repository": {
     "type": "git",
