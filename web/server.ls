@@ -1,4 +1,5 @@
-require! <[fs express path colors template ./api/uploadr express-formidable]>
+require! <[fs express path colors template express-formidable]>
+uploadr = require "../src/server.ls"
 
 backend = do
   init: (opt) ->

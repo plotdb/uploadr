@@ -1,3 +1,13 @@
-# v0.0.2
+# v0.1.0
 
- - upgrade modules and remove runtime warnings
+ - server
+   - use `SHA256` + file size instead of `md5` to lower chance of file name collision.
+   - add `log` option
+   - make `target` default `main` if not specified
+   - log error if occurred
+ - build
+   - upgrade modules and remove runtime warnings: `stylus`
+   - add missing dev modules: `colors`, `express`, `fs-extra`
+   - use npx to replace relative path to execute commadns
+   - let dev server accesss `src/server.ls` instead of copying it to `web/api` folder.
+   - use `assets/lib/uploadr/dev/` instead of `assets/lib/uploadr`

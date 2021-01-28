@@ -1,11 +1,11 @@
 doctype html
 include /../../static/assets/lib/ldui/pug/ldui.pug
-include /../../static/assets/lib/uploadr/uploadr.pug
+include /../../static/assets/lib/uploadr/dev/uploadr.pug
 html
   head
     +css("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
     +css("assets/lib/ldui/ldui.min.css")
-    +css("assets/lib/uploadr/uploadr.min.css")
+    +css("assets/lib/uploadr/dev/uploadr.min.css")
 
   body
     .w-1024.rwd.typeset.heading-contrast.mx-auto.p-4
@@ -46,8 +46,8 @@ html
 
     +script("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.27/bootstrap-native-v4.min.js")
     +script("assets/lib/ldui/ldui.min.js")
-    +script("assets/lib/uploadr/uploadr.js")
-    +script("assets/lib/uploadr/viewer.js")
+    +script("assets/lib/uploadr/dev/uploadr.js")
+    +script("assets/lib/uploadr/dev/viewer.js")
     script: :lsc
       (->
         lc = {files: []}

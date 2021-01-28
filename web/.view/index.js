@@ -625,25 +625,25 @@ prefix.currentName = parentName;
 
 
 
-;pug_debug_line = 2;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 2;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_mixins["uploadr-viewer"] = pug_interp = function(name){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
-;pug_debug_line = 3;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 3;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"uploadr-viewer\" ld=\"list\"\u003E";
-;pug_debug_line = 4;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 4;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"item\" ld-each=\"item\"\u003E";
-;pug_debug_line = 5;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 5;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cimg\u003E";
-;pug_debug_line = 6;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 6;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"img\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 7;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 7;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 8;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 8;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 9;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 9;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 };
-;pug_debug_line = 18;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 18;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 
 
 
@@ -673,7 +673,7 @@ pug_html = pug_html + "\u003Cdiv class=\"placeholder\"\u003E\u003C\u002Fdiv\u003
 
 
 
-;pug_debug_line = 28;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fuploadr.pug";
+;pug_debug_line = 28;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 
 
 
@@ -708,7 +708,7 @@ pug_mixins["css"]("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootst
 ;pug_debug_line = 7;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("assets/lib/ldui/ldui.min.css");
 ;pug_debug_line = 8;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["css"]("assets/lib/uploadr/uploadr.min.css");
+pug_mixins["css"]("assets/lib/uploadr/dev/uploadr.min.css");
 pug_html = pug_html + "\u003C\u002Fhead\u003E";
 ;pug_debug_line = 10;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cbody\u003E";
@@ -826,10 +826,10 @@ pug_mixins["script"]("https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.
 ;pug_debug_line = 48;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/ldui/ldui.min.js");
 ;pug_debug_line = 49;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/uploadr/uploadr.js");
+pug_mixins["script"]("assets/lib/uploadr/dev/uploadr.js");
 ;pug_debug_line = 50;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/uploadr/viewer.js");
+pug_mixins["script"]("assets/lib/uploadr/dev/viewer.js");
 ;pug_debug_line = 51;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cscript\u003E";
 ;pug_debug_line = 51;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u002F\u002F Generated by LiveScript 1.3.1\n(function(){\n  var lc, uploaderNative, up, ldld, view, count, viewer;\n  lc = {\n    files: []\n  };\n  uploaderNative = {\n    host: 'native',\n    route: '\u002Fd\u002Fuploadr'\n  };\n  up = new uploadr({\n    root: '[ld-scope=uploadr]',\n    progress: function(it){\n      return console.log(it);\n    },\n    uploader: uploaderNative\n  });\n  up.on('upload.done', function(it){\n    lc.files = lc.files.concat(it);\n    return view.render();\n  });\n  ldld = new ldLoader({\n    root: '.ldld'\n  });\n  up.on('preview.loading', function(){\n    return ldld.on();\n  });\n  up.on('preview.done', function(){\n    return ldld.off();\n  });\n  view = new ldView({\n    root: '[ld-scope=viewer]',\n    handler: {\n      photo: {\n        list: function(){\n          return lc.files || [];\n        },\n        handle: function(arg$){\n          var node, data;\n          node = arg$.node, data = arg$.data;\n          return node.style.backgroundImage = \"url(\" + data.url + \")\";\n        }\n      }\n    }\n  });\n  count = 0;\n  viewer = new uploadr.viewer({\n    root: '[ld-scope=image-viewer]',\n    page: {\n      host: window,\n      fetchOnScroll: true,\n      limit: 9,\n      boundary: 100,\n      fetch: function(){\n        return new Promise(function(res, rej){\n          return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){\n            return {\n              url: \"\u002Fassets\u002Fimg\u002Fsample\u002F\" + it + \".jpg\"\n            };\n          }));\n        });\n      }\n    }\n  });\n  return viewer.page.fetch();\n})();\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";}.call(this,"Array" in locals_for_with?locals_for_with.Array:typeof Array!=="undefined"?Array:undefined,"JSON" in locals_for_with?locals_for_with.JSON:typeof JSON!=="undefined"?JSON:undefined,"blockLoader" in locals_for_with?locals_for_with.blockLoader:typeof blockLoader!=="undefined"?blockLoader:undefined,"cssLoader" in locals_for_with?locals_for_with.cssLoader:typeof cssLoader!=="undefined"?cssLoader:undefined,"decache" in locals_for_with?locals_for_with.decache:typeof decache!=="undefined"?decache:undefined,"escape" in locals_for_with?locals_for_with.escape:typeof escape!=="undefined"?escape:undefined,"parentName" in locals_for_with?locals_for_with.parentName:typeof parentName!=="undefined"?parentName:undefined,"prefix" in locals_for_with?locals_for_with.prefix:typeof prefix!=="undefined"?prefix:undefined,"scriptLoader" in locals_for_with?locals_for_with.scriptLoader:typeof scriptLoader!=="undefined"?scriptLoader:undefined,"version" in locals_for_with?locals_for_with.version:typeof version!=="undefined"?version:undefined));} catch (err) {pug_rethrow(err, pug_debug_filename, pug_debug_line);};return pug_html;}; module.exports = template; })() 
+pug_html = pug_html + "(function(){\n  var lc, uploaderNative, up, ldld, view, count, viewer;\n  lc = {\n    files: []\n  };\n  uploaderNative = {\n    host: 'native',\n    route: '\u002Fd\u002Fuploadr'\n  };\n  up = new uploadr({\n    root: '[ld-scope=uploadr]',\n    progress: function(it){\n      return console.log(it);\n    },\n    uploader: uploaderNative\n  });\n  up.on('upload.done', function(it){\n    lc.files = lc.files.concat(it);\n    return view.render();\n  });\n  ldld = new ldLoader({\n    root: '.ldld'\n  });\n  up.on('preview.loading', function(){\n    return ldld.on();\n  });\n  up.on('preview.done', function(){\n    return ldld.off();\n  });\n  view = new ldView({\n    root: '[ld-scope=viewer]',\n    handler: {\n      photo: {\n        list: function(){\n          return lc.files || [];\n        },\n        handle: function(arg$){\n          var node, data;\n          node = arg$.node, data = arg$.data;\n          return node.style.backgroundImage = \"url(\" + data.url + \")\";\n        }\n      }\n    }\n  });\n  count = 0;\n  viewer = new uploadr.viewer({\n    root: '[ld-scope=image-viewer]',\n    page: {\n      host: window,\n      fetchOnScroll: true,\n      limit: 9,\n      boundary: 100,\n      fetch: function(){\n        return new Promise(function(res, rej){\n          return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){\n            return {\n              url: \"\u002Fassets\u002Fimg\u002Fsample\u002F\" + it + \".jpg\"\n            };\n          }));\n        });\n      }\n    }\n  });\n  return viewer.page.fetch();\n})();\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";}.call(this,"Array" in locals_for_with?locals_for_with.Array:typeof Array!=="undefined"?Array:undefined,"JSON" in locals_for_with?locals_for_with.JSON:typeof JSON!=="undefined"?JSON:undefined,"blockLoader" in locals_for_with?locals_for_with.blockLoader:typeof blockLoader!=="undefined"?blockLoader:undefined,"cssLoader" in locals_for_with?locals_for_with.cssLoader:typeof cssLoader!=="undefined"?cssLoader:undefined,"decache" in locals_for_with?locals_for_with.decache:typeof decache!=="undefined"?decache:undefined,"escape" in locals_for_with?locals_for_with.escape:typeof escape!=="undefined"?escape:undefined,"parentName" in locals_for_with?locals_for_with.parentName:typeof parentName!=="undefined"?parentName:undefined,"prefix" in locals_for_with?locals_for_with.prefix:typeof prefix!=="undefined"?prefix:undefined,"scriptLoader" in locals_for_with?locals_for_with.scriptLoader:typeof scriptLoader!=="undefined"?scriptLoader:undefined,"version" in locals_for_with?locals_for_with.version:typeof version!=="undefined"?version:undefined));} catch (err) {pug_rethrow(err, pug_debug_filename, pug_debug_line);};return pug_html;}; module.exports = template; })() 
