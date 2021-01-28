@@ -43,8 +43,10 @@
     "proxise": "^0.1.1"
   },
   "peerDependencies": {
+    "@loadingio/debounce.js": "^0.0.1",
     "@loadingio/ldpage": "^0.0.3",
     "@loadingio/ldquery": "^1.1.3",
+    "proxise": "^0.1.1",
     "ldloader": "^1.2.0",
     "ldview": "^0.0.2"
   },
