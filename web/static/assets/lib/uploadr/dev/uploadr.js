@@ -2,8 +2,7 @@
 (function(it){
   return it();
 })(function(){
-  var viewer, that, uploadr, ext;
-  viewer = (that = (typeof window != 'undefined' && window !== null) && (window.uploadr || (window.uploadr = {})).viewer) ? that : null;
+  var uploadr, ext;
   uploadr = function(opt){
     var this$ = this;
     opt == null && (opt = {});
@@ -398,9 +397,127 @@
       return _(files);
     });
   };
-  if (that = viewer) {
-    uploadr.viewer = that;
-  }
+  uploadr.viewer = function(opt){
+    var lc, view, this$ = this;
+    this.root = typeof opt.root === 'string'
+      ? document.querySelector(opt.root)
+      : opt.root;
+    if (!this.root) {
+      console.warn("[uploadr] warning: no node found for root ", opt.root);
+    }
+    this.evtHandler = {};
+    this.lc = lc = {};
+    this.files = lc.files = [];
+    this.view = view = new ldView({
+      root: this.root,
+      action: {
+        click: {
+          list: function(arg$){
+            var node, evt, n, src;
+            node = arg$.node, evt = arg$.evt;
+            if (!(n = ld$.parent(evt.target, '[data-src]', node))) {
+              return;
+            }
+            src = n.getAttribute('data-src');
+            return this$.fire('choose', {
+              url: src
+            });
+          }
+        }
+      },
+      handler: {
+        file: {
+          list: function(){
+            return lc.files || [];
+          },
+          key: function(it){
+            return it._id;
+          },
+          view: {
+            text: {
+              size: function(arg$){
+                var context;
+                context = arg$.context;
+              },
+              name: function(arg$){
+                var context;
+                context = arg$.context;
+              }
+            },
+            handler: {
+              thumb: function(arg$){
+                var node, context;
+                node = arg$.node, context = arg$.context;
+                if (node._load === context.url) {
+                  return;
+                }
+                node._load = context.url;
+                node.style.opacity = 0;
+                if (node.nodeName.toLowerCase() === 'img') {
+                  node.setAttribute('src', context.url);
+                  node.onload = function(){
+                    return ld$.find(node.parentNode, 'div[ld=thumb]').map(function(it){
+                      return it.style.opacity = 1;
+                    });
+                  };
+                } else {
+                  node.style.backgroundImage = "url(" + context.url + ")";
+                }
+                return node.setAttribute('data-src', context.url);
+              }
+            }
+          }
+        }
+      }
+    });
+    this.page = opt.page instanceof ldPage
+      ? opt.page
+      : new ldPage(opt.page || {});
+    this.page.init();
+    this.page.on('fetch', function(it){
+      var files;
+      files = it.map(function(it){
+        return it._id = Math.random(), it;
+      });
+      lc.files = lc.files.concat(files);
+      view.render();
+      return this$.fire('fetch', files);
+    });
+    this.page.on('finish', function(){
+      return this$.fire('finish');
+    });
+    this.page.on('empty', function(){
+      return this$.fire('empty');
+    });
+    return this;
+  };
+  uploadr.viewer.prototype = import$(Object.create(Object.prototype), {
+    on: function(n, cb){
+      var ref$;
+      return ((ref$ = this.evtHandler)[n] || (ref$[n] = [])).push(cb);
+    },
+    fire: function(n){
+      var v, res$, i$, to$, ref$, len$, cb, results$ = [];
+      res$ = [];
+      for (i$ = 1, to$ = arguments.length; i$ < to$; ++i$) {
+        res$.push(arguments[i$]);
+      }
+      v = res$;
+      for (i$ = 0, len$ = (ref$ = this.evtHandler[n] || []).length; i$ < len$; ++i$) {
+        cb = ref$[i$];
+        results$.push(cb.apply(this, v));
+      }
+      return results$;
+    },
+    fetch: function(){
+      return this.page.fetch();
+    },
+    reset: function(){
+      this.page.reset();
+      this.lc.files = [];
+      return this.view.render();
+    }
+  });
   if (typeof module != 'undefined' && module !== null) {
     return module.exports = uploadr;
   } else if (typeof window != 'undefined' && window !== null) {

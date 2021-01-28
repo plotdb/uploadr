@@ -1,7 +1,5 @@
 <-(->it!) _
 
-viewer = if window? and window.{}uploadr.viewer => that else null
-
 uploadr = (opt = {}) ->
   @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
@@ -181,6 +179,58 @@ ext.imgbb = ({files, progress, opt}) -> new Promise (res, rej) ->
         progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
   _ files
 
-if viewer => uploadr.viewer = that
+uploadr.viewer = (opt) ->
+  @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
+  if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
+  @evt-handler = {}
+  @lc = lc = {}
+  @files = lc.files = []
+  @view = view = new ldView do
+    root: @root
+    action: click: do
+      list: ({node, evt}) ~>
+        if !(n = ld$.parent(evt.target, '[data-src]', node)) => return
+        src = n.getAttribute(\data-src)
+        @fire \choose, {url: src}
+    handler: do
+      file: do
+        list: -> lc.files or []
+        key: -> it._id
+        view:
+          text:
+            size: ({context}) ->
+            name: ({context}) ->
+          handler:
+            thumb: ({node, context}) ->
+              if node._load == context.url => return
+              node._load = context.url
+              node.style.opacity = 0
+              if node.nodeName.toLowerCase! == \img =>
+                node.setAttribute \src, context.url
+                node.onload = -> ld$.find(node.parentNode, 'div[ld=thumb]').map -> it.style.opacity = 1
+              else
+                node.style.backgroundImage = "url(#{context.url})"
+              node.setAttribute \data-src, context.url
+
+  @page = if opt.page instanceof ldPage => opt.page else new ldPage(opt.page or {})
+  @page.init!
+  @page.on \fetch, ~>
+    files = it.map -> it <<< {_id: Math.random!}
+    lc.files ++= files
+    view.render!
+    @fire \fetch, files
+  @page.on \finish, ~> @fire \finish
+  @page.on \empty, ~> @fire \empty
+  @
+
+uploadr.viewer.prototype = Object.create(Object.prototype) <<< do
+  on: (n, cb) -> @evt-handler.[][n].push cb
+  fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
+  fetch: -> @page.fetch!
+  reset: ->
+    @page.reset!
+    @lc.files = []
+    @view.render!
+
 if module? => module.exports = uploadr
 else if window? => window.uploadr = uploadr

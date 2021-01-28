@@ -202,44 +202,25 @@ pug_html = pug_html + "Clear\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u00
 attributes: {"class": "uploadr"}
 }, name);
 };
-;pug_debug_line = 24;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
+;pug_debug_line = 23;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_mixins["uploadr-viewer"] = pug_interp = function(name){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
+;pug_debug_line = 24;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
+if(!name) name = "uploadr-viewer";
+;pug_debug_line = 25;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
+pug_mixins["scope"].call({
+block: function(){
 ;pug_debug_line = 25;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"uploadr-viewer\" ld=\"list\"\u003E";
 ;pug_debug_line = 26;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
-pug_html = pug_html + "\u003Cdiv class=\"uploadr-item\" ld-each=\"item\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"uploadr-item\" ld-each=\"file\"\u003E";
 ;pug_debug_line = 27;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cimg ld=\"thumb\"\u003E";
 ;pug_debug_line = 28;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
 pug_html = pug_html + "\u003Cdiv class=\"img\" ld=\"thumb\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+}
+}, name);
 };
-;pug_debug_line = 47;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fplotdb\u002Fprojects\u002Fuploadr\u002Fweb\u002Fstatic\u002Fassets\u002Flib\u002Fuploadr\u002Fdev\u002Fuploadr.pug";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;pug_debug_line = 5;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Chtml\u003E";
 ;pug_debug_line = 6;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
@@ -253,87 +234,101 @@ pug_mixins["css"]("assets/lib/ldcover/main/ldcv.min.css");
 ;pug_debug_line = 10;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("assets/lib/ldloader/main/ldld.min.css");
 ;pug_debug_line = 11;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["css"]("assets/lib/ldiconfont/main/ldif.min.css");
+pug_mixins["css"]("assets/lib/ldnotify/main/ldnotify.min.css");
 ;pug_debug_line = 12;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["css"]("assets/lib/uploadr/dev/uploadr.min.css");
+pug_mixins["css"]("assets/lib/ldiconfont/main/ldif.min.css");
 ;pug_debug_line = 13;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["css"]("assets/lib/uploadr/dev/uploadr.min.css");
+;pug_debug_line = 14;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("/css/index.css");
 pug_html = pug_html + "\u003C\u002Fhead\u003E";
-;pug_debug_line = 15;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cbody\u003E";
 ;pug_debug_line = 16;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"w-1024 rwd typeset heading-contrast mx-auto p-4\"\u003E";
+pug_html = pug_html + "\u003Cbody\u003E";
 ;pug_debug_line = 17;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"d-flex align-items-end\"\u003E";
+pug_html = pug_html + "\u003Cdiv class=\"w-1024 rwd typeset heading-contrast mx-auto p-4\"\u003E";
 ;pug_debug_line = 18;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"d-flex align-items-end\"\u003E";
+;pug_debug_line = 19;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"flex-grow-1\"\u003E";
-;pug_debug_line = 19;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 20;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Ch2\u003E";
-;pug_debug_line = 19;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 20;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "uploadr\u003C\u002Fh2\u003E";
-;pug_debug_line = 20;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cp\u003E";
-;pug_debug_line = 20;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "file uploader widgets and express route\u003C\u002Fp\u003E\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 21;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cp\u003E";
+;pug_debug_line = 21;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "file uploader widgets and express route\u003C\u002Fp\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 22;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv\u003E";
-;pug_debug_line = 22;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary\" ld=\"toggle-uploader\"\u003E";
-;pug_debug_line = 22;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "Upload ";
-;pug_debug_line = 22;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Ci class=\"i-upload\"\u003E\u003C\u002Fi\u003E";
-;pug_debug_line = 22;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 23;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary\" ld=\"toggle-uploader\"\u003E";
+;pug_debug_line = 23;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "Upload ";
+;pug_debug_line = 23;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Ci class=\"i-upload\"\u003E\u003C\u002Fi\u003E";
+;pug_debug_line = 23;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003C\u002Fdiv\u003E";
+;pug_debug_line = 24;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"btn btn-primary ml-2\" ld=\"toggle-chooser\"\u003E";
+;pug_debug_line = 24;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "Choose ";
+;pug_debug_line = 24;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Ci class=\"i-book\"\u003E\u003C\u002Fi\u003E";
+;pug_debug_line = 24;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 25;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Chr\u003E";
-;pug_debug_line = 25;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 27;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"ldcv default-size\" ld=\"ldcv-uploadr\"\u003E";
-;pug_debug_line = 25;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 27;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"base\"\u003E";
-;pug_debug_line = 25;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 27;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"inner\"\u003E";
-;pug_debug_line = 26;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 28;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["uploadr"]("uploadr");
 pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 28;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 30;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"ldcv default-size\" ld=\"ldcv-chooser\"\u003E";
+;pug_debug_line = 30;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"base\"\u003E";
+;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_html = pug_html + "\u003Cdiv class=\"inner clickable\" id=\"chooserroot\" style=\"overflow-y:scroll;overscroll-behavior:contain\"\u003E";
+;pug_debug_line = 32;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["uploadr-viewer"]("uploadr-viewer");
+pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"card w-100 mx-auto rwd shadow\"\u003E";
-;pug_debug_line = 28;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"card-body p-2\"\u003E";
-;pug_debug_line = 29;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 35;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["scope"].call({
 block: function(){
-;pug_debug_line = 30;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+;pug_debug_line = 36;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv ld-each=\"photo\" style=\"width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat\"\u003E\u003C\u002Fdiv\u003E";
 },
 attributes: {"class": "d-flex flex-wrap"}
-}, "viewer");
-;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["scope"].call({
-block: function(){
-;pug_debug_line = 31;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["uploadr-viewer"]();
-}
-}, "image-viewer");
-pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
-;pug_debug_line = 33;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("/assets/lib/@loadingio/debounce.js/main/debounce.min.js");
-;pug_debug_line = 34;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("/assets/lib/@loadingio/ldquery/main/ldq.min.js");
-;pug_debug_line = 35;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("/assets/lib/@loadingio/ldpage/main/ldpage.min.js");
-;pug_debug_line = 36;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("/assets/lib/proxise/main/proxise.min.js");
+}, "photo-viewer");
 ;pug_debug_line = 37;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("/assets/lib/ldview/main/ldview.min.js");
-;pug_debug_line = 38;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("/assets/lib/ldcover/main/ldcv.min.js");
+pug_mixins["uploadr-viewer"]("uploadr-viewer2");
+pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 39;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("/assets/lib/ldloader/main/ldld.min.js");
+pug_mixins["script"]("/assets/lib/@loadingio/debounce.js/main/debounce.min.js");
 ;pug_debug_line = 40;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/uploadr/dev/uploadr.js");
+pug_mixins["script"]("/assets/lib/@loadingio/ldquery/main/ldq.min.js");
 ;pug_debug_line = 41;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/uploadr/dev/viewer.js");
+pug_mixins["script"]("/assets/lib/@loadingio/ldpage/main/ldpage.min.js");
 ;pug_debug_line = 42;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("/assets/lib/proxise/main/proxise.min.js");
+;pug_debug_line = 43;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("/assets/lib/ldview/main/ldview.min.js");
+;pug_debug_line = 44;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("/assets/lib/ldnotify/main/ldnotify.min.js");
+;pug_debug_line = 45;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("/assets/lib/ldcover/main/ldcv.min.js");
+;pug_debug_line = 46;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("/assets/lib/ldloader/main/ldld.min.js");
+;pug_debug_line = 47;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("assets/lib/uploadr/dev/uploadr.js");
+;pug_debug_line = 48;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("/js/index.js");
 pug_html = pug_html + "\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";}.call(this,"Array" in locals_for_with?locals_for_with.Array:typeof Array!=="undefined"?Array:undefined,"JSON" in locals_for_with?locals_for_with.JSON:typeof JSON!=="undefined"?JSON:undefined,"blockLoader" in locals_for_with?locals_for_with.blockLoader:typeof blockLoader!=="undefined"?blockLoader:undefined,"cssLoader" in locals_for_with?locals_for_with.cssLoader:typeof cssLoader!=="undefined"?cssLoader:undefined,"decache" in locals_for_with?locals_for_with.decache:typeof decache!=="undefined"?decache:undefined,"escape" in locals_for_with?locals_for_with.escape:typeof escape!=="undefined"?escape:undefined,"parentName" in locals_for_with?locals_for_with.parentName:typeof parentName!=="undefined"?parentName:undefined,"prefix" in locals_for_with?locals_for_with.prefix:typeof prefix!=="undefined"?prefix:undefined,"scriptLoader" in locals_for_with?locals_for_with.scriptLoader:typeof scriptLoader!=="undefined"?scriptLoader:undefined,"version" in locals_for_with?locals_for_with.version:typeof version!=="undefined"?version:undefined));} catch (err) {pug_rethrow(err, pug_debug_filename, pug_debug_line);};return pug_html;}; module.exports = template; })() 

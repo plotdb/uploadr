@@ -8,6 +8,7 @@ html
     +css("assets/lib/bootstrap.ldui/main/bootstrap.ldui.min.css")
     +css("assets/lib/ldcover/main/ldcv.min.css")
     +css("assets/lib/ldloader/main/ldld.min.css")
+    +css("assets/lib/ldnotify/main/ldnotify.min.css")
     +css("assets/lib/ldiconfont/main/ldif.min.css")
     +css("assets/lib/uploadr/dev/uploadr.min.css")
     +css("/css/index.css")
@@ -20,23 +21,28 @@ html
           p file uploader widgets and express route
         div
           .btn.btn-primary(ld="toggle-uploader") Upload #[i.i-upload]
+          .btn.btn-primary.ml-2(ld="toggle-chooser") Choose #[i.i-book]
       hr
 
       .ldcv.default-size(ld="ldcv-uploadr"): .base: .inner
         +uploadr("uploadr")
 
+      .ldcv.default-size(ld="ldcv-chooser"): .base
+        #chooserroot.inner.clickable(style="overflow-y:scroll;overscroll-behavior:contain")
+          +uploadr-viewer("uploadr-viewer")
+
       .card.w-100.mx-auto.rwd.shadow: .card-body.p-2
-        +scope("viewer").d-flex.flex-wrap
+        +scope("photo-viewer").d-flex.flex-wrap
           div(ld-each="photo",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
-        +scope("image-viewer"): +uploadr-viewer
+        +uploadr-viewer("uploadr-viewer2")
 
     +script("/assets/lib/@loadingio/debounce.js/main/debounce.min.js")
     +script("/assets/lib/@loadingio/ldquery/main/ldq.min.js")
     +script("/assets/lib/@loadingio/ldpage/main/ldpage.min.js")
     +script("/assets/lib/proxise/main/proxise.min.js")
     +script("/assets/lib/ldview/main/ldview.min.js")
+    +script("/assets/lib/ldnotify/main/ldnotify.min.js")
     +script("/assets/lib/ldcover/main/ldcv.min.js")
     +script("/assets/lib/ldloader/main/ldld.min.js")
     +script("assets/lib/uploadr/dev/uploadr.js")
-    +script("assets/lib/uploadr/dev/viewer.js")
     +script("/js/index.js")

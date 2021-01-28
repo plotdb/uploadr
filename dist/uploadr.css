@@ -9,7 +9,6 @@
   align-items: center;
   justify-content: center;
   margin: 0.25em;
-  background: #ccc;
   text-align: center;
   position: relative;
 }
@@ -30,7 +29,7 @@
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
-  transition: background-size 0.35s ease-in-out;
+  transition: background-size 0.35s ease-in-out, opacity 0.5s ease-in-out;
 }
 .uploadr-viewer [ld=progress] {
   position: absolute;

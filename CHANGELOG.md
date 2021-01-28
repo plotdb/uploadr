@@ -17,3 +17,9 @@
  - support `loader` directly with `ldloader`
  - better README 
  - tweak demo page
+ - merge client side `uploadr.viewer` and `uploadr` script.
+ - image fade in
+ - unify ld naming for `uploadr` and `uploadr.viewer`
+ - add additional events in `uploadr.viewer`
+ - add APIs to control ldPage in `uploadr.viewer`.
+ - add chooser demo

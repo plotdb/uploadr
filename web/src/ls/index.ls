@@ -18,28 +18,36 @@ up.on \upload.done, ->
 ldcv = {}
 view = new ldView do
   root: document.body
-  init: "ldcv-uploadr": ({node}) -> ldcv.uploadr = new ldCover root: node
+  init:
+    "ldcv-uploadr": ({node}) -> ldcv.uploadr = new ldCover root: node
+    "ldcv-chooser": ({node}) -> ldcv.chooser = new ldCover root: node
   action: click:
     "toggle-uploader": -> ldcv.uploadr.toggle!
+    "toggle-chooser": -> ldcv.chooser.toggle!
 
 view = new ldView do
-  root: '[ld-scope=viewer]'
+  root: '[ld-scope=photo-viewer]'
   handler: do
     photo: do
       list: -> lc.files or []
       handle: ({node, data}) ->
         node.style.backgroundImage = "url(#{data.url})"
 
-count = 0
-viewer = new uploadr.viewer do
-  root: '[ld-scope=image-viewer]'
-  page: 
-    host: window
-    fetch-on-scroll: true
-    limit: 9
-    boundary: 100
-    fetch: -> new Promise (res, rej) ->
-      res [1,2,3,4,5,6,7,8,9].map ->
-        {url: "/assets/img/sample/#{it}.jpg"}
-viewer.page.fetch!
+viewer-maker = (root, host) ->
+  viewer = new uploadr.viewer do
+    root: root
+    page:
+      host: host
+      fetch-on-scroll: true
+      limit: 9
+      boundary: 100
+      fetch: -> new Promise (res, rej) ->
+        res [1,2,3,4,5,6,7,8,9].map ->
+          {url: "/assets/img/sample/#{it}.jpg"}
+  viewer.fetch!
+  viewer.on \choose, ->
+    ldnotify.send \success, """File "#{it.url}" picked."""
+    ldcv.chooser.toggle false
 
+viewer-maker '[ld-scope=uploadr-viewer]', chooserroot
+viewer-maker '[ld-scope=uploadr-viewer2]', window

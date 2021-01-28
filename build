@@ -3,16 +3,12 @@ rm -rf dist
 mkdir -p dist
 echo "build src/client.ls -> dist/uploadr.js ..."
 npx lsc -cbp src/client.ls > dist/uploadr.js
-echo "build src/viewer.ls -> dist/viewer.js ..."
-npx lsc -cbp src/viewer.ls > dist/viewer.js
 echo "build src/server.ls -> dist/server.js ..."
 npx lsc -cbp src/server.ls > dist/server.js
 echo "build src/uploadr.styl -> dist/uploadr.css ..."
 npx stylus -p src/uploadr.styl > dist/uploadr.css
 echo "minifying uploadr.js ..."
 npx uglifyjs dist/uploadr.js > dist/uploadr.min.js
-echo "minifying viewer.js ..."
-npx uglifyjs dist/viewer.js > dist/viewer.min.js
 echo "minifying uploadr.css ..."
 npx uglifycss dist/uploadr.css > dist/uploadr.min.css
 echo "copy pug file to dist/ ..."

@@ -1,7 +1,7 @@
 (function(it){
   return it();
 })(function(){
-  var lc, providers, up, ldcv, view, count, viewer;
+  var lc, providers, up, ldcv, view, viewerMaker;
   lc = {
     files: []
   };
@@ -34,18 +34,28 @@
         return ldcv.uploadr = new ldCover({
           root: node
         });
+      },
+      "ldcv-chooser": function(arg$){
+        var node;
+        node = arg$.node;
+        return ldcv.chooser = new ldCover({
+          root: node
+        });
       }
     },
     action: {
       click: {
         "toggle-uploader": function(){
           return ldcv.uploadr.toggle();
+        },
+        "toggle-chooser": function(){
+          return ldcv.chooser.toggle();
         }
       }
     }
   });
   view = new ldView({
-    root: '[ld-scope=viewer]',
+    root: '[ld-scope=photo-viewer]',
     handler: {
       photo: {
         list: function(){
@@ -59,24 +69,32 @@
       }
     }
   });
-  count = 0;
-  viewer = new uploadr.viewer({
-    root: '[ld-scope=image-viewer]',
-    page: {
-      host: window,
-      fetchOnScroll: true,
-      limit: 9,
-      boundary: 100,
-      fetch: function(){
-        return new Promise(function(res, rej){
-          return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){
-            return {
-              url: "/assets/img/sample/" + it + ".jpg"
-            };
-          }));
-        });
+  viewerMaker = function(root, host){
+    var viewer;
+    viewer = new uploadr.viewer({
+      root: root,
+      page: {
+        host: host,
+        fetchOnScroll: true,
+        limit: 9,
+        boundary: 100,
+        fetch: function(){
+          return new Promise(function(res, rej){
+            return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){
+              return {
+                url: "/assets/img/sample/" + it + ".jpg"
+              };
+            }));
+          });
+        }
       }
-    }
-  });
-  return viewer.page.fetch();
+    });
+    viewer.fetch();
+    return viewer.on('choose', function(it){
+      ldnotify.send('success', "File \"" + it.url + "\" picked.");
+      return ldcv.chooser.toggle(false);
+    });
+  };
+  viewerMaker('[ld-scope=uploadr-viewer]', chooserroot);
+  return viewerMaker('[ld-scope=uploadr-viewer2]', window);
 });

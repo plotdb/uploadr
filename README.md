@@ -1,18 +1,15 @@
 # @plotdb/uploadr
 
-File upload widget base on Loading-ui. Provide following functionalities:
+File upload library, including:
 
- * Customizable UI widget for
-   - upload
-   - upload progress
-   - view ( image list )
- * backend adopter for express
-   -
+ - [client side](#client-side) - upload widget + file list viewer ( with pug template )
+ - [server side](#server-side) - API endpoint for file storing with Express
+
 
 
 ## Client Side
 
-In client side, we will need widgets for both file uploading and file choosing.
+In client side, we will need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separatedly in following sections.
 
 
 ### Installation
@@ -22,8 +19,7 @@ In client side, we will need widgets for both file uploading and file choosing.
 
 ### Usage
 
-include required js / css files and related dependencies ( `@loadingio/ldpage`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ), then create an `uploadr` object through its constructor:
-
+include required js / css files and related dependencies ( `@loadingio/ldpage`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ):
 
     <link rel="stylesheet" type="text/css" href="@plotdb/uploadr/uploadr.css"/>
     <script src="@loadingio/ldpage/ldpage.min.js"></script>
@@ -31,9 +27,13 @@ include required js / css files and related dependencies ( `@loadingio/ldpage`, 
     <script src="proxise/proxise.min.js"></script>
     <script src="ldview/ldview.min.js"></script>
     <script src="@plotdb/uploadr/uploadr.min.js"></script>
-    <script>
+
+
+### Uploader
+
+To upload files, create an `uploadr` object through its constructor:
+
     var up = new uploadr({ ... })
-    </script>
 
 with following options:
 
@@ -43,16 +43,16 @@ with following options:
    - if omitted, fallback to `{route: '/d/uploadr', host: 'native'}`
 
 
-For root element - if you use Pug, you can use the `uploadr-upload` mixin available in `uploadr.pug` to create the DOM needed:
+For root element - if you use Pug, you can use the `uploadr` mixin available in `uploadr.pug` to create the DOM needed:
 
     include <path-to-uploadr.pug>
-    div.some-tag-to-wrap-uploader: +uploadr-upload()
+    div.some-tag-to-wrap-uploader: +uploadr("scope-name")
 
 
 
-### API
+#### API
 
-`uploadr` object provides following API:
+`uploadr` object provides following APIs:
 
   - `init` - initialize uploadr. constructor will init uploadr automatically.
   - `upload` - upload chosen files.
@@ -66,25 +66,25 @@ For root element - if you use Pug, you can use the `uploadr-upload` mixin availa
     - `upload.fail`
 
 
-### Providers
+#### Providers
 
 `@plotdb/uploadr` supports uploading to different kind of file hosting services. use `provider` to choose between the providers available as below:
 
-#### Native
+##### Native
 
 upload files to local api ( provided also by `@plotdb/uploadr` )
 
     { host: "native", route: "<path-to-api-endpoint>" }
 
 
-#### ImgBB
+##### ImgBB
 
 upload images to ImgBB via following provider config:
 
     { host: "imgbb", key: "api-key-to-imgbb" }
 
 
-#### Other providers
+##### Other providers
 
 You can also add provider for services you'd like to use by simply adding a function in `uploadr.ext`:
 
@@ -106,7 +106,7 @@ It's you job to implement the upload mechanism with following parameters and req
  - provider function should always return a Promise which resolves when upload is complete.
 
 
-### Widget Customization
+#### Widget Customization
 
 Uploadr client library uses [ldview](https://github.com/loadingio/ldview) for UI abstraction. If you design your own upload widget, simply add following `ld` names on corresponding elements.
 
@@ -122,96 +122,37 @@ Uploadr client library uses [ldview](https://github.com/loadingio/ldview) for UI
  - `loader`: a `running` class will be added to element(s) with this name.
 
 
-upload widget:
+### Viewer
 
-js:
+To view and choose files, create an `uploadr.choose` object
 
-    uploadr({
-      root: 'selector-to-my-upload-scope`
-      progress: ->
-      uploadr: { ... }
-    })
+    uploadr.viewer({ ... });
 
+with following options:
 
-pug:
-
-    script(src="path-to-client.js")
-    +scope("my-upload-scope")
-      +uploadr-list
-      +uploadr-upload
-      div(ld="upload") ...
-
-picker widget:
-
-js:
-
-    uploadr.viewer({
-      root: 'selector-to-my-viewer-scope`
-      page: (ldPage instnace)
-    })
-
-pug:
-    script(src="path-to-viewer.js")
-    +scope("my-viewer-scope")
-      +uploadr-viewer
+ - `root`: object or selector for the root element of viewer DOM.
+ - `page`: a `ldPage` object ( or options for constructor ) for loading file lists.
+   - items in returned list from fetch should contain at least a member `url` for showing the url of the image.
 
 
-## Widget
+You can prepare the root element with Pug mixin `uploadr-viewer` after including required `uploadr.pug`:
 
-uploadr client use ldView to implement the dynamics of frontend elements. UI elements has been implemented in the corresponding pug mixins, you can use following mixins to take advantage of them:
-
- * `uploadr-list` - list of chosen files ( ld-each=`file` )
- * `uploadr-viewer` - list of uploaded files for user to pick ( ld=`list` & ld-each=`item` )
- * `uploadr-upload` - upload widget including drag & drop area (ld=`drop`) and upload button (ld=`input`)
-
-`upload` and `clear` is not supported in mixin but you can add them in your own UI.
-
-To use `upload`, `clear` and `uploadr-list` and `uploadr-upload`, wrap them in a ld scope element:
-
-    +scope("my-scope")
-      +uploadr-upload
-      +uploadr-list
-      div(ld="upload")
-
-`uploadr-viewer` is supported in standalone scope:
-
-    +scope("my-another-scope")
-      +uploadr-viewer
+    include <path-to-uploadr.pug>
+    div.some-tag-to-wrap-uploader-viewer: +uploadr-viewer("scope-name")
 
 
-## Customization
+#### API
 
-Uploadr UI uses loading-ui and bootstrap, which might not be what you need. instead, you can implement your own UI without bootstrap and loading-ui. You will still need loading-ui's javascript since uploadr uses it.
+`uploadr.viewer` object provides following APIs:
 
-To attach the dynamics with your own ui, use following `ld` names:
+ - `on(name, cb)`: listen to event `name` with callback function `cb`. Following events are available:
+   - `fetch`: when fetching new items. list of items passed as parameter.
+   - `finish`: when there is no new item available.
+   - `empty`: when list is empty.
+   - `choose`: when an item is chosen. `cb` called with `{url}` object as parameter.
+ - `fetch`: intialiate a new fetch
+ - `reset`: reset pager and list.
 
- * supported by viewer.js:
-   * `list` - container of listed images for choosing.
-   * `item` ( ld-each ) - should be inside `list`. an image element for user to pick.
-
-
-## Configuration
-
-* viewer
-  - root: element / selector for the root element of uploadr ui.
-  - page: option for constructing ldPage element. see ldPage for more information.
-    - items in returned list from fetch should contain at least a member `url` for showing the url of the image.
-
-
-## API
-
-* uploadr
-* viewer
-  - on(name, cb) - listen to `name` event with `cb` callback.
-
-
-## Events
-
-* uploadr
-* viewer
-  - choose
-
-----
 
 ## Server Side
 
