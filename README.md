@@ -14,7 +14,113 @@ File upload widget base on Loading-ui. Provide following functionalities:
 
 In client side, we will need widgets for both file uploading and file choosing.
 
-## Usage
+
+### Installation
+
+    npm install --save @loadingio/ldpage @loadingio/debounce.js ldview ldloader proxise @plotdb/uploadr
+
+
+### Usage
+
+include required js / css files and related dependencies ( `@loadingio/ldpage`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ), then create an `uploadr` object through its constructor:
+
+
+    <link rel="stylesheet" type="text/css" href="@plotdb/uploadr/uploadr.css"/>
+    <script src="@loadingio/ldpage/ldpage.min.js"></script>
+    <script src="@loadingio/debounce.js/debounce.min.js"></script>
+    <script src="proxise/proxise.min.js"></script>
+    <script src="ldview/ldview.min.js"></script>
+    <script src="@plotdb/uploadr/uploadr.min.js"></script>
+    <script>
+    var up = new uploadr({ ... })
+    </script>
+
+with following options:
+
+ - `root`: root element ( or selector ) of the upload widget.
+    - For DOM customization, see Customization section below.
+ - `provider`: object for provider information. See Providers section below.
+   - if omitted, fallback to `{route: '/d/uploadr', host: 'native'}`
+
+
+For root element - if you use Pug, you can use the `uploadr-upload` mixin available in `uploadr.pug` to create the DOM needed:
+
+    include <path-to-uploadr.pug>
+    div.some-tag-to-wrap-uploader: +uploadr-upload()
+
+
+
+### API
+
+`uploadr` object provides following API:
+
+  - `init` - initialize uploadr. constructor will init uploadr automatically.
+  - `upload` - upload chosen files.
+  - `clear` - clear chosen files.
+  - `get` - get chosen files.
+  - `on(name, cb)` - listen to `name` event with `cb` callback. Following events are available:
+    - `preview.done`
+    - `preview.loading`
+    - `file.chosen`
+    - `upload.done`
+    - `upload.fail`
+
+
+### Providers
+
+`@plotdb/uploadr` supports uploading to different kind of file hosting services. use `provider` to choose between the providers available as below:
+
+#### Native
+
+upload files to local api ( provided also by `@plotdb/uploadr` )
+
+    { host: "native", route: "<path-to-api-endpoint>" }
+
+
+#### ImgBB
+
+upload images to ImgBB via following provider config:
+
+    { host: "imgbb", key: "api-key-to-imgbb" }
+
+
+#### Other providers
+
+You can also add provider for services you'd like to use by simply adding a function in `uploadr.ext`:
+
+    uploadr.ext.myService = function ({files, progress, opt}) { ... }
+
+
+It's you job to implement the upload mechanism with following parameters and requirements:
+
+ - Parameters
+   - `files`: Array of `{thumb, file}` object with:
+     - `thumb`: thumbnail link ( blob url )
+     - `file`: file object ( blob ) from input element to upload.
+   - `progress({percent, val, len, item})`: function to be called when there are progress reported, with options:
+     - `percent`: percent of size uploaded
+     - `val`: actual bytes uploaded
+     - `len`: file size
+     - `item`: object in `files` array that is making progress.
+   - `opt`: the provider config object.
+ - provider function should always return a Promise which resolves when upload is complete.
+
+
+### Widget Customization
+
+Uploadr client library uses [ldview](https://github.com/loadingio/ldview) for UI abstraction. If you design your own upload widget, simply add following `ld` names on corresponding elements.
+
+ - `drop`: area for dropping files to choose them.
+ - `file`: `ld-each` type name. preview of chosen files. with following nested `ld` names:
+   - `thumb`: element for showing preview image. should also be an `<img>` tag.
+   - `progress`: upload progress indicator
+   - `size`: size of chosen file.
+   - `delete`: file is un-chosen when element with `delete` name is clicked.
+ - `input`: `input` element with `type='file'` attribute. For manually uploading with file picker dialog.
+ - `upload`: upload chosen files to server when clicked.
+ - `clear`: clear all files when clicked.
+ - `loader`: a `running` class will be added to element(s) with this name.
+
 
 upload widget:
 
@@ -79,39 +185,13 @@ Uploadr UI uses loading-ui and bootstrap, which might not be what you need. inst
 
 To attach the dynamics with your own ui, use following `ld` names:
 
- * supported by client.js:
-   * `upload` - upload chosen files when clicked.
-   * `clear` - clear chosen files when clicked.
-   * `drop` - an area to accept drag and drop of files.
-   * `input` - an input element with type `file`.
-   * `file` ( ld-each ) - list of chosen files, before upload. With following `ld` names as children:
-     - thumb - preview of chosen file.
-     - name - name of chosen file.
-     - size - size of chosen file.
-     - delete - remove this file when clicking.
-     - progress - element using its visual appearance to show the upload progress of this file.
  * supported by viewer.js:
    * `list` - container of listed images for choosing.
    * `item` ( ld-each ) - should be inside `list`. an image element for user to pick.
 
 
 ## Configuration
-* uploadr
-  - root: element / selector for the root element of uploadr ui.
-  - uploader: an object containing information for backend api"
-    * native:
 
-      { host: "native", route: "<path-to-api-endpoint>" }
-
-    * imgbb:
-
-      { host: "imgbb", key: "api-key-to-imgbb" }
-
-      extend `uploadr.ext` to add more backend adapter.
-  - progress({percent, val, len}): upload progress information
-    - percent: 0 ~ 1, 1 means finished.
-    - val: current progress
-    - len: expected total progress
 * viewer
   - root: element / selector for the root element of uploadr ui.
   - page: option for constructing ldPage element. see ldPage for more information.
@@ -121,11 +201,6 @@ To attach the dynamics with your own ui, use following `ld` names:
 ## API
 
 * uploadr
-  - init - initialize uploadr.
-  - upload - upload chosen files.
-  - clear - clear chosen files.
-  - get - get chosen files.
-  - on(name, cb) - listen to `name` event with `cb` callback.
 * viewer
   - on(name, cb) - listen to `name` event with `cb` callback.
 
@@ -133,14 +208,10 @@ To attach the dynamics with your own ui, use following `ld` names:
 ## Events
 
 * uploadr
-  - preview.done
-  - preview.loading
-  - file.chosen
-  - upload.done
-  - upload.fail
 * viewer
   - choose
 
+----
 
 ## Server Side
 

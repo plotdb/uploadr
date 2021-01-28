@@ -11,3 +11,9 @@
    - use npx to replace relative path to execute commadns
    - let dev server accesss `src/server.ls` instead of copying it to `web/api` folder.
    - use `assets/lib/uploadr/dev/` instead of `assets/lib/uploadr`
+ - remove useless options and codes
+ - re-write `uploadr` and `uploadr-viewer` module
+ - use `view` directive instead of `handler` to prevent duplicate `ldview` object creation
+ - support `loader` directly with `ldloader`
+ - better README 
+ - tweak demo page

@@ -1,24 +1,104 @@
 .uploadr-viewer
   display: flex
   flex-wrap: wrap
-  .item
+  padding: .25em
+  .uploadr-item
+    &[ld-each]
+      display: none
     flex-grow: 1
-    margin: 0 .25em .25em 0
+    display: flex
+    align-items: center
+    justify-content: center
+    margin: .25em
     background: #ccc
     text-align: center
     position: relative
-    img
-      max-height: 200px
+    img[ld=thumb]
+      max-height: 400px
+      max-width: 400px
       opacity: 0
-    .img
-      width: 100%
-      height: 100%
+    div[ld=thumb]
       position: absolute
       top: 0
       left: 0
+      width: 100%
+      height: 100%
       background-position: center center
-      background-repeat: no-repeat
       background-size: cover
-  .placeholder
-    flex: 1 0 auto
+      background-repeat: no-repeat
+      transition: background-size .35s ease-in-out
+  [ld=progress]
+    position: absolute
+    bottom: 0
+    left: 0
+    z-index: 1
+    height: 100%
+    background: rgba(0,128,255,.5)
+    transition: width .15s ease-in-out
 
+  .uploadr-item-ctrl
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 100%
+    background: rgba(255,255,255,.3)
+    & > .inner
+      position: relative
+      z-index: 2
+      display: flex
+      justify-content: space-between
+      align-items: center
+      padding: .25em .5em
+      *[ld=delete]
+        font-size: 1.5em
+        cursor: pointer
+
+  &:after
+    display: block
+    content: " "
+    flex: 3 0 auto
+
+
+
+.uploadr
+  position: relative
+  display: flex
+  flex-direction: column
+  width: 100%
+  height: 100%
+  overflow-y: scroll
+  text-align: center
+  .uploadr-item
+    div[ld=thumb]:hover
+      background-size: contain
+.uploadr-dropzone
+  position: relative
+  width: 100%
+  height: 100%
+.uploadr-hint
+  position: absolute
+  opacity: .3
+  font-size: 1.5em
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  display: flex
+  align-items: center
+  justify-content: center
+.uploadr-ctrl
+  display: flex
+  justify-content: space-between
+  padding: .75em
+  border-top: 1px solid rgba(0,0,0,.1)
+  text-align: left
+.uploadr-loader
+  position: absolute
+  display: flex
+  align-items: center
+  justify-content: center
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  pointer-events: none

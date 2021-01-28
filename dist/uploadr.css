@@ -1,28 +1,114 @@
 .uploadr-viewer {
   display: flex;
   flex-wrap: wrap;
+  padding: 0.25em;
 }
-.uploadr-viewer .item {
+.uploadr-viewer .uploadr-item {
   flex-grow: 1;
-  margin: 0 0.25em 0.25em 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.25em;
   background: #ccc;
   text-align: center;
   position: relative;
 }
-.uploadr-viewer .item img {
-  max-height: 200px;
+.uploadr-viewer .uploadr-item[ld-each] {
+  display: none;
+}
+.uploadr-viewer .uploadr-item img[ld=thumb] {
+  max-height: 400px;
+  max-width: 400px;
   opacity: 0;
 }
-.uploadr-viewer .item .img {
-  width: 100%;
-  height: 100%;
+.uploadr-viewer .uploadr-item div[ld=thumb] {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
   background-position: center center;
-  background-repeat: no-repeat;
   background-size: cover;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s ease-in-out;
 }
-.uploadr-viewer .placeholder {
-  flex: 1 0 auto;
+.uploadr-viewer [ld=progress] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  background: rgba(0,128,255,0.5);
+  transition: width 0.15s ease-in-out;
+}
+.uploadr-viewer .uploadr-item-ctrl {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.3);
+}
+.uploadr-viewer .uploadr-item-ctrl > .inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25em 0.5em;
+}
+.uploadr-viewer .uploadr-item-ctrl > .inner *[ld=delete] {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+.uploadr-viewer:after {
+  display: block;
+  content: " ";
+  flex: 3 0 auto;
+}
+.uploadr {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  text-align: center;
+}
+.uploadr .uploadr-item div[ld=thumb]:hover {
+  background-size: contain;
+}
+.uploadr-dropzone {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.uploadr-hint {
+  position: absolute;
+  opacity: 0.3;
+  font-size: 1.5em;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uploadr-ctrl {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75em;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  text-align: left;
+}
+.uploadr-loader {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
