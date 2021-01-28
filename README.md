@@ -1,18 +1,22 @@
 # @plotdb/uploadr
 
-File Upload Widget base on Loading-ui. Provide following functionalities:
+File upload widget base on Loading-ui. Provide following functionalities:
 
- * Customizable UI widget for 
+ * Customizable UI widget for
    - upload
    - upload progress
    - view ( image list )
  * backend adopter for express
-   - 
+   -
 
+
+## Client Side
+
+In client side, we will need widgets for both file uploading and file choosing.
 
 ## Usage
 
-upload widget: 
+upload widget:
 
 js:
 
@@ -104,7 +108,7 @@ To attach the dynamics with your own ui, use following `ld` names:
       { host: "imgbb", key: "api-key-to-imgbb" }
 
       extend `uploadr.ext` to add more backend adapter.
-  - progress({percent, val, len}): upload progress information 
+  - progress({percent, val, len}): upload progress information
     - percent: 0 ~ 1, 1 means finished.
     - val: current progress
     - len: expected total progress
@@ -138,25 +142,48 @@ To attach the dynamics with your own ui, use following `ld` names:
   - choose
 
 
+## Server Side
 
-## Server Usage and Configuration
+To save files locally ( or after autheticated ), you will need a server side api.
 
-    cfg = do
-      uploadr: do
-        folder: '...'
-        url: '...'
-        adopt: (req, {url, name, id}) -> new Promise (res, rej) -> ...
-        catch: (err, req, res, next) -> ...
-      formidable: {multiples: true}
+### Usage: Save Locally
 
+`uploadr().route` accept incoming request with files payload, and save them based on hashed id into specified location. Use `express-formidable` and `uploadr(...).route` to handle files:
+
+    cfg = { uploadr: { ... }, formidable: {multiples: true} }
     app.post \/d/uploadr, express-formidable(cfg.formidable), uploadr(cfg.uploadr).route
 
+sample configurations:
 
-uploadr exposes following APIs:
+    cfg = do
+      uploadr: {folder: 'static/assets/files', url: '/assets/files'}
+      formidable: {multiples: true} # formidable configs. depends on your usage
 
- * handler(req, res, next): process req.files and return promise, resolving url, id and name as array of objects.
- * route(req, res, next): wrap handler as a route which pass data to res.send, or report 500 on error.
- * archive(opt): function that takes care of files
+### Configurations
+
+config uploadr with `uploadr(opt)` where opt is an object with following members:
+
+ - `folder`: fs path for saving all files.
+ - `url`: url prefix ( relative or absolute ). if omitted, fallback to `folder`
+ - `adopt: (req, {url, name, id})`: post process function after files are saved.
+   - if provided, will be called for each file saved.
+   - options:
+     - `req`: express request object
+     - `name`: name of the file
+     - `url`: `url` for the file
+     - `id`: `id` for the file
+ - `catch: (err, req, res, next)`: Promise rejection handler.
+   - if omitted, fallback to `res.status(505).send()` when exception occurs.
+ - `log`: log function. if omitted, fallback to `console.log`.
+
+
+### API
+
+Following are the APIs exposed by `uploadr`:
+
+ - `handler(req, res, next)`: process req.files and return promise, resolving url, id and name as array of objects.
+ - `route(req, res, next)`: wrap handler as a route which pass data to res.send, or report 500 on error.
+ - `archive(opt)`: function that takes care of files
    - input: one of following ( name is optional in both case )
      - {path, name}
      - {buf, name}
