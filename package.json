@@ -11,16 +11,16 @@
     "url": "https://github.com/plotdb/uploadr"
   },
   "engines": {
-    "node": ">=0.12.6",
-    "npm": ">=1.2.2"
+    "node": ">=10.14.1",
+    "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "cd web; ../node_modules/.bin/lsc server.ls"
+    "start": "npx server -r web -o true"
   },
   "devDependencies": {
-    "LiveScript": ">=1.2.0",
+    "livescript": "^1.6.0",
     "stylus": "^0.54.5",
-    "template": "github:zbryikt/template#v2",
+    "template": "github:zbryikt/template#v2.1.10",
     "uglify-js": "=3.2.0",
     "uglifycss": "0.0.29"
   },
