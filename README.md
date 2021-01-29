@@ -156,45 +156,88 @@ You can prepare the root element with Pug mixin `uploadr-viewer` after including
 
 ## Server Side
 
-To save files locally ( or after autheticated ), you will need a server side api.
+To save files locally ( or after autheticated ), you will need a server side api. Based on how to store uploaded files, there are different implementation about the file storing mechanism. These different implementations are separated into different modules called `provider`.
 
-### Usage: Save Locally
+### Common Usage
 
-`uploadr().route` accept incoming request with files payload, and save them based on hashed id into specified location. Use `express-formidable` and `uploadr(...).route` to handle files:
+    up = uploadr.provider {host: 'native', config: { .. /* provider specific config */ .. } }
+    app.post \path, express-formidable({multiples: true}), up.getUploadRouter!
+    app.get \path/:id, express-formidable({multiples: true}), up.getDownloadRouter!
 
-    cfg = { uploadr: { ... }, formidable: {multiples: true} }
-    app.post \/d/uploadr, express-formidable(cfg.formidable), uploadr(cfg.uploadr).route
+Configuration:
+
+ - `host`: provider name, such as `native`, `gcs`.
+ - `config`: config for provider. check doc for each provider below for more information.
+
+Additionally:
+ - `express-formidable({multiples: true})` is for passing form data. it depends on how you will use `uploadr` and can be tweaked accordingly.
+ - `uploadr.provider` always provides following two APIs:
+   - `getUploadRouter`: its interface depends on provider's implementation. For example:
+     - provider `native` reads and stores files listed in `req.files`
+     - provider `gcs` reads optional `req.body.name` field.
+   - `getDownloadRouter`: always read `req.params.id` for identifying files to download.
+
+
+### adopt
+
+`adopt` is available as a config in all providers. `adopt` function is used to track a file, and by default do nothing, left to users to implement. it should be an object providing following two member functions:
+
+ - `upload(req, ret)` - called when we expect a file storing slot is created.
+ - `download(req, ret)` - called before file is served to user.
+
+both function should return promise. `adopt` can be used to
+ 
+ - return rejected promise to prevent file to be uploaded / downloaded
+ - track upload / download
+
+Following is an example of using `adopt` in native provider:
+
+    up = uploader.provider({
+      host: 'native', config: {
+        adopt: {
+          upload: function() { ... },
+          download: function() { ... }
+        }
+      }
+    })
+
+
+### Native Provider
+
+Native provider accepts incoming request with files payload, and save them based on hashed id into specified location. Use `express-formidable` and `uploadr(...).route` to handle files:
+
+    up = uploader.provider {host: 'native', config: { ... }}
+    app.post \/d/uploadr, express-formidable({multiples: true}), up.getUploadRouter!
 
 sample configurations:
 
-    cfg = do
-      uploadr: {folder: 'static/assets/files', url: '/assets/files'}
-      formidable: {multiples: true} # formidable configs. depends on your usage
+    {folder: 'static/assets/files', url: '/assets/files'}
 
-### Configurations
 
-config uploadr with `uploadr(opt)` where opt is an object with following members:
+#### Configurations
+
+config native provider with following options:
 
  - `folder`: fs path for saving all files.
  - `url`: url prefix ( relative or absolute ). if omitted, fallback to `folder`
- - `adopt: (req, {url, name, id})`: post process function after files are saved.
+ - `adopt: (req, {name, path, url, id})`: post process function after files are saved.
    - if provided, will be called for each file saved.
    - options:
      - `req`: express request object
      - `name`: name of the file
-     - `url`: `url` for the file
+     - `path`: optional. `path` for the file in file system
+     - `url`: optional. `url` for accessing this file
      - `id`: `id` for the file
  - `catch: (err, req, res, next)`: Promise rejection handler.
    - if omitted, fallback to `res.status(505).send()` when exception occurs.
  - `log`: log function. if omitted, fallback to `console.log`.
 
+#### APIs
 
-### API
-
-Following are the APIs exposed by `uploadr`:
+Following are the APIs exposed by native provider:
 
  - `handler(req, res, next)`: process req.files and return promise, resolving url, id and name as array of objects.
- - `route(req, res, next)`: wrap handler as a route which pass data to res.send, or report 500 on error.
+ - `router(req, res, next)`: wrap handler as a route which pass data to res.send, or report 500 on error.
  - `archive(opt)`: function that takes care of files
    - input: one of following ( name is optional in both case )
      - {path, name}
@@ -202,6 +245,21 @@ Following are the APIs exposed by `uploadr`:
    - return:
      - { name, url, id } if succeed
      - { name } otherwise
+
+
+### GCS Provider
+
+GCS provide ( for Google Cloud Storage ) doesn't store files in local server so there is no file passed to server. Instead, an URL is passed to client for either upload / download files to an assigned bucket in Google cloud storage.
+
+Basic usage is similar to native provider:
+
+    up = uploader.provider {host: 'gcs', config: { ... }}
+    app.post \/d/uploadr, express-formidable({multiples: true}), up.getUploadRouter!
+
+
+#### Configurations
+
+ - `bucket` - bucket name in GCS for storing files.
 
 
 ## License
