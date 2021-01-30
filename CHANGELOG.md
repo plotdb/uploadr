@@ -23,3 +23,5 @@
  - add additional events in `uploadr.viewer`
  - add APIs to control ldPage in `uploadr.viewer`.
  - add chooser demo
+ - reorg src and dist directory.
+ - add gcs provider
