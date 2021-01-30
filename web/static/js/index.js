@@ -8,16 +8,28 @@
   providers = {
     native: {
       host: 'native',
-      route: '/d/uploadr'
+      config: {
+        route: '/d/uploadr'
+      }
     },
     imgbb: {
       host: 'imgbb',
-      key: "97902907ac92c25e4c54b8d0b4c6eeac"
+      config: {
+        key: "97902907ac92c25e4c54b8d0b4c6eeac"
+      }
+    },
+    gcs: {
+      host: 'gcs',
+      config: {
+        route: '/d/uploadr/gcs',
+        bucket: "plotdb-playground-test",
+        domain: "https://storage.googleapis.com"
+      }
     }
   };
   up = new uploadr({
     root: '[ld-scope=uploadr]',
-    provider: providers.native
+    provider: providers.gcs
   });
   up.on('upload.done', function(it){
     lc.files = lc.files.concat(it);

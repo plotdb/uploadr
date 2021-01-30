@@ -9,7 +9,7 @@ File upload library, including:
 
 ## Client Side
 
-In client side, we will need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separatedly in following sections.
+In browser context, we need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separatedly in following sections.
 
 
 ### Installation
@@ -28,6 +28,12 @@ include required js / css files and related dependencies ( `@loadingio/ldpage`, 
     <script src="ldview/ldview.min.js"></script>
     <script src="@plotdb/uploadr/uploadr.min.js"></script>
 
+additionally, include a specific provider. For example, `native` provider:
+
+    <script src="@plotdb/uploadr/providers/native.min.js"></script>
+
+For more information about provider, check [Provider section](#providers) below.
+
 
 ### Uploader
 
@@ -38,9 +44,10 @@ To upload files, create an `uploadr` object through its constructor:
 with following options:
 
  - `root`: root element ( or selector ) of the upload widget.
-    - For DOM customization, see Customization section below.
- - `provider`: object for provider information. See Providers section below.
-   - if omitted, fallback to `{route: '/d/uploadr', host: 'native'}`
+    - To customize widget, see [Widget Customization section](#widget-customization) below.
+ - `provider`: object for provider information
+   - For detail usage, See [Providers section](#providers) below.
+   - if omitted, fallback to `{config: {route: '/d/uploadr'}, host: 'native'}`
 
 
 For root element - if you use Pug, you can use the `uploadr` mixin available in `uploadr.pug` to create the DOM needed:
@@ -48,13 +55,16 @@ For root element - if you use Pug, you can use the `uploadr` mixin available in 
     include <path-to-uploadr.pug>
     div.some-tag-to-wrap-uploader: +uploadr("scope-name")
 
+Feel free to wrap it in dialogs or popups.
 
 
 #### API
 
 `uploadr` object provides following APIs:
 
-  - `init` - initialize uploadr. constructor will init uploadr automatically.
+  - `init` - initialize uploadr, return promise, resolves when initied.
+    - constructor will init uploadr automatically.
+    - simply use `init.then( ... )` to ensure inited.
   - `upload` - upload chosen files.
   - `clear` - clear chosen files.
   - `get` - get chosen files.
@@ -68,20 +78,62 @@ For root element - if you use Pug, you can use the `uploadr` mixin available in 
 
 #### Providers
 
-`@plotdb/uploadr` supports uploading to different kind of file hosting services. use `provider` to choose between the providers available as below:
+`@plotdb/uploadr` supports uploading to different kind of file hosting services. use `provider` to choose between the providers available as below.
+
+To use a provider, you should make sure to
+
+ - client side: init `uploadr` with proper provider configurations
+ - server side: ensure to add api endpoint if needed.
+
+
+Provider configurations for each provider is described as below.
+
 
 ##### Native
 
-upload files to local api ( provided also by `@plotdb/uploadr` )
+upload files to local API endpoint. include `providers/native.js` then init with:
 
-    { host: "native", route: "<path-to-api-endpoint>" }
+    new uploadr({ host: "native", config: { ... }});
+
+where config contains:
+
+ - `route`: api endpoint
 
 
 ##### ImgBB
 
-upload images to ImgBB via following provider config:
+Upload images to ImgBB. Include `providers/imgbb.js` then init with:
 
-    { host: "imgbb", key: "api-key-to-imgbb" }
+    new uploadr({ host: "imgbb", config: { ... }});
+
+where config contains:
+
+ - `key`: imgbb api key for uploading images.
+
+
+##### GCS ( Google Cloud Storage )
+
+Upload files to Google Cloud Storage directly from browser. Include `providers/gcs.js` then init with:
+
+    new uploadr({ host: "gcs", config: { ... }});
+
+where config contains:
+
+ - `bucket`: bucket name in your google cloud storage to hold your files.
+ - `domain`: domain name to access your files (including schema ).
+   - if omitted, fallback to `https://storage.googleapis.com`
+   - this is for previewing / downloading files.
+ - `route`: server route to request signed url for uploading files. 
+   - if omitted, fallback to `/d/uploadr/gcs`.
+
+
+##### Dummy
+
+Never upload files to anywhere - just response with a dummy result. Include `providers/dummy.js` then init with:
+
+    new uploadr({ host: "dummy" })
+
+and there is no config for dummy provider.
 
 
 ##### Other providers
@@ -103,7 +155,14 @@ It's you job to implement the upload mechanism with following parameters and req
      - `len`: file size
      - `item`: object in `files` array that is making progress.
    - `opt`: the provider config object.
- - provider function should always return a Promise which resolves when upload is complete.
+ - provider function should always return a Promise which resolves a list of objects when upload is finished.
+   - resolved object in list should contains following members:
+     - `id`: unique id for this file.
+     - `name`: name of this file. fallback to id if omitted.
+     - `url`: url for previewing this file.
+     - `download-url`: url for downloading this file. fallback to `url` if omitted.
+     - `size`: file size. optional
+     - `err`: information if uploading of this file failed.
 
 
 #### Widget Customization
@@ -259,7 +318,25 @@ Basic usage is similar to native provider:
 
 #### Configurations
 
- - `bucket` - bucket name in GCS for storing files.
+ - `config`: GCS config including following fields:
+   - `projectId`: project id. e.g., `sample-id`
+   - `keyFilename`: path to your private key file for accessing specific project. e.g., `sample-prk.json`
+   - `bucket`: bucket name. e.g., `sample-bucket`
+
+#### CORS Note
+
+Before you can upload file via browser directly to Google Cloud Storage, you have to set cors policy with gsutil:
+
+    gsutil cors set cors.json gs://<your-bucket-name>
+
+sample content of `cors.json`:
+
+    [{
+      "maxAgeSeconds": 3600,
+      "method": ["GET", "HEAD", "PUT"],
+      "origin": ["http://localhost:3005"],
+      "responseHeader": ["Content-Type", "Access-Control-Allow-Origin"]
+    }]
 
 
 ## License

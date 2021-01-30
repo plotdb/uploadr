@@ -330,5 +330,9 @@ pug_mixins["script"]("/assets/lib/ldloader/main/ldld.min.js");
 ;pug_debug_line = 47;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/uploadr/dev/uploadr.js");
 ;pug_debug_line = 48;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("assets/lib/uploadr/dev/providers/gcs.js");
+;pug_debug_line = 49;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("assets/lib/uploadr/dev/providers/native.js");
+;pug_debug_line = 50;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("/js/index.js");
 pug_html = pug_html + "\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";}.call(this,"Array" in locals_for_with?locals_for_with.Array:typeof Array!=="undefined"?Array:undefined,"JSON" in locals_for_with?locals_for_with.JSON:typeof JSON!=="undefined"?JSON:undefined,"blockLoader" in locals_for_with?locals_for_with.blockLoader:typeof blockLoader!=="undefined"?blockLoader:undefined,"cssLoader" in locals_for_with?locals_for_with.cssLoader:typeof cssLoader!=="undefined"?cssLoader:undefined,"decache" in locals_for_with?locals_for_with.decache:typeof decache!=="undefined"?decache:undefined,"escape" in locals_for_with?locals_for_with.escape:typeof escape!=="undefined"?escape:undefined,"parentName" in locals_for_with?locals_for_with.parentName:typeof parentName!=="undefined"?parentName:undefined,"prefix" in locals_for_with?locals_for_with.prefix:typeof prefix!=="undefined"?prefix:undefined,"scriptLoader" in locals_for_with?locals_for_with.scriptLoader:typeof scriptLoader!=="undefined"?scriptLoader:undefined,"version" in locals_for_with?locals_for_with.version:typeof version!=="undefined"?version:undefined));} catch (err) {pug_rethrow(err, pug_debug_filename, pug_debug_line);};return pug_html;}; module.exports = template; })() 

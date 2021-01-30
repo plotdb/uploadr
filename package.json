@@ -6,7 +6,8 @@
   "version": "0.1.0",
   "main": "dist/server.js",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "providers/**/*"
   ],
   "homepage": "https://github.com/plotdb/uploadr",
   "repository": {
@@ -21,6 +22,8 @@
     "start": "cd web; npx lsc server.ls"
   },
   "devDependencies": {
+    "@google-cloud/storage": "^5.7.3",
+    "@plotdb/suuid": "^0.3.2",
     "bootstrap": "^4.6.0",
     "bootstrap.ldui": "github:loadingio/bootstrap.ldui",
     "colors": "^1.4.0",

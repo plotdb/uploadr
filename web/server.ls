@@ -1,5 +1,7 @@
 require! <[fs express path colors template express-formidable]>
-uploadr = require "../src/server.ls"
+#uploadr = require "../src/server.ls"
+uploadr-gcs = require "../src/providers/gcs.ls"
+uploadr-native = require "../src/providers/native.ls"
 
 backend = do
   init: (opt) ->
@@ -11,9 +13,19 @@ backend = do
     console.log "[Server] Express Initialized in #{app.get \env} Mode".green
 
     cfg = do
-      uploadr: {folder: 'static/assets/files', url: '/assets/files'}
+      uploadr: 
+        gcs: do
+          projectId: \playground
+          keyFilename: \key/playground.json
+          bucket: \plotdb-playground-test
+        native: do
+          folder: 'static/assets/files'
+          url: '/assets/files'
       formidable: {multiples: true}
-    app.post \/d/uploadr, express-formidable(cfg.formidable), uploadr(cfg.uploadr).route
+    up-gcs = new uploadr-gcs {config: cfg.uploadr.gcs}
+    up-native = new uploadr-native {config: cfg.uploadr.native}
+    app.post \/api/uploadr/gcs, express-formidable(cfg.formidable), up-gcs.get-upload-router!
+    app.post \/api/uploadr/native, express-formidable(cfg.formidable), up-native.get-upload-router!
 
     # server from sharedb http server or express
     server = app.listen opt.port, ->

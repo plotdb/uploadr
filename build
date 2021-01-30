@@ -1,16 +1,33 @@
 #!/usr/bin/env bash
 rm -rf dist
-mkdir -p dist
+rm -rf providers
+mkdir -p dist/providers
+mkdir -p  providers
 echo "build src/client.ls -> dist/uploadr.js ..."
 npx lsc -cbp src/client.ls > dist/uploadr.js
-echo "build src/server.ls -> dist/server.js ..."
-npx lsc -cbp src/server.ls > dist/server.js
-echo "build src/uploadr.styl -> dist/uploadr.css ..."
-npx stylus -p src/uploadr.styl > dist/uploadr.css
 echo "minifying uploadr.js ..."
 npx uglifyjs dist/uploadr.js > dist/uploadr.min.js
+
+for dir in gcs native dummy imgbb
+do
+  echo "build src/providers/$dir/client.ls -> dist/providers/$dir.js ..."
+  npx lsc -cbp src/providers/$dir/client.ls > dist/providers/$dir.js
+  echo "minifying dist/providers/$dir.js ..."
+  npx uglifyjs dist/providers/$dir.js > dist/providers/$dir.min.js
+  if [ -f "src/providers/$dir/server.ls" ]; then
+    echo "build src/providers/$dir/server.ls -> providers/$dir.js ..."
+    npx lsc -cbp src/providers/$dir/server.ls > providers/$dir.js
+  fi
+done
+
+echo "build src/uploadr.styl -> dist/uploadr.css ..."
+npx stylus -p src/uploadr.styl > dist/uploadr.css
 echo "minifying uploadr.css ..."
 npx uglifycss dist/uploadr.css > dist/uploadr.min.css
+
+#echo "build src/server.ls -> dist/server.js ..."
+#npx lsc -cbp src/server.ls > dist/server.js
+
 echo "copy pug file to dist/ ..."
 cp src/uploadr.pug dist/uploadr.pug
 echo "deploy into local web ..."

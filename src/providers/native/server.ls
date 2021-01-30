@@ -4,7 +4,7 @@ provider-native = (opt = {}) ->
   @opt = opt
   @adopt = opt.adopt or {upload: (->Promise.resolve!), download: (->Promise.resolve!)}
   @folder = opt.folder or \uploads
-  @rooturl = opt.url or folder
+  @rooturl = opt.url or @folder
   @log = opt.log or (-> console.log it)
   @catch = opt.catch or null
   @

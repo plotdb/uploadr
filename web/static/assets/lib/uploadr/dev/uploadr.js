@@ -15,8 +15,10 @@
     this.evtHandler = {};
     this.opt = import$({}, opt);
     this.opt.provider = opt.provider || {
-      route: '/d/uploadr',
-      host: 'native'
+      host: 'native',
+      config: {
+        route: '/d/uploadr'
+      }
     };
     this.progress = function(v){
       var n, p;
@@ -257,7 +259,7 @@
       return ext[this.opt.provider.host]({
         files: this.lc.files,
         progress: this.progress,
-        opt: this.opt.provider
+        opt: this.opt.provider.config
       }).then(function(it){
         this$.fire('upload.done', it);
         return it;
@@ -268,135 +270,6 @@
     }
   });
   uploadr.ext = ext = {};
-  ext.dummy = function(arg$){
-    var files, progress, opt;
-    files = arg$.files, progress = arg$.progress, opt = arg$.opt;
-    return new Promise(function(res, rej){
-      return res(files.map(function(it){
-        return {
-          url: "https://i.ibb.co/frf90x6/only-support.png",
-          name: it.file.name
-        };
-      }));
-    });
-  };
-  ext.native = function(arg$){
-    var files, progress, opt;
-    files = arg$.files, progress = arg$.progress, opt = arg$.opt;
-    return new Promise(function(res, rej){
-      var ref$, merge, route, fd, ret, len, _;
-      ref$ = opt || {}, merge = ref$.merge, route = ref$.route;
-      progress({
-        percent: 0,
-        val: 0,
-        len: len
-      });
-      if (merge) {
-        fd = new FormData();
-        files.map(function(it){
-          return fd.append('file', it.file);
-        });
-        return ld$.xhr(route, (ref$ = {
-          method: 'POST',
-          body: fd
-        }, ref$.headers = opt.headers, ref$), {
-          type: 'json'
-        }).then(res)['catch'](rej);
-      } else {
-        ret = [];
-        len = files.length;
-        _ = function(list){
-          var item, fd, ref$;
-          item = list.splice(0, 1)[0];
-          if (!item) {
-            return res(ret);
-          }
-          fd = new FormData();
-          fd.append('file', item.file);
-          return ld$.xhr(route, (ref$ = {
-            method: 'POST',
-            body: fd
-          }, ref$.headers = opt.headers, ref$), {
-            type: 'json',
-            progress: function(it){
-              return progress((it.item = item, it));
-            }
-          }).then(function(it){
-            var o;
-            ret.push(o = it[0]);
-            return _(list);
-          })['catch'](function(it){
-            var o;
-            return ret.push(o = {
-              name: item.file.name,
-              error: it
-            });
-          });
-        };
-        return _(files);
-      }
-    });
-  };
-  ext.imgbb = function(arg$){
-    var files, progress, opt;
-    files = arg$.files, progress = arg$.progress, opt = arg$.opt;
-    return new Promise(function(res, rej){
-      var ret, len, _;
-      ret = [];
-      len = files.length;
-      progress({
-        percent: 0,
-        val: 0,
-        len: len
-      });
-      _ = function(list){
-        var item, fd;
-        item = list.splice(0, 1)[0];
-        if (!item) {
-          return res(ret);
-        }
-        fd = new FormData();
-        fd.append('image', item.file);
-        return ld$.xhr("https://api.imgbb.com/1/upload?key=" + opt.key, {
-          method: 'POST',
-          body: fd
-        }, {
-          type: 'json'
-        }).then(function(it){
-          var o;
-          if (!(it && it.data && it.status === 200)) {
-            return Promise.reject(it);
-          }
-          ret.push(o = {
-            url: it.data.display_url,
-            name: item.file.name,
-            id: it.data.id,
-            raw: it.data
-          });
-          progress({
-            percent: (len - list.length) / len,
-            val: len - list.length,
-            len: len,
-            item: o
-          });
-          return _(list);
-        })['catch'](function(it){
-          var o;
-          ret.push(o = {
-            name: item.file.name,
-            error: it
-          });
-          return progress({
-            percent: (len - list.length) / len,
-            val: len - list.length,
-            len: len,
-            item: o
-          });
-        });
-      };
-      return _(files);
-    });
-  };
   uploadr.viewer = function(opt){
     var lc, view, this$ = this;
     this.root = typeof opt.root === 'string'

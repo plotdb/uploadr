@@ -5,7 +5,7 @@ uploadr = (opt = {}) ->
   if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
   @evt-handler = {}
   @opt = {} <<< opt
-  @opt.provider = opt.provider or {route: '/d/uploadr', host: 'native'}
+  @opt.provider = opt.provider or {host: 'native', config: {route: '/d/uploadr'}}
   @progress = (v) ~>
     if !(n = v.{}item.node) => return
     if !(p = ld$.find n, '[ld=progress]' .0) => return
@@ -115,7 +115,7 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
     ext[@opt.provider.host] {
       files: @lc.files
       progress: @progress
-      opt: @opt.provider
+      opt: @opt.provider.config
     }
       .then ~>
         @fire \upload.done, it
@@ -125,59 +125,6 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
         Promise.reject it
 
 uploadr.ext = ext = {}
-ext.dummy = ({files, progress, opt}) -> new Promise (res, rej) ->
-  res files.map -> {url: "https://i.ibb.co/frf90x6/only-support.png", name: it.file.name}
-
-ext.native = ({files, progress, opt}) -> new Promise (res, rej) ->
-  {merge, route} = (opt or {})
-  progress percent: 0, val: 0, len: len
-  if merge =>
-    fd = new FormData!
-    files.map -> fd.append \file, it.file
-    ld$.xhr route, ({method: \POST, body: fd} <<< opt{headers}), {type: \json}
-      .then res
-      .catch rej
-  else =>
-    ret = []
-    len = files.length
-    _ = (list) ~>
-      item = list.splice(0, 1).0
-      if !item => return res ret
-      fd = new FormData!
-      fd.append \file, item.file
-      ld$.xhr route, {method: \POST, body: fd} <<< opt{headers}, {type: \json, progress: -> progress it <<< {item}}
-        .then ->
-          ret.push o = it.0
-          _ list
-        .catch -> ret.push o = {name: item.file.name, error: it}
-    _ files
-
-# opt: {key}
-# e.g., {key: "97902907ac92c25e4c54b8d0b4c6eeac"}
-ext.imgbb = ({files, progress, opt}) -> new Promise (res, rej) ->
-  ret = []
-  len = files.length
-  progress percent: 0, val: 0, len: len
-  _ = (list) ~>
-    item = list.splice(0, 1).0
-    if !item => return res ret
-    fd = new FormData!
-    fd.append \image, item.file
-
-    ld$.xhr(
-      "https://api.imgbb.com/1/upload?key=#{opt.key}",
-      {method: \POST, body: fd}
-      {type: \json}
-    )
-      .then ->
-        if !(it and it.data and it.status == 200) => return Promise.reject(it)
-        ret.push o = {url: it.data.display_url, name: item.file.name, id: it.data.id, raw: it.data}
-        progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
-        _ list
-      .catch ->
-        ret.push o = {name: item.file.name, error: it}
-        progress {percent: (len - list.length) / len, val: (len - list.length), len: len, item: o}
-  _ files
 
 uploadr.viewer = (opt) ->
   @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
