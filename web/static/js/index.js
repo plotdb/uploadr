@@ -37,20 +37,20 @@
     return view.render();
   });
   ldcv = {};
-  view = new ldView({
+  view = new ldview({
     root: document.body,
     init: {
       "ldcv-uploadr": function(arg$){
         var node;
         node = arg$.node;
-        return ldcv.uploadr = new ldCover({
+        return ldcv.uploadr = new ldcover({
           root: node
         });
       },
       "ldcv-chooser": function(arg$){
         var node;
         node = arg$.node;
-        return ldcv.chooser = new ldCover({
+        return ldcv.chooser = new ldcover({
           root: node
         });
       }
@@ -66,7 +66,7 @@
       }
     }
   });
-  view = new ldView({
+  view = new ldview({
     root: '[ld-scope=photo-viewer]',
     handler: {
       photo: {

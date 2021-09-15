@@ -21,16 +21,16 @@ up.on \upload.done, ->
   view.render!
 
 ldcv = {}
-view = new ldView do
+view = new ldview do
   root: document.body
   init:
-    "ldcv-uploadr": ({node}) -> ldcv.uploadr = new ldCover root: node
-    "ldcv-chooser": ({node}) -> ldcv.chooser = new ldCover root: node
+    "ldcv-uploadr": ({node}) -> ldcv.uploadr = new ldcover root: node
+    "ldcv-chooser": ({node}) -> ldcv.chooser = new ldcover root: node
   action: click:
     "toggle-uploader": -> ldcv.uploadr.toggle!
     "toggle-chooser": -> ldcv.chooser.toggle!
 
-view = new ldView do
+view = new ldview do
   root: '[ld-scope=photo-viewer]'
   handler: do
     photo: do

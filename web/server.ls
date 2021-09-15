@@ -1,7 +1,10 @@
-require! <[fs express path colors template express-formidable]>
+require! <[fs express path colors @plotdb/srcbuild express-formidable]>
 #uploadr = require "../src/server.ls"
-uploadr-gcs = require "../src/providers/gcs.ls"
-uploadr-native = require "../src/providers/native.ls"
+lib = path.dirname fs.realpathSync __filename.replace(/\([^)]+\)$/,'')
+console.log lib
+
+uploadr-gcs = require path.join(lib, "../src/providers/gcs/server.ls")
+uploadr-native = require path.join(lib, "../src/providers/native/server.ls")
 
 backend = do
   init: (opt) ->
@@ -35,4 +38,4 @@ backend = do
 config = JSON.parse(fs.read-file-sync 'config.json' .toString!)
 
 backend.init config
-template.watch.init config
+srcbuild.lsp {base: '.'}
