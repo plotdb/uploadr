@@ -25,8 +25,8 @@ npx stylus -p src/uploadr.styl > dist/uploadr.css
 echo "minifying uploadr.css ..."
 npx uglifycss dist/uploadr.css > dist/uploadr.min.css
 
-#echo "build src/server.ls -> dist/server.js ..."
-#npx lsc -cbp src/server.ls > dist/server.js
+echo "build src/server.ls -> dist/server.js ..."
+npx lsc -cbp src/server.ls > dist/server.js
 
 echo "copy pug file to dist/ ..."
 cp src/uploadr.pug dist/uploadr.pug
