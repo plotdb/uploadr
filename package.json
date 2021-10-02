@@ -3,7 +3,7 @@
   "name": "@plotdb/uploadr",
   "license": "MIT",
   "description": "File Upload Library",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/server.js",
   "files": [
     "dist/**/*",
