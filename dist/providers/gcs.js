@@ -6,9 +6,10 @@
     var files, progress, opt;
     files = arg$.files, progress = arg$.progress, opt = arg$.opt;
     return new Promise(function(res, rej){
-      var ret, len;
+      var ret, len, domain;
       ret = [];
       len = files.length;
+      domain = opt.domain || "https://storage.googleapis.com";
       return ld$.fetch(opt.route, {
         method: 'POST'
       }, {
@@ -38,7 +39,7 @@
             return {
               name: item.file.name,
               id: id,
-              url: "https://storage.googleapis.com/" + opt.bucket + "/" + id
+              url: domain + "/" + opt.bucket + "/" + id
             };
           })['catch'](function(it){
             return {
