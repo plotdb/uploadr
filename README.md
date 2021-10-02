@@ -2,7 +2,7 @@
 
 File upload library, including:
 
- - [client side](#client-side) - upload widget + file list viewer ( with pug template )
+ - [client side](#client-side) - upload widget, file list viewer ( with pug template ) and provider adopters.
  - [server side](#server-side) - API endpoint for file storing with Express
 
 
@@ -37,7 +37,9 @@ For more information about provider, check [Provider section](#providers) below.
 
 ### Uploader
 
-To upload files, create an `uploadr` object through its constructor:
+You can skip Uploadr viewer completely if you only need an API endpoint for each provider. In this case, check [Providers section](#providers) below.
+
+To upload files via uploadr viewer, create an `uploadr` object through its constructor:
 
     var up = new uploadr({ ... })
 
@@ -85,6 +87,27 @@ To use a provider, you should make sure to
  - client side: init `uploadr` with proper provider configurations
  - server side: ensure to add api endpoint if needed.
 
+To upload without UI ( Uploadr Viewer ), use client side providers directly which are availables by:
+
+    uploadr.ext["<provider-name>"]
+
+Client side providers are function accepting an object with following fields:
+
+ - `files`: Array of files to upload. Items for each file are objects with following fields:
+   - `thumb`: thumbnail url
+   - `file`: corresponding file object
+ - `progress(opt)`: progress event handler accepting opt object with following fields:
+   - `percent`: progress. 0 ~ 1
+   - `item`: uploading item object with fields described above in `files`.
+ - `opt`: corresponding configs described in sections of each provider below.
+
+For example, to upload a file to Google Cloud Storage:
+
+    uploader.ext.gcs({
+      files: [{file: new File(["hello"], "hello.txt", {type: "plain/text"})],
+      progress: function(opt) { console.log(opt.percent); },
+      opt: {bucket: "my-gcs-bucket"}
+    });
 
 Provider configurations for each provider is described as below.
 
