@@ -23,7 +23,7 @@ providerGcs = function(opt){
       return Promise.resolve();
     }
   };
-  this.bucket = opt.bucket || this.config.bucket;
+  this.bucket = this.config.bucket;
   this.gcs = new storage.Storage(this.config);
   return this;
 };

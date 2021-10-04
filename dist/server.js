@@ -7,9 +7,7 @@ uploadr = {
   provider: function(opt){
     var provider;
     provider = require("../providers/" + opt.host);
-    return new provider({
-      config: opt.config
-    });
+    return new provider(opt);
   }
 };
 module.exports = uploadr;

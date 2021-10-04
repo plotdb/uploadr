@@ -1,8 +1,12 @@
 # Change Logs
 
-## v0.1.2 (upcoming)
+## v0.1.2
 
  - upgrade modules
+ - fix bug: @log instead of log in native server provider
+ - fix bug: incorrect parentheses for Promise.all in native server provider
+ - fix bug: should passin full opt object to provider in server entry point `dist/server.js`
+ - tweak gcs provider option to better align spec.
 
 
 ## v0.1.1

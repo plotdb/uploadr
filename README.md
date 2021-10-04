@@ -300,8 +300,9 @@ sample configurations:
 
 config native provider with following options:
 
- - `folder`: fs path for saving all files.
- - `url`: url prefix ( relative or absolute ). if omitted, fallback to `folder`
+ - `config`: native provider specific configs, including:
+   - `folder`: fs path for saving all files. if omitted, fallback to `uploads`
+   - `url`: url prefix ( relative or absolute ). if omitted, fallback to `folder`
  - `adopt: (req, {name, path, url, id})`: post process function after files are saved.
    - if provided, will be called for each file saved.
    - options:

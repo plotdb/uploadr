@@ -6,7 +6,7 @@ provider-gcs = (opt={}) ->
   @opt = {} <<< opt
   @config = opt.config or {}
   @adopt = opt.adopt or {upload: (->Promise.resolve!), download: (->Promise.resolve!)}
-  @bucket = opt.bucket or @config.bucket
+  @bucket = @config.bucket
   @gcs = new storage.Storage @config
   @
 

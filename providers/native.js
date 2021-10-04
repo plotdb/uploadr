@@ -8,6 +8,7 @@ imgtype = require('imgtype');
 providerNative = function(opt){
   opt == null && (opt = {});
   this.opt = opt;
+  this.config = opt.config || {};
   this.adopt = opt.adopt || {
     upload: function(){
       return Promise.resolve();
@@ -16,8 +17,8 @@ providerNative = function(opt){
       return Promise.resolve();
     }
   };
-  this.folder = opt.folder || 'uploads';
-  this.rooturl = opt.url || this.folder;
+  this.folder = this.config.folder || 'uploads';
+  this.rooturl = this.config.url || this.folder;
   this.log = opt.log || function(it){
     return console.log(it);
   };
@@ -96,7 +97,7 @@ providerNative.prototype = import$(Object.create(Object.prototype), {
           });
         });
       })['catch'](function(err){
-        log(err);
+        this$.log(err);
         return res({
           name: name
         });
@@ -149,13 +150,13 @@ providerNative.prototype = import$(Object.create(Object.prototype), {
         return it.target = cfg.target, it;
       });
     }
-    return Promise.all(files).map(function(it){
+    return Promise.all(files.map(function(it){
       return this$.archive(it).then(function(ret){
         return this$.adopt.upload(req, ret).then(function(){
           return ret;
         });
       });
-    });
+    }));
   },
   getUploadRouter: function(){
     var this$ = this;

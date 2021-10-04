@@ -2,9 +2,10 @@ require! <[fs fs-extra path crypto imgtype]>
 
 provider-native = (opt = {}) ->
   @opt = opt
+  @config = opt.config or {}
   @adopt = opt.adopt or {upload: (->Promise.resolve!), download: (->Promise.resolve!)}
-  @folder = opt.folder or \uploads
-  @rooturl = opt.url or @folder
+  @folder = @config.folder or \uploads
+  @rooturl = @config.url or @folder
   @log = opt.log or (-> console.log it)
   @catch = opt.catch or null
   @
@@ -49,7 +50,7 @@ provider-native.prototype = Object.create(Object.prototype) <<< do
             if e => throw e
             res {path: des, url, name, id: hk}
       .catch (err) ~>
-        log err
+        @log err
         res {name}
 
   /**
@@ -80,7 +81,7 @@ provider-native.prototype = Object.create(Object.prototype) <<< do
     files = (req.files or {}).file
     files = if !files => [] else if Array.isArray(files) => files else [files]
     if cfg and cfg.target => files = files.map -> it <<< {target: cfg.target}
-    Promise.all files .map ~> @archive(it).then((ret) ~> @adopt.upload(req, ret) .then -> ret)
+    Promise.all files.map ~> @archive(it).then((ret) ~> @adopt.upload(req, ret) .then -> ret)
 
   get-upload-router: -> (req, res, next) ~> @router req, res, next
 
