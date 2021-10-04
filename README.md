@@ -268,6 +268,12 @@ Additionally:
  - `upload(req, ret)` - called when we expect a file storing slot is created.
  - `download(req, ret)` - called before file is served to user.
 
+where ret should be an object with following fields:
+
+ - `name`: filename
+ - `id`: file id, provided by provider.
+ - `url`: optional. availabel for native provider.
+
 both function should return promise. `adopt` can be used to
  
  - return rejected promise to prevent file to be uploaded / downloaded
