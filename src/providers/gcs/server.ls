@@ -7,7 +7,7 @@ provider-gcs = (opt={}) ->
   @config = opt.config or {}
   @adopt = opt.adopt or {upload: (->Promise.resolve!), download: (->Promise.resolve!)}
   @bucket = @config.bucket
-  @gcs = new storage.Storage @config
+  @gcs = new storage.Storage @config{bucket, projectId, keyFilename}
   @
 
 provider-gcs.prototype = Object.create(Object.prototype) <<< do
@@ -54,7 +54,9 @@ provider-gcs.prototype = Object.create(Object.prototype) <<< do
       .then -> it.0
 
   get-upload-router: -> (req, res, next) ~>
-    Promise.all([0 til (req.{}body.count or 1)].map ~> @upload req, {}).then -> res.send it
+    if isNaN(count = +req.{}fields.count or 1) => count = 1
+    count <?= (@config.limit or 10)
+    Promise.all([0 til count].map ~> @upload req, {}).then -> res.send it
   get-download-router: -> (req, res, next) ~> @download req, {} .then -> res.status(302).redirect it.signed-url
 
 

@@ -3,19 +3,22 @@
   return it();
 })(function(){
   return uploadr.ext.gcs = function(arg$){
-    var files, progress, opt;
-    files = arg$.files, progress = arg$.progress, opt = arg$.opt;
+    var files, progress, opt, data;
+    files = arg$.files, progress = arg$.progress, opt = arg$.opt, data = arg$.data;
     return new Promise(function(res, rej){
-      var ret, len, domain;
+      var ret, len, domain, fd;
       ret = [];
       len = files.length;
       domain = opt.domain || "https://storage.googleapis.com";
+      fd = new FormData();
+      fd.append('count', files.length);
+      if (data != null) {
+        fd.append('data', typeof data === 'object' ? JSON.stringify(data) : data);
+      }
       return ld$.fetch(opt.route, {
-        method: 'POST'
+        method: 'POST',
+        body: fd
       }, {
-        json: {
-          count: files.length
-        },
         type: 'json'
       }).then(function(tokens){
         return Promise.all(files.map(function(item, i){

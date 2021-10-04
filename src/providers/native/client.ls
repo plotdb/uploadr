@@ -1,11 +1,12 @@
 <-(->it!) _
 
-uploadr.ext.native = ({files, progress, opt}) -> new Promise (res, rej) ->
+uploadr.ext.native = ({files, progress, opt, data}) -> new Promise (res, rej) ->
   {merge, route} = (opt or {})
   progress percent: 0, val: 0, len: len
   if merge =>
     fd = new FormData!
     files.map -> fd.append \file, it.file
+    if data? => fd.append \data, if typeof(data) == \object => JSON.stringify(data) else data
     ld$.xhr route, ({method: \POST, body: fd} <<< opt{headers}), {type: \json}
       .then res
       .catch rej
@@ -17,6 +18,7 @@ uploadr.ext.native = ({files, progress, opt}) -> new Promise (res, rej) ->
       if !item => return res ret
       fd = new FormData!
       fd.append \file, item.file
+      if data? => fd.append \data, if typeof(data) == \object => JSON.stringify(data) else data
       ld$.xhr route, {method: \POST, body: fd} <<< opt{headers}, {type: \json, progress: -> progress it <<< {item}}
         .then ->
           ret.push o = it.0

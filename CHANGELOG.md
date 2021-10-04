@@ -1,5 +1,11 @@
 # Change Logs
 
+## v0.1.3
+
+ - support additional data passed to server when uploading
+ - add limit on upload file amount for GCS provider
+
+
 ## v0.1.2
 
  - upgrade modules

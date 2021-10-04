@@ -12,6 +12,7 @@ retry = function(count, cb){
   });
 };
 providerGcs = function(opt){
+  var ref$;
   opt == null && (opt = {});
   this.opt = import$({}, opt);
   this.config = opt.config || {};
@@ -24,7 +25,11 @@ providerGcs = function(opt){
     }
   };
   this.bucket = this.config.bucket;
-  this.gcs = new storage.Storage(this.config);
+  this.gcs = new storage.Storage({
+    bucket: (ref$ = this.config).bucket,
+    projectId: ref$.projectId,
+    keyFilename: ref$.keyFilename
+  });
   return this;
 };
 providerGcs.prototype = import$(Object.create(Object.prototype), {
@@ -126,9 +131,14 @@ providerGcs.prototype = import$(Object.create(Object.prototype), {
   getUploadRouter: function(){
     var this$ = this;
     return function(req, res, next){
+      var count, ref$;
+      if (isNaN(count = +(req.fields || (req.fields = {})).count || 1)) {
+        count = 1;
+      }
+      count <= (ref$ = this$.config.limit || 10) || (count = ref$);
       return Promise.all((function(){
         var i$, to$, results$ = [];
-        for (i$ = 0, to$ = (req.body || (req.body = {})).count || 1; i$ < to$; ++i$) {
+        for (i$ = 0, to$ = count; i$ < to$; ++i$) {
           results$.push(i$);
         }
         return results$;

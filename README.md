@@ -100,6 +100,7 @@ Client side providers are function accepting an object with following fields:
    - `percent`: progress. 0 ~ 1
    - `item`: uploading item object with fields described above in `files`.
  - `opt`: corresponding configs described in sections of each provider below.
+ - `data`: additional data passed via `data` field ( accessiable via `req.fields.data` in server side )
 
 For example, to upload a file to Google Cloud Storage:
 
@@ -178,6 +179,9 @@ It's you job to implement the upload mechanism with following parameters and req
      - `len`: file size
      - `item`: object in `files` array that is making progress.
    - `opt`: the provider config object.
+   - `data`: additional data to pass to server.
+     - packed by `FormData` and accessible through `req.fields.data` as string when using `express-formidable`.
+     - need to manually parse to JSON in server, if a JSON object is passed from client.
  - provider function should always return a Promise which resolves a list of objects when upload is finished.
    - resolved object in list should contains following members:
      - `id`: unique id for this file.
@@ -353,6 +357,7 @@ Basic usage is similar to native provider:
    - `projectId`: project id. e.g., `sample-id`
    - `keyFilename`: path to your private key file for accessing specific project. e.g., `sample-prk.json`
    - `bucket`: bucket name. e.g., `sample-bucket`
+   - `limit`: maximal amount of files in one shot. default 10 if omitted.
 
 #### CORS Note
 

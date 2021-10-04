@@ -1,10 +1,13 @@
 <-(->it!) _
 
-uploadr.ext.gcs = ({files, progress, opt}) -> new Promise (res, rej) ->
+uploadr.ext.gcs = ({files, progress, opt, data}) -> new Promise (res, rej) ->
   ret = []
   len = files.length
   domain = opt.domain or "https://storage.googleapis.com"
-  ld$.fetch opt.route, {method: \POST}, {json: {count: files.length}, type: \json}
+  fd = new FormData!
+  fd.append \count, files.length
+  if data? => fd.append \data, if typeof(data) == \object => JSON.stringify(data) else data
+  ld$.fetch opt.route, {method: \POST, body: fd}, {type: \json}
     .then (tokens) ->
       Promise.all(
         files.map (item,i) ->

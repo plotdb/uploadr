@@ -3,8 +3,8 @@
   return it();
 })(function(){
   return uploadr.ext.native = function(arg$){
-    var files, progress, opt;
-    files = arg$.files, progress = arg$.progress, opt = arg$.opt;
+    var files, progress, opt, data;
+    files = arg$.files, progress = arg$.progress, opt = arg$.opt, data = arg$.data;
     return new Promise(function(res, rej){
       var ref$, merge, route, fd, ret, len, _;
       ref$ = opt || {}, merge = ref$.merge, route = ref$.route;
@@ -18,6 +18,9 @@
         files.map(function(it){
           return fd.append('file', it.file);
         });
+        if (data != null) {
+          fd.append('data', typeof data === 'object' ? JSON.stringify(data) : data);
+        }
         return ld$.xhr(route, (ref$ = {
           method: 'POST',
           body: fd
@@ -35,6 +38,9 @@
           }
           fd = new FormData();
           fd.append('file', item.file);
+          if (data != null) {
+            fd.append('data', typeof data === 'object' ? JSON.stringify(data) : data);
+          }
           return ld$.xhr(route, (ref$ = {
             method: 'POST',
             body: fd
