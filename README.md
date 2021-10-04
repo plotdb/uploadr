@@ -244,6 +244,7 @@ To save files locally ( or after autheticated ), you will need a server side api
 
     up = uploadr.provider {host: 'native', config: { .. /* provider specific config */ .. } }
     app.post \path, express-formidable({multiples: true}), up.getUploadRouter!
+    # note: not all providers implemented getDownloadRouter for now.
     app.get \path/:id, express-formidable({multiples: true}), up.getDownloadRouter!
 
 Configuration:
