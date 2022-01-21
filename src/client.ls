@@ -1,5 +1,3 @@
-<-(->it!) _
-
 uploadr = (opt = {}) ->
   @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root

@@ -1,5 +1,3 @@
-<-(->it!) _
-
 uploadr.ext.gcs = ({files, progress, opt, data}) -> new Promise (res, rej) ->
   ret = []
   len = files.length

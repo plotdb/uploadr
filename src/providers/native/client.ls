@@ -1,5 +1,3 @@
-<-(->it!) _
-
 uploadr.ext.native = ({files, progress, opt, data}) -> new Promise (res, rej) ->
   {merge, route} = (opt or {})
   progress percent: 0, val: 0, len: len
@@ -25,4 +23,3 @@ uploadr.ext.native = ({files, progress, opt, data}) -> new Promise (res, rej) ->
           _ list
         .catch -> ret.push o = {name: item.file.name, error: it}
     _ files
-

@@ -3,33 +3,34 @@ rm -rf dist
 rm -rf providers
 mkdir -p dist/providers
 mkdir -p  providers
-echo "build src/client.ls -> dist/uploadr.js ..."
-./node_modules/.bin/lsc -cbp src/client.ls > dist/uploadr.js
-echo "minifying uploadr.js ..."
-./node_modules/.bin/uglifyjs dist/uploadr.js > dist/uploadr.min.js
+echo "build src/client.ls -> dist/index.js ..."
+./node_modules/.bin/lsc -cp --no-header src/client.ls > dist/index.js
+echo "minifying index.js ..."
+./node_modules/.bin/uglifyjs dist/index.js -m -c > dist/index.min.js
 
 for dir in gcs native dummy imgbb
 do
   echo "build src/providers/$dir/client.ls -> dist/providers/$dir.js ..."
-  ./node_modules/.bin/lsc -cbp src/providers/$dir/client.ls > dist/providers/$dir.js
+  ./node_modules/.bin/lsc -cp --no-header src/providers/$dir/client.ls > dist/providers/$dir.js
   echo "minifying dist/providers/$dir.js ..."
-  ./node_modules/.bin/uglifyjs dist/providers/$dir.js > dist/providers/$dir.min.js
+  ./node_modules/.bin/uglifyjs dist/providers/$dir.js -m -c > dist/providers/$dir.min.js
   if [ -f "src/providers/$dir/server.ls" ]; then
     echo "build src/providers/$dir/server.ls -> providers/$dir.js ..."
-    ./node_modules/.bin/lsc -cbp src/providers/$dir/server.ls > providers/$dir.js
+    ./node_modules/.bin/lsc -cp --no-header src/providers/$dir/server.ls > providers/$dir.js
   fi
 done
 
-echo "build src/uploadr.styl -> dist/uploadr.css ..."
-./node_modules/.bin/stylus -p src/uploadr.styl > dist/uploadr.css
-echo "minifying uploadr.css ..."
-./node_modules/.bin/uglifycss dist/uploadr.css > dist/uploadr.min.css
+echo "build src/client.styl -> dist/index.css ..."
+./node_modules/.bin/stylus -p src/client.styl > dist/index.css
+echo "minifying index.css ..."
+./node_modules/.bin/uglifycss dist/index.css > dist/index.min.css
 
 echo "build src/server.ls -> dist/server.js ..."
 ./node_modules/.bin/lsc -cbp src/server.ls > dist/server.js
 
 echo "copy pug file to dist/ ..."
-cp src/uploadr.pug dist/uploadr.pug
+cp src/client.pug dist/index.pug
+
 echo "deploy into local web ..."
 rm -rf web/static/assets/lib/uploadr/dev/
 mkdir -p web/static/assets/lib/uploadr/dev/

@@ -1,5 +1,3 @@
-<-(->it!) _
-
 # opt: {key}
 # e.g., {key: "97902907ac92c25e4c54b8d0b4c6eeac"}
 uploadr.ext.imgbb = ({files, progress, opt}) -> new Promise (res, rej) ->
