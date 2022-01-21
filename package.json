@@ -21,7 +21,8 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "cd web; ../node_modules/.bin/lsc server.ls"
+    "start": "npx server -r web -o true",
+    "publish": "npx fedep publish -d true"
   },
   "devDependencies": {
     "@google-cloud/storage": "^5.7.3",
