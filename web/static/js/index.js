@@ -44,14 +44,16 @@
         var node;
         node = arg$.node;
         return ldcv.uploadr = new ldcover({
-          root: node
+          root: node,
+          resident: true
         });
       },
       "ldcv-chooser": function(arg$){
         var node;
         node = arg$.node;
         return ldcv.chooser = new ldcover({
-          root: node
+          root: node,
+          resident: true
         });
       }
     },

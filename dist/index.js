@@ -193,7 +193,7 @@
             loader: function(arg$){
               var node;
               node = arg$.node;
-              return this$.lc.loader = new ldLoader({
+              return this$.lc.loader = new ldloader({
                 root: node
               });
             }
@@ -340,9 +340,9 @@
         }
       }
     });
-    this.page = opt.page instanceof ldPage
+    this.page = opt.page instanceof ldpage
       ? opt.page
-      : new ldPage(opt.page || {});
+      : new ldpage(opt.page || {});
     this.page.init();
     this.page.on('fetch', function(it){
       var files;

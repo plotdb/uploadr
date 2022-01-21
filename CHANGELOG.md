@@ -1,5 +1,17 @@
 # Change Logs
 
+## v0.2.0
+
+ - source and dist file renamed.
+ - wrap client js with transpiler instead of doing it ourselves
+ - upgrade modules
+ - release with compact directory structure
+ - add `style` in `package.json`
+ - add `main` and `browser` field in `package.json`.
+ - further minimize generated js file with mangling and compression
+ - patch test code to make it work with upgraded modules
+
+
 ## v0.1.3
 
  - support additional data passed to server when uploading

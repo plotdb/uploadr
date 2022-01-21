@@ -89,7 +89,7 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
         dragover: do
           drop: ({node, evt}) -> evt.preventDefault!
       init: do
-        loader: ({node}) ~> @lc.loader = new ldLoader root: node
+        loader: ({node}) ~> @lc.loader = new ldloader root: node
       handler:
         file:
           list: -> lc.files or []
@@ -157,7 +157,7 @@ uploadr.viewer = (opt) ->
                 node.style.backgroundImage = "url(#{context.url})"
               node.setAttribute \data-src, context.url
 
-  @page = if opt.page instanceof ldPage => opt.page else new ldPage(opt.page or {})
+  @page = if opt.page instanceof ldpage => opt.page else new ldpage(opt.page or {})
   @page.init!
   @page.on \fetch, ~>
     files = it.map -> it <<< {_id: Math.random!}

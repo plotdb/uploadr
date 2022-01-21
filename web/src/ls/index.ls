@@ -24,8 +24,8 @@ ldcv = {}
 view = new ldview do
   root: document.body
   init:
-    "ldcv-uploadr": ({node}) -> ldcv.uploadr = new ldcover root: node
-    "ldcv-chooser": ({node}) -> ldcv.chooser = new ldcover root: node
+    "ldcv-uploadr": ({node}) -> ldcv.uploadr = new ldcover root: node, resident: true
+    "ldcv-chooser": ({node}) -> ldcv.chooser = new ldcover root: node, resident: true
   action: click:
     "toggle-uploader": -> ldcv.uploadr.toggle!
     "toggle-chooser": -> ldcv.chooser.toggle!

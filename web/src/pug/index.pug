@@ -1,16 +1,16 @@
 doctype html
-include @/@loadingio/bootstrap.ext/dist/index.pug
-include @/ldview/dist/index.pug
-include @static/assets/lib/uploadr/dev/uploadr.pug
+include @/@loadingio/bootstrap.ext/index.pug
+include @/ldview/index.pug
+include @static/assets/lib/uploadr/dev/index.pug
 html
   head
-    +css("assets/lib/bootstrap/main/css/bootstrap.min.css")
+    +css("assets/lib/bootstrap/main/dist/css/bootstrap.min.css")
     +css("assets/lib/@loadingio/bootstrap.ext/main/index.min.css")
-    +css("assets/lib/ldcover/main/ldcv.min.css")
-    +css("assets/lib/ldloader/main/ldld.min.css")
-    +css("assets/lib/ldnotify/main/ldnotify.min.css")
+    +css("assets/lib/ldcover/main/index.min.css")
+    +css("assets/lib/ldloader/main/index.min.css")
+    +css("assets/lib/ldnotify/main/index.min.css")
     +css("assets/lib/ldiconfont/main/ldif.min.css")
-    +css("assets/lib/uploadr/dev/uploadr.min.css")
+    +css("assets/lib/uploadr/dev/index.min.css")
     +css("/css/index.css")
 
   body
@@ -36,15 +36,15 @@ html
           div(ld-each="photo",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
         +uploadr-viewer("uploadr-viewer2")
 
-    +script("/assets/lib/@loadingio/debounce.js/main/debounce.min.js")
-    +script("/assets/lib/@loadingio/ldquery/main/ldq.min.js")
-    +script("/assets/lib/@loadingio/ldpage/main/ldpage.min.js")
-    +script("/assets/lib/proxise/main/proxise.min.js")
+    +script("/assets/lib/@loadingio/debounce.js/main/index.min.js")
+    +script("/assets/lib/@loadingio/ldquery/main/index.min.js")
+    +script("/assets/lib/@loadingio/ldpage/main/index.min.js")
+    +script("/assets/lib/proxise/main/index.min.js")
     +script("/assets/lib/ldview/main/index.min.js")
-    +script("/assets/lib/ldnotify/main/ldnotify.min.js")
-    +script("/assets/lib/ldcover/main/ldcv.min.js")
-    +script("/assets/lib/ldloader/main/ldld.min.js")
-    +script("assets/lib/uploadr/dev/uploadr.js")
+    +script("/assets/lib/ldnotify/main/index.min.js")
+    +script("/assets/lib/ldcover/main/index.min.js")
+    +script("/assets/lib/ldloader/main/index.min.js")
+    +script("assets/lib/uploadr/dev/index.js")
     +script("assets/lib/uploadr/dev/providers/gcs.js")
     +script("assets/lib/uploadr/dev/providers/native.js")
     +script("/js/index.js")
