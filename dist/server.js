@@ -6,7 +6,7 @@ lib = path.dirname(fs.realpathSync(__filename));
 uploadr = {
   provider: function(opt){
     var provider;
-    provider = require("../providers/" + opt.host);
+    provider = require(path.join(lib, "providers/" + opt.host));
     return new provider(opt);
   }
 };

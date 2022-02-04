@@ -1,5 +1,11 @@
 # Change Logs
 
+## v0.2.1
+
+ - fix bug: server inclusion path incorrect, leading provider creation failure
+ - upgrade modules
+
+
 ## v0.2.0
 
  - source and dist file renamed.
