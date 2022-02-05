@@ -1,5 +1,11 @@
 # Change Logs
 
+## v0.2.2 (upcoming)
+
+ - toggle loader only if loader exists.
+ - tweak server provider loading syntax
+
+
 ## v0.2.1
 
  - fix bug: server inclusion path incorrect, leading provider creation failure
