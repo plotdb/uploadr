@@ -22,11 +22,11 @@ In browser context, we need widgets for both file uploading and file choosing. B
 include required js / css files and related dependencies ( `@loadingio/ldpage`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ):
 
     <link rel="stylesheet" type="text/css" href="@plotdb/uploadr/uploadr.css"/>
-    <script src="@loadingio/ldpage/ldpage.min.js"></script>
-    <script src="@loadingio/debounce.js/debounce.min.js"></script>
-    <script src="proxise/proxise.min.js"></script>
-    <script src="ldview/ldview.min.js"></script>
-    <script src="@plotdb/uploadr/uploadr.min.js"></script>
+    <script src="@loadingio/ldpage/index.min.js"></script>
+    <script src="@loadingio/debounce.js/index.min.js"></script>
+    <script src="proxise/index.min.js"></script>
+    <script src="ldview/index.min.js"></script>
+    <script src="@plotdb/uploadr/index.min.js"></script>
 
 additionally, include a specific provider. For example, `native` provider:
 
