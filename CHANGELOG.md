@@ -1,9 +1,9 @@
 # Change Logs
 
-## v0.2.2 (upcoming)
+## v0.2.2
 
  - toggle loader only if loader exists.
- - tweak server provider loading syntax
+ - tweak server provider syntax for require
 
 
 ## v0.2.1
