@@ -94,13 +94,17 @@
           }).then(function(){
             view.render();
             this$.fire('preview.done');
-            this$.lc.loader.off();
+            if (this$.lc.loader) {
+              this$.lc.loader.off();
+            }
             return this$.fire('file.chosen', lc.files);
           });
         };
         thumbing = function(list){
           this$.fire('preview.loading');
-          this$.lc.loader.on();
+          if (this$.lc.loader) {
+            this$.lc.loader.on();
+          }
           list = Array.from(list);
           return new Promise(function(res, rej){
             var ret, _;

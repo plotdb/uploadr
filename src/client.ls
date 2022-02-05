@@ -40,12 +40,12 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
         .then ~>
           view.render!
           @fire \preview.done
-          @lc.loader.off!
+          if @lc.loader => @lc.loader.off!
           @fire \file.chosen, lc.files
 
     thumbing = (list) ~>
       @fire \preview.loading
-      @lc.loader.on!
+      if @lc.loader => @lc.loader.on!
       list = Array.from(list)
       new Promise (res, rej) ->
         ret = []
