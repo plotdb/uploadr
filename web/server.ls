@@ -1,17 +1,16 @@
-require! <[fs express path colors @plotdb/srcbuild express-formidable]>
+require! <[fs express path @plotdb/colors @plotdb/srcbuild express-formidable open]>
 #uploadr = require "../src/server.ls"
-lib = path.dirname fs.realpathSync __filename.replace(/\([^)]+\)$/,'')
-console.log lib
+dir = path.join(fs.realpathSync(__dirname))
 
-uploadr-gcs = require path.join(lib, "../src/providers/gcs/server.ls")
-uploadr-native = require path.join(lib, "../src/providers/native/server.ls")
+uploadr-gcs = require path.join(dir, "../src/providers/gcs/server.ls")
+uploadr-native = require path.join(dir, "../src/providers/native/server.ls")
 
 backend = do
   init: (opt) ->
     @app = app = express!
 
     app.set 'view engine', \pug
-    app.use \/, express.static \static
+    app.use \/, express.static path.join(dir, \static)
     if opt.api => opt.api @
     console.log "[Server] Express Initialized in #{app.get \env} Mode".green
 
@@ -34,8 +33,9 @@ backend = do
     server = app.listen opt.port, ->
       delta = if opt.start-time => "( takes #{Date.now! - opt.start-time}ms )" else ''
       console.log "[SERVER] listening on port #{server.address!port} #delta".cyan
+      open "http://localhost:#{server.address!port}"
 
-config = JSON.parse(fs.read-file-sync 'config.json' .toString!)
+config = JSON.parse(fs.read-file-sync path.join(dir, 'config.json') .toString!)
 
 backend.init config
 srcbuild.lsp {base: '.'}
