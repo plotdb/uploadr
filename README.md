@@ -244,6 +244,7 @@ You can prepare the root element with Pug mixin `uploadr-viewer` after including
 
 To save files locally ( or after autheticated ), you will need a server side api. Based on how to store uploaded files, there are different implementation about the file storing mechanism. These different implementations are separated into different modules called `provider`.
 
+
 ### Common Usage
 
     up = uploadr.provider {host: 'native', config: { .. /* provider specific config */ .. } }
