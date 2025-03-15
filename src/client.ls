@@ -66,6 +66,15 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
             return res ret
           src = URL.createObjectURL(file)
           img = new Image!
+          img.onerror = ->
+            svg = '''
+            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150">
+              <rect width="200" height="150" x="0" y="0" fill="#ccc"/>
+            </svg>
+            '''
+            ret.push f = {thumb: "data:image/svg+xml,#{encodeURIComponent(svg)}", file: file}
+            preview [f]
+            _ list
           img.onload = ->
             [w, h] = [img.width, img.height]
             if w > 200 => [w, h] = [200, h * 200/w]

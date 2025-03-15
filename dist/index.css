@@ -83,19 +83,30 @@
   gap: 0.5em;
   justify-content: space-between;
 }
-.uploadr-file-viewer .uploadr-item div:nth-child(1) {
+.uploadr-file-viewer .uploadr-item .uploadr-item-cell:nth-child(1) {
   flex: 1 0 auto;
   text-align: left;
 }
-.uploadr-file-viewer .uploadr-item div:nth-child(2) {
+.uploadr-file-viewer .uploadr-item .uploadr-item-cell:nth-child(2) {
   flex: 0 0 auto;
   width: 6em;
   text-align: right;
 }
-.uploadr-file-viewer .uploadr-item div:nth-child(3) {
+.uploadr-file-viewer .uploadr-item .uploadr-item-cell:nth-child(3) {
   flex: 0 0 auto;
   width: 15em;
   text-align: right;
+}
+.uploadr-file-viewer .uploadr-item .uploadr-item-cell:nth-child(4) {
+  flex: 0 0 auto;
+  width: 3em;
+  text-align: right;
+}
+.uploadr-file-viewer .uploadr-item-ctrl {
+  position: static;
+}
+.uploadr-file-viewer .uploadr-item-ctrl .inner {
+  width: 100%;
 }
 .uploadr {
   position: relative;

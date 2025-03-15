@@ -137,6 +137,16 @@
               }
               src = URL.createObjectURL(file);
               img = new Image();
+              img.onerror = function(){
+                var svg, f;
+                svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150">\n  <rect width="200" height="150" x="0" y="0" fill="#ccc"/>\n</svg>';
+                ret.push(f = {
+                  thumb: "data:image/svg+xml," + encodeURIComponent(svg),
+                  file: file
+                });
+                preview([f]);
+                return _(list);
+              };
               img.onload = function(){
                 var ref$, w, h, c1, ctx;
                 ref$ = [img.width, img.height], w = ref$[0], h = ref$[1];

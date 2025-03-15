@@ -27,7 +27,7 @@ html
       hr
 
       .ldcv.default-size(ld="ldcv-uploadr"): .base: .inner
-        +uploadr("uploadr")
+        +uploadr({name: "uploadr", type: "file"})
 
       .ldcv.default-size(ld="ldcv-chooser"): .base
         #chooserroot.inner.clickable.p-4(style="overflow-y:scroll;overscroll-behavior:contain")
