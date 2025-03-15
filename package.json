@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@loadingio/debounce.js": "^1.0.1",
-    "@loadingio/ldpage": "^0.0.4",
+    "@loadingio/paginate": "^0.1.1",
     "@loadingio/ldquery": "^3.0.2",
     "connect-multiparty": "^2.2.0",
     "express-formidable": "github:plotdb/express-formidable",
@@ -67,7 +67,7 @@
       "bootstrap",
       "@loadingio/bootstrap.ext",
       "@loadingio/ldquery",
-      "@loadingio/ldpage",
+      "@loadingio/paginate",
       "ldiconfont",
       "@loadingio/debounce.js",
       "proxise",
