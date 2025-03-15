@@ -34,8 +34,9 @@ backend = do
       delta = if opt.start-time => "( takes #{Date.now! - opt.start-time}ms )" else ''
       console.log "[SERVER] listening on port #{server.address!port} #delta".cyan
       open "http://localhost:#{server.address!port}"
+      process.chdir dir
+      srcbuild.lsp {base: '.'}
 
 config = JSON.parse(fs.read-file-sync path.join(dir, 'config.json') .toString!)
 
 backend.init config
-srcbuild.lsp {base: '.'}
