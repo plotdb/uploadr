@@ -19,10 +19,26 @@ mixin uploadr(name)
       div
         .btn.btn-primary.ml-2(ld="upload") Upload
         .btn.btn-primary.ml-2(ld="clear") Clear
+        .btn.btn-primary.ml-2(ld="close",data-ldcv-set="") Close
 
-mixin uploadr-viewer(name)
-  - if(!name) name = "uploadr-viewer";
-  div(ld-scope=name): .uploadr-viewer(ld="list")
+mixin uploadr-viewer(opt)
+  -
+    if(typeof(opt) == "string") { name = opt; }
+    else if(!opt) { opt = {}; }
+    var name = name || opt.name || "uploadr-viewer";
+    var type = opt.type || "image";
+  div(ld-scope=name): .uploadr-viewer(ld="list",class=(type=="file"?"uploadr-file-viewer":""))
+    if type == "file"
+      .uploadr-item.uploadr-head
+        div Name
+        div Size
+        div Modified Date
     .uploadr-item(ld-each="file")
-      img(ld="thumb")
-      .img(ld="thumb")
+      if type == "image"
+        img(ld="thumb")
+        .img(ld="thumb")
+      if type == "file"
+        div(ld="name")
+        div(ld="size")
+        div(ld="modifiedtime")
+    .uploadr-item.uploadr-load(ld="load") More

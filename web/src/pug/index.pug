@@ -12,7 +12,7 @@ html
       { name: "ldnotify"},
       { name: "ldiconfont"},
       { name: "uploadr", version: "dev"},
-      { url: "/css/index.css"},
+      { url: "/css/index.css"}
     ])
 
   body
@@ -30,17 +30,19 @@ html
         +uploadr("uploadr")
 
       .ldcv.default-size(ld="ldcv-chooser"): .base
-        #chooserroot.inner.clickable(style="overflow-y:scroll;overscroll-behavior:contain")
-          +uploadr-viewer("uploadr-viewer")
+        #chooserroot.inner.clickable.p-4(style="overflow-y:scroll;overscroll-behavior:contain")
+          +uploadr-viewer({name: "uploadr-viewer", type: "file"})
 
-      .card.w-100.mx-auto.rwd.shadow: .card-body.p-2
+      .card.w-100.mx-auto.rwd.shadow.mb-4: .card-body.p-2
         +scope("photo-viewer").d-flex.flex-wrap
+          .d-none(ld="empty") no files uploaded
           div(ld-each="photo",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
-        +uploadr-viewer("uploadr-viewer2")
+      .card.w-100.mx-auto.rwd.shadow: .card-body.p-2
+        +uploadr-viewer({name: "uploadr-viewer2", type: "file"})
     +script([
       {name: "@loadingio/debounce.js"},
       {name: "@loadingio/ldquery"},
-      {name: "@loadingio/ldpage"},
+      {name: "@loadingio/paginate"},
       {name: "proxise"},
       {name: "ldview"},
       {name: "ldnotify"},

@@ -2,7 +2,13 @@
   display: flex
   flex-wrap: wrap
   padding: .25em
+  .uploadr-item.uploadr-head
+    border-bottom: 1px solid #eee
+    padding-bottom: .25em
+    margin-bottom: .25em
+    cursor: default
   .uploadr-item
+    cursor: pointer
     &[ld-each]
       display: none
     flex-grow: 1
@@ -57,7 +63,27 @@
     content: " "
     flex: 3 0 auto
 
-
+.uploadr-file-viewer
+  .uploadr-item:hover
+    filter: invert(1)
+  .uploadr-head:hover
+    filter: none
+  .uploadr-item
+    width: 100%
+    display: flex
+    gap: .5em
+    justify-content: space-between
+    div:nth-child(1)
+      flex: 1 0 auto
+      text-align: left
+    div:nth-child(2)
+      flex: 0 0 auto
+      width: 6em
+      text-align: right
+    div:nth-child(3)
+      flex: 0 0 auto
+      width: 15em
+      text-align: right
 
 .uploadr
   position: relative

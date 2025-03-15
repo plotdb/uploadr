@@ -9,7 +9,7 @@
     native: {
       host: 'native',
       config: {
-        route: '/d/uploadr'
+        route: '/api/uploadr/native'
       }
     },
     imgbb: {
@@ -21,7 +21,7 @@
     gcs: {
       host: 'gcs',
       config: {
-        route: '/d/uploadr/gcs',
+        route: '/api/uploadr/gcs',
         bucket: "plotdb-playground-test",
         domain: "https://storage.googleapis.com"
       }
@@ -29,7 +29,7 @@
   };
   up = new uploadr({
     root: '[ld-scope=uploadr]',
-    provider: providers.gcs
+    provider: providers.native
   });
   up.on('upload.done', function(it){
     lc.files = lc.files.concat(it);
@@ -71,14 +71,26 @@
   view = new ldview({
     root: '[ld-scope=photo-viewer]',
     handler: {
+      empty: function(arg$){
+        var node, ctx;
+        node = arg$.node, ctx = arg$.ctx;
+        return node.classList.toggle('d-none', !!lc.files.length);
+      },
       photo: {
         list: function(){
           return lc.files || [];
         },
-        handle: function(arg$){
-          var node, data;
-          node = arg$.node, data = arg$.data;
-          return node.style.backgroundImage = "url(" + data.url + ")";
+        key: function(it){
+          return it.key;
+        },
+        view: {
+          handler: {
+            "@": function(arg$){
+              var node, ctx;
+              node = arg$.node, ctx = arg$.ctx;
+              return node.style.backgroundImage = "url(" + ctx.url + ")";
+            }
+          }
         }
       }
     }
@@ -96,7 +108,10 @@
           return new Promise(function(res, rej){
             return res([1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(it){
               return {
-                url: "/assets/img/sample/" + it + ".jpg"
+                url: "/assets/img/sample/" + it + ".jpg",
+                size: Math.round(Math.random() * (1048576 * 1024)),
+                name: "DSC_" + (Math.floor(Math.random() * 10000) + "").padStart(4, "0") + ".jpg",
+                lastModified: Date.now() - Math.round(Math.random() * 1000 * 1440 * 365)
               };
             }));
           });
@@ -104,11 +119,11 @@
       }
     });
     viewer.fetch();
-    return viewer.on('choose', function(it){
-      ldnotify.send('success', "File \"" + it.url + "\" picked.");
+    return viewer.on('choose', function(f){
+      ldnotify.send('success', "File \"" + f.name + "\" picked.");
       return ldcv.chooser.toggle(false);
     });
   };
   viewerMaker('[ld-scope=uploadr-viewer]', chooserroot);
-  return viewerMaker('[ld-scope=uploadr-viewer2]', window);
+  return viewerMaker('[ld-scope=uploadr-viewer2]', document.body);
 });

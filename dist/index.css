@@ -3,7 +3,14 @@
   flex-wrap: wrap;
   padding: 0.25em;
 }
+.uploadr-viewer .uploadr-item.uploadr-head {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.25em;
+  margin-bottom: 0.25em;
+  cursor: default;
+}
 .uploadr-viewer .uploadr-item {
+  cursor: pointer;
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -63,6 +70,32 @@
   display: block;
   content: " ";
   flex: 3 0 auto;
+}
+.uploadr-file-viewer .uploadr-item:hover {
+  filter: invert(1);
+}
+.uploadr-file-viewer .uploadr-head:hover {
+  filter: none;
+}
+.uploadr-file-viewer .uploadr-item {
+  width: 100%;
+  display: flex;
+  gap: 0.5em;
+  justify-content: space-between;
+}
+.uploadr-file-viewer .uploadr-item div:nth-child(1) {
+  flex: 1 0 auto;
+  text-align: left;
+}
+.uploadr-file-viewer .uploadr-item div:nth-child(2) {
+  flex: 0 0 auto;
+  width: 6em;
+  text-align: right;
+}
+.uploadr-file-viewer .uploadr-item div:nth-child(3) {
+  flex: 0 0 auto;
+  width: 15em;
+  text-align: right;
 }
 .uploadr {
   position: relative;

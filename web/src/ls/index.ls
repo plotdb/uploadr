@@ -3,17 +3,17 @@
 lc = {files: []}
 
 providers = do
-  native: host: \native, config: {route: \/d/uploadr}
+  native: host: \native, config: {route: \/api/uploadr/native}
   imgbb: host: \imgbb, config: {key: "97902907ac92c25e4c54b8d0b4c6eeac"}
   gcs: host: \gcs, config: {
-    route: \/d/uploadr/gcs
+    route: \/api/uploadr/gcs
     bucket: "plotdb-playground-test"
     domain: "https://storage.googleapis.com"
   }
 
 up = new uploadr do
   root: '[ld-scope=uploadr]'
-  provider: providers.gcs
+  provider: providers.native
 
 up.on \upload.done, ->
   lc.files ++= it
@@ -32,11 +32,12 @@ view = new ldview do
 
 view = new ldview do
   root: '[ld-scope=photo-viewer]'
-  handler: do
-    photo: do
+  handler:
+    empty: ({node, ctx}) ~> node.classList.toggle \d-none, !!lc.files.length
+    photo:
       list: -> lc.files or []
-      handle: ({node, data}) ->
-        node.style.backgroundImage = "url(#{data.url})"
+      key: -> it.key
+      view: handler: "@": ({node, ctx}) -> node.style.backgroundImage = "url(#{ctx.url})"
 
 viewer-maker = (root, host) ->
   viewer = new uploadr.viewer do
@@ -48,11 +49,17 @@ viewer-maker = (root, host) ->
       boundary: 100
       fetch: -> new Promise (res, rej) ->
         res [1,2,3,4,5,6,7,8,9].map ->
-          {url: "/assets/img/sample/#{it}.jpg"}
+          {
+            url: "/assets/img/sample/#{it}.jpg"
+            size: Math.round(Math.random! * (1048576 * 1024))
+            name: "DSC_" + "#{Math.floor(Math.random!*10000)}".padStart(4, "0") + ".jpg"
+            lastModified: Date.now! - Math.round(Math.random! * 1000 * 1440 * 365)
+          }
+
   viewer.fetch!
-  viewer.on \choose, ->
-    ldnotify.send \success, """File "#{it.url}" picked."""
+  viewer.on \choose, (f) ->
+    ldnotify.send \success, """File "#{f.name}" picked."""
     ldcv.chooser.toggle false
 
 viewer-maker '[ld-scope=uploadr-viewer]', chooserroot
-viewer-maker '[ld-scope=uploadr-viewer2]', window
+viewer-maker '[ld-scope=uploadr-viewer2]', document.body

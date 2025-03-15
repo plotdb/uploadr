@@ -1,3 +1,14 @@
+parse-date = (d) ->
+  if !d => return 'n/a'
+  new Date(d).toLocaleString("zh-TW", {timeZoneName: "short", hour12: false}).replace(/[\[\]]/g,'')
+
+parse-size = (size = 0) ->
+  s = +size
+  if !s or isNaN(s) => return "0 B"
+  sizes = <[B KB MB GB TB PB]>
+  p = Math.floor(Math.log(s) / Math.log(1024)) <? sizes.length
+  (s / Math.pow(1024, p)).toFixed(1) + (sizes[p] or '')
+
 uploadr = (opt = {}) ->
   @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
@@ -101,7 +112,7 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
                 lc.view.render \file
             handler:
               name: ({node,ctx}) -> node.textContent = ctx.file.name
-              size: ({node,ctx}) -> node.textContent = "#{Math.round(ctx.file.size / 1024)}KB"
+              size: ({node,ctx}) -> node.textContent = parse-size ctx.file.size
               thumb: ({node,ctx}) ->
                 if node.nodeName.toLowerCase! == \img =>
                   node.setAttribute \src, ctx.thumb
@@ -132,8 +143,9 @@ uploadr.viewer = (opt) ->
   @files = lc.files = []
   @view = view = new ldView do
     root: @root
-    action: click: do
-      list: ({node, evt}) ~>
+    action: click:
+      load: ({node, evt}) ~> @page.fetch!
+      listx: ({node, evt}) ~>
         if !(n = ld$.parent(evt.target, '[data-src]', node)) => return
         src = n.getAttribute(\data-src)
         @fire \choose, {url: src}
@@ -142,10 +154,12 @@ uploadr.viewer = (opt) ->
         list: -> lc.files or []
         key: -> it._id
         view:
+          action: click: "@": ({ctx}) ~> @fire \choose, ctx
           text:
-            modifiedtime: ({ctx}) ->
+            modifiedtime: ({ctx}) -> parse-date(ctx.lastModified)
             size: ({ctx}) ->
-            name: ({ctx}) ->
+              parse-size ctx.size
+            name: ({ctx}) -> ctx.name or 'unnamed'
           handler:
             thumb: ({node, ctx}) ->
               if node._load == ctx.url => return
@@ -158,8 +172,7 @@ uploadr.viewer = (opt) ->
                 node.style.backgroundImage = "url(#{ctx.url})"
               node.setAttribute \data-src, ctx.url
 
-  @page = if opt.page instanceof ldpage => opt.page else new ldpage(opt.page or {})
-  @page.init!
+  @page = if opt.page instanceof paginate => opt.page else new paginate(opt.page or {})
   @page.on \fetch, ~>
     files = it.map -> it <<< {_id: Math.random!}
     lc.files ++= files

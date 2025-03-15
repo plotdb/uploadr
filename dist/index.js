@@ -1,5 +1,25 @@
 (function(){
-  var uploadr, ext;
+  var parseDate, parseSize, uploadr, ext;
+  parseDate = function(d){
+    if (!d) {
+      return 'n/a';
+    }
+    return new Date(d).toLocaleString("zh-TW", {
+      timeZoneName: "short",
+      hour12: false
+    }).replace(/[\[\]]/g, '');
+  };
+  parseSize = function(size){
+    var s, sizes, p, ref$, ref1$;
+    size == null && (size = 0);
+    s = +size;
+    if (!s || isNaN(s)) {
+      return "0 B";
+    }
+    sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    p = (ref$ = Math.floor(Math.log(s) / Math.log(1024))) < (ref1$ = sizes.length) ? ref$ : ref1$;
+    return (s / Math.pow(1024, p)).toFixed(1) + (sizes[p] || '');
+  };
   uploadr = function(opt){
     var this$ = this;
     opt == null && (opt = {});
@@ -230,7 +250,7 @@
                   size: function(arg$){
                     var node, ctx;
                     node = arg$.node, ctx = arg$.ctx;
-                    return node.textContent = Math.round(ctx.file.size / 1024) + "KB";
+                    return node.textContent = parseSize(ctx.file.size);
                   },
                   thumb: function(arg$){
                     var node, ctx;
@@ -286,7 +306,12 @@
       root: this.root,
       action: {
         click: {
-          list: function(arg$){
+          load: function(arg$){
+            var node, evt;
+            node = arg$.node, evt = arg$.evt;
+            return this$.page.fetch();
+          },
+          listx: function(arg$){
             var node, evt, n, src;
             node = arg$.node, evt = arg$.evt;
             if (!(n = ld$.parent(evt.target, '[data-src]', node))) {
@@ -308,18 +333,30 @@
             return it._id;
           },
           view: {
+            action: {
+              click: {
+                "@": function(arg$){
+                  var ctx;
+                  ctx = arg$.ctx;
+                  return this$.fire('choose', ctx);
+                }
+              }
+            },
             text: {
               modifiedtime: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
+                return parseDate(ctx.lastModified);
               },
               size: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
+                return parseSize(ctx.size);
               },
               name: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
+                return ctx.name || 'unnamed';
               }
             },
             handler: {
@@ -348,10 +385,9 @@
         }
       }
     });
-    this.page = opt.page instanceof ldpage
+    this.page = opt.page instanceof paginate
       ? opt.page
-      : new ldpage(opt.page || {});
-    this.page.init();
+      : new paginate(opt.page || {});
     this.page.on('fetch', function(it){
       var files;
       files = it.map(function(it){
