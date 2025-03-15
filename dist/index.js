@@ -211,9 +211,9 @@
                 action: {
                   click: {
                     'delete': function(arg$){
-                      var context, idx;
-                      context = arg$.context;
-                      if (!~(idx = lc.files.indexOf(context))) {
+                      var ctx, idx;
+                      ctx = arg$.ctx;
+                      if (!~(idx = lc.files.indexOf(ctx))) {
                         return;
                       }
                       lc.files.splice(idx, 1);
@@ -223,22 +223,22 @@
                 },
                 handler: {
                   name: function(arg$){
-                    var node, context;
-                    node = arg$.node, context = arg$.context;
-                    return node.textContent = context.file.name;
+                    var node, ctx;
+                    node = arg$.node, ctx = arg$.ctx;
+                    return node.textContent = ctx.file.name;
                   },
                   size: function(arg$){
-                    var node, context;
-                    node = arg$.node, context = arg$.context;
-                    return node.textContent = Math.round(context.file.size / 1024) + "KB";
+                    var node, ctx;
+                    node = arg$.node, ctx = arg$.ctx;
+                    return node.textContent = Math.round(ctx.file.size / 1024) + "KB";
                   },
                   thumb: function(arg$){
-                    var node, context;
-                    node = arg$.node, context = arg$.context;
+                    var node, ctx;
+                    node = arg$.node, ctx = arg$.ctx;
                     if (node.nodeName.toLowerCase() === 'img') {
-                      return node.setAttribute('src', context.thumb);
+                      return node.setAttribute('src', ctx.thumb);
                     } else {
-                      return node.style.backgroundImage = "url(" + context.thumb + ")";
+                      return node.style.backgroundImage = "url(" + ctx.thumb + ")";
                     }
                   }
                 }
@@ -309,35 +309,39 @@
           },
           view: {
             text: {
+              modifiedtime: function(arg$){
+                var ctx;
+                ctx = arg$.ctx;
+              },
               size: function(arg$){
-                var context;
-                context = arg$.context;
+                var ctx;
+                ctx = arg$.ctx;
               },
               name: function(arg$){
-                var context;
-                context = arg$.context;
+                var ctx;
+                ctx = arg$.ctx;
               }
             },
             handler: {
               thumb: function(arg$){
-                var node, context;
-                node = arg$.node, context = arg$.context;
-                if (node._load === context.url) {
+                var node, ctx;
+                node = arg$.node, ctx = arg$.ctx;
+                if (node._load === ctx.url) {
                   return;
                 }
-                node._load = context.url;
+                node._load = ctx.url;
                 node.style.opacity = 0;
                 if (node.nodeName.toLowerCase() === 'img') {
-                  node.setAttribute('src', context.url);
+                  node.setAttribute('src', ctx.url);
                   node.onload = function(){
                     return ld$.find(node.parentNode, 'div[ld=thumb]').map(function(it){
                       return it.style.opacity = 1;
                     });
                   };
                 } else {
-                  node.style.backgroundImage = "url(" + context.url + ")";
+                  node.style.backgroundImage = "url(" + ctx.url + ")";
                 }
-                return node.setAttribute('data-src', context.url);
+                return node.setAttribute('data-src', ctx.url);
               }
             }
           }

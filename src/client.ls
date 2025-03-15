@@ -95,17 +95,17 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
           list: -> lc.files or []
           view:
             action: click:
-              delete: ({context}) ->
-                if !~(idx = lc.files.indexOf(context)) => return
+              delete: ({ctx}) ->
+                if !~(idx = lc.files.indexOf(ctx)) => return
                 lc.files.splice(idx, 1)
                 lc.view.render \file
             handler:
-              name: ({node,context}) -> node.textContent = context.file.name
-              size: ({node,context}) -> node.textContent = "#{Math.round(context.file.size / 1024)}KB"
-              thumb: ({node,context}) ->
+              name: ({node,ctx}) -> node.textContent = ctx.file.name
+              size: ({node,ctx}) -> node.textContent = "#{Math.round(ctx.file.size / 1024)}KB"
+              thumb: ({node,ctx}) ->
                 if node.nodeName.toLowerCase! == \img =>
-                  node.setAttribute \src, context.thumb
-                else node.style.backgroundImage = "url(#{context.thumb})"
+                  node.setAttribute \src, ctx.thumb
+                else node.style.backgroundImage = "url(#{ctx.thumb})"
 
   get: -> return @lc.files
   clear: -> @lc.files.splice(0); @lc.view.render!
@@ -143,19 +143,20 @@ uploadr.viewer = (opt) ->
         key: -> it._id
         view:
           text:
-            size: ({context}) ->
-            name: ({context}) ->
+            modifiedtime: ({ctx}) ->
+            size: ({ctx}) ->
+            name: ({ctx}) ->
           handler:
-            thumb: ({node, context}) ->
-              if node._load == context.url => return
-              node._load = context.url
+            thumb: ({node, ctx}) ->
+              if node._load == ctx.url => return
+              node._load = ctx.url
               node.style.opacity = 0
               if node.nodeName.toLowerCase! == \img =>
-                node.setAttribute \src, context.url
+                node.setAttribute \src, ctx.url
                 node.onload = -> ld$.find(node.parentNode, 'div[ld=thumb]').map -> it.style.opacity = 1
               else
-                node.style.backgroundImage = "url(#{context.url})"
-              node.setAttribute \data-src, context.url
+                node.style.backgroundImage = "url(#{ctx.url})"
+              node.setAttribute \data-src, ctx.url
 
   @page = if opt.page instanceof ldpage => opt.page else new ldpage(opt.page or {})
   @page.init!
