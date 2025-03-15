@@ -1,7 +1,7 @@
 //- module
 mixin uploadr(name)
   - if(!name) name = "uploadr";
-  +scope(name).uploadr
+  .uploadr(ld-scope=name)
     .uploadr-dropzone(ld="drop")
       .uploadr-hint: div Drag & drop #[br] file(s) here
       .uploadr-viewer
@@ -22,7 +22,7 @@ mixin uploadr(name)
 
 mixin uploadr-viewer(name)
   - if(!name) name = "uploadr-viewer";
-  +scope(name): .uploadr-viewer(ld="list")
+  div(ld-scope=name): .uploadr-viewer(ld="list")
     .uploadr-item(ld-each="file")
       img(ld="thumb")
       .img(ld="thumb")
