@@ -31,13 +31,17 @@ view = new ldview do
     "toggle-chooser": -> ldcv.chooser.toggle!
 
 view = new ldview do
-  root: '[ld-scope=photo-viewer]'
+  root: '[ld-scope=file-viewer]'
   handler:
     empty: ({node, ctx}) ~> node.classList.toggle \d-none, !!lc.files.length
-    photo:
-      list: -> lc.files or []
-      key: -> it.key
-      view: handler: "@": ({node, ctx}) -> node.style.backgroundImage = "url(#{ctx.url})"
+    file:
+      list: -> (lc.files or [])
+      key: -> it.id or it.key
+      view: handler: "@": ({node, ctx}) ->
+        if /.(jpg|jpeg|png|gif|webp)$/.exec(ctx.name) =>
+          node.style.backgroundImage = "url(#{ctx.url})"
+        else
+          node.textContent = ctx.name
 
 viewer-maker = (root, host) ->
   viewer = new uploadr.viewer do

@@ -34,9 +34,9 @@ html
           +uploadr-viewer({name: "uploadr-viewer", type: "file"})
 
       .card.w-100.mx-auto.rwd.shadow.mb-4: .card-body.p-2
-        +scope("photo-viewer").d-flex.flex-wrap
+        +scope("file-viewer").d-flex.flex-wrap
           .d-none(ld="empty") no files uploaded
-          div(ld-each="photo",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
+          .d-flex.align-items-center.justify-content-center.bg-light.border.rounded-sm(ld-each="file",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
       .card.w-100.mx-auto.rwd.shadow: .card-body.p-2
         +uploadr-viewer({name: "uploadr-viewer2", type: "file"})
     +script([

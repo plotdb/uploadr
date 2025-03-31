@@ -69,26 +69,30 @@
     }
   });
   view = new ldview({
-    root: '[ld-scope=photo-viewer]',
+    root: '[ld-scope=file-viewer]',
     handler: {
       empty: function(arg$){
         var node, ctx;
         node = arg$.node, ctx = arg$.ctx;
         return node.classList.toggle('d-none', !!lc.files.length);
       },
-      photo: {
+      file: {
         list: function(){
           return lc.files || [];
         },
         key: function(it){
-          return it.key;
+          return it.id || it.key;
         },
         view: {
           handler: {
             "@": function(arg$){
               var node, ctx;
               node = arg$.node, ctx = arg$.ctx;
-              return node.style.backgroundImage = "url(" + ctx.url + ")";
+              if (/.(jpg|jpeg|png|gif|webp)$/.exec(ctx.name)) {
+                return node.style.backgroundImage = "url(" + ctx.url + ")";
+              } else {
+                return node.textContent = ctx.name;
+              }
             }
           }
         }
