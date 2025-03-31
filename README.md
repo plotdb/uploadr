@@ -223,6 +223,7 @@ with following options:
 
 You can prepare the root element with Pug mixin `uploadr-viewer` after including required `uploadr.pug`:
 
+    include <path-to-ldview.pug>
     include <path-to-uploadr.pug>
     div.some-tag-to-wrap-uploader-viewer: +uploadr-viewer("scope-name")
 
