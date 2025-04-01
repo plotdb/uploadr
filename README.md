@@ -2,14 +2,14 @@
 
 File upload library, including:
 
- - [client side](#client-side) - upload widget, file list viewer ( with pug template ) and provider adopters.
+ - [client side](#client-side) - upload widget, file list viewer ( with pug template ) and provider adapters.
  - [server side](#server-side) - API endpoint for file storing with Express
 
 
 
 ## Client Side
 
-In browser context, we need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separatedly in following sections.
+In browser context, we need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separately in following sections.
 
 
 ### Installation
@@ -37,7 +37,7 @@ For more information about provider, check [Provider section](#providers) below.
 
 ### Uploader
 
-You can skip Uploadr viewer completely if you only need an API endpoint for each provider. In this case, check [Providers section](#providers) below.
+If you only need an API endpoint for each provider, you can skip Uploadr viewer completely. In this case, check [Providers section](#providers) below.
 
 To upload files via uploadr viewer, create an `uploadr` object through its constructor:
 
@@ -62,11 +62,11 @@ Feel free to wrap it in dialogs or popups.
 
 #### API
 
-`uploadr` object provides following APIs:
+`uploadr` object provides the following APIs:
 
-  - `init` - initialize uploadr, return promise, resolves when initied.
-    - constructor will init uploadr automatically.
-    - simply use `init.then( ... )` to ensure inited.
+  - `init` - initialize uploadr, return a promise which resolves when initialized.
+    - constructor will initialize uploadr automatically.
+    - simply use `init.then( ... )` to ensure initialized.
   - `upload` - upload chosen files.
   - `clear` - clear chosen files.
   - `get` - get chosen files.
@@ -84,23 +84,23 @@ Feel free to wrap it in dialogs or popups.
 
 To use a provider, you should make sure to
 
- - client side: init `uploadr` with proper provider configurations
- - server side: ensure to add api endpoint if needed.
+ - client side: initialize `uploadr` with proper provider configurations
+ - server side: ensure to add API endpoint if needed.
 
 To upload without UI ( Uploadr Viewer ), use client side providers directly which are availables by:
 
     uploadr.ext["<provider-name>"]
 
-Client side providers are function accepting an object with following fields:
+Client side providers are function accepting an object with the following fields:
 
- - `files`: Array of files to upload. Items for each file are objects with following fields:
+ - `files`: Array of files to upload. Items for each file are objects with the following fields:
    - `thumb`: thumbnail url
    - `file`: corresponding file object
- - `progress(opt)`: progress event handler accepting opt object with following fields:
+ - `progress(opt)`: progress event handler accepting opt object with the following fields:
    - `percent`: progress. 0 ~ 1
    - `item`: uploading item object with fields described above in `files`.
  - `opt`: corresponding configs described in sections of each provider below.
- - `data`: additional data passed via `data` field ( accessiable via `req.fields.data` in server side )
+ - `data`: additional data passed via `data` field ( accessible via `req.fields.data` in server side )
 
 For example, to upload a file to Google Cloud Storage:
 
@@ -115,29 +115,29 @@ Provider configurations for each provider is described as below.
 
 ##### Native
 
-upload files to local API endpoint. include `providers/native.js` then init with:
+upload files to local API endpoint. include `providers/native.js` then:
 
     new uploadr({ host: "native", config: { ... }});
 
 where config contains:
 
- - `route`: api endpoint
+ - `route`: API endpoint
 
 
 ##### ImgBB
 
-Upload images to ImgBB. Include `providers/imgbb.js` then init with:
+Upload images to ImgBB. Include `providers/imgbb.js` then:
 
     new uploadr({ host: "imgbb", config: { ... }});
 
 where config contains:
 
- - `key`: imgbb api key for uploading images.
+ - `key`: imgbb API key for uploading images.
 
 
 ##### GCS ( Google Cloud Storage )
 
-Upload files to Google Cloud Storage directly from browser. Include `providers/gcs.js` then init with:
+Upload files to Google Cloud Storage directly from browser. Include `providers/gcs.js` then initialize with:
 
     new uploadr({ host: "gcs", config: { ... }});
 
@@ -153,7 +153,7 @@ where config contains:
 
 ##### Dummy
 
-Never upload files to anywhere - just response with a dummy result. Include `providers/dummy.js` then init with:
+Dummy provide doesn't upload files to anywhere - it just responses with a dummy result. Include `providers/dummy.js` then:
 
     new uploadr({ host: "dummy" })
 
@@ -167,7 +167,7 @@ You can also add provider for services you'd like to use by simply adding a func
     uploadr.ext.myService = function ({files, progress, opt}) { ... }
 
 
-It's you job to implement the upload mechanism with following parameters and requirements:
+It's you job to implement the upload mechanism with the following parameters and requirements:
 
  - Parameters
    - `files`: Array of `{thumb, file}` object with:
@@ -183,7 +183,7 @@ It's you job to implement the upload mechanism with following parameters and req
      - packed by `FormData` and accessible through `req.fields.data` as string when using `express-formidable`.
      - need to manually parse to JSON in server, if a JSON object is passed from client.
  - provider function should always return a Promise which resolves a list of objects when upload is finished.
-   - resolved object in list should contains following members:
+   - resolved object in list should contain the following members:
      - `id`: unique id for this file.
      - `name`: name of this file. fallback to id if omitted.
      - `url`: url for previewing this file.
@@ -194,10 +194,10 @@ It's you job to implement the upload mechanism with following parameters and req
 
 #### Widget Customization
 
-Uploadr client library uses [ldview](https://github.com/loadingio/ldview) for UI abstraction. If you design your own upload widget, simply add following `ld` names on corresponding elements.
+Uploadr client library uses [ldview](https://github.com/loadingio/ldview) for UI abstraction. If you design your own upload widget, simply add the following `ld` names on corresponding elements.
 
  - `drop`: area for dropping files to choose them.
- - `file`: `ld-each` type name. preview of chosen files. with following nested `ld` names:
+ - `file`: `ld-each` type name. preview of chosen files. with the following nested `ld` names:
    - `thumb`: element for showing preview image. should also be an `<img>` tag.
    - `progress`: upload progress indicator
    - `size`: size of chosen file.
@@ -237,7 +237,7 @@ You can prepare the root element with Pug mixin `uploadr-viewer` after including
    - `finish`: when there is no new item available.
    - `empty`: when list is empty.
    - `choose`: when an item is chosen. `cb` called with `{url}` object as parameter.
- - `fetch`: intialiate a new fetch
+ - `fetch`: initiate a new fetch
  - `reset`: reset pager and list.
 
 
@@ -269,23 +269,23 @@ Additionally:
 
 ### adopt
 
-`adopt` is available as a config in all providers. `adopt` function is used to track a file, and by default do nothing, left to users to implement. it should be an object providing following two member functions:
+`adopt` is available as a config in all providers. `adopt` function is used to track a file, and by default do nothing, left to users to implement. it should be an object providing the following two member functions:
 
  - `upload(req, ret)` - called when we expect a file storing slot is created.
  - `download(req, ret)` - called before file is served to user.
 
-where ret should be an object with following fields:
+where ret should be an object with the following fields:
 
  - `name`: filename
  - `id`: file id, provided by provider.
- - `url`: optional. availabel for native provider.
+ - `url`: optional. available for native provider.
 
-both function should return promise. `adopt` can be used to
+both function should return a promise. `adopt` can be used to
  
  - return rejected promise to prevent file to be uploaded / downloaded
  - track upload / download
 
-Following is an example of using `adopt` in native provider:
+The following is an example of using `adopt` in native provider:
 
     up = uploader.provider({
       host: 'native', config: {
@@ -311,10 +311,10 @@ sample configurations:
 
 #### Configurations
 
-config native provider with following options:
+config native provider with the following options:
 
  - `config`: native provider specific configs, including:
-   - `folder`: fs path for saving all files. if omitted, fallback to `uploads`
+   - `folder`: fs path for saving all files. if omitted, fall back to `uploads`
    - `url`: url prefix ( relative or absolute ). if omitted, fallback to `folder`
  - `adopt: (req, {name, path, url, id})`: post process function after files are saved.
    - if provided, will be called for each file saved.
