@@ -449,6 +449,33 @@
       return this.view.render();
     }
   });
+  uploadr.i18n = {
+    en: {
+      "Drag & drop": "Drag & drop",
+      "file(s) here": "file(s) here",
+      "Name": "Name",
+      "Size": "Size",
+      "Modified Date": "Modified Date",
+      "Add File ...": "Add File ...",
+      "div": "div",
+      "Upload": "Upload",
+      "Clear": "Clear",
+      "Close": "Close",
+      "Load More": "Load More"
+    },
+    "zh-TW": {
+      "Drag & drop": "拖拉檔案",
+      "file(s) here": "至此處",
+      "Name": "檔名",
+      "Size": "檔案大小",
+      "Modified Date": "修改時間",
+      "Add File ...": "增加檔案 ...",
+      "Upload": "上傳",
+      "Clear": "清除",
+      "Close": "關閉",
+      "Load More": "載入更多"
+    }
+  };
   if (typeof module != 'undefined' && module !== null) {
     module.exports = uploadr;
   } else if (typeof window != 'undefined' && window !== null) {

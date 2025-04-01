@@ -7,7 +7,7 @@ mixin uploadr(opt)
     var type = opt.type || "image";
   .uploadr(ld-scope=name)&attributes(attributes)
     .uploadr-dropzone(ld="drop")
-      .uploadr-hint: div Drag & drop #[br] file(s) here
+      .uploadr-hint: div #[span(t) Drag & drop] #[br] #[span(t) file(s) here]
       .uploadr-viewer(class=(type=="file"?"uploadr-file-viewer":""))
         if type != "file"
           .uploadr-item(ld-each="file")
@@ -21,9 +21,9 @@ mixin uploadr(opt)
                 div(ld="delete") &times;
         else
           .uploadr-item.uploadr-head
-            .uploadr-item-cell Name
-            .uploadr-item-cell Size
-            .uploadr-item-cell Modified Date
+            .uploadr-item-cell(t) Name
+            .uploadr-item-cell(t) Size
+            .uploadr-item-cell(t) Modified Date
             .uploadr-item-cell &nbsp;
           .uploadr-item(ld-each="file")
             .uploadr-item-cell(style="position:relative")
@@ -35,11 +35,11 @@ mixin uploadr(opt)
 
       .uploadr-loader: .ldld.default(ld="loader")
     .uploadr-ctrl
-      .flex-grow-1.mr-2: .btn.btn-primary.btn-upload Add File ... #[input(type="file",ld="input",multiple)]
+      .flex-grow-1.mr-2: .btn.btn-primary.btn-upload #[span(t) Add File ...] #[input(type="file",ld="input",multiple)]
       div
-        .btn.btn-primary.ml-2(ld="upload") Upload
-        .btn.btn-primary.ml-2(ld="clear") Clear
-        .btn.btn-primary.ml-2(ld="close",data-ldcv-set="") Close
+        .btn.btn-primary.ml-2(ld="upload",t) Upload
+        .btn.btn-primary.ml-2(ld="clear,t") Clear
+        .btn.btn-primary.ml-2(ld="close",data-ldcv-set="",t) Close
 
 mixin uploadr-viewer(opt)
   -
@@ -50,9 +50,9 @@ mixin uploadr-viewer(opt)
   .uploadr-viewer(ld-scope=name,ld="list",class=(type=="file"?"uploadr-file-viewer":""))&attributes(attributes)
     if type == "file"
       .uploadr-item.uploadr-head
-        .uploadr-item-cell Name
-        .uploadr-item-cell Size
-        .uploadr-item-cell Modified Date
+        .uploadr-item-cell(t) Name
+        .uploadr-item-cell(t) Size
+        .uploadr-item-cell(t) Modified Date
     .uploadr-item(ld-each="file")
       if type == "image"
         img(ld="thumb")
@@ -61,4 +61,4 @@ mixin uploadr-viewer(opt)
         .uploadr-item-cell(ld="name")
         .uploadr-item-cell(ld="size")
         .uploadr-item-cell(ld="modifiedtime")
-    .uploadr-item.uploadr-load(ld="load") More
+    .uploadr-item.uploadr-load(ld="load",t) Load More
