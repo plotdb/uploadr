@@ -9,7 +9,7 @@ File upload library, including:
 
 ## Client Side
 
-In browser context, we need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separately in following sections.
+In a browser context, we need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separately in following sections.
 
 
 ### Installation
@@ -64,8 +64,8 @@ Feel free to wrap it in dialogs or popups.
 
 `uploadr` object provides the following APIs:
 
-  - `init` - initialize uploadr, return a promise which resolves when initialized.
-    - constructor will initialize uploadr automatically.
+  - `init` - initialize uploadr, return a promise that resolves when initialized.
+    - constructor initializes uploadr automatically.
     - simply use `init.then( ... )` to ensure initialized.
   - `upload` - upload chosen files.
   - `clear` - clear chosen files.
@@ -80,14 +80,14 @@ Feel free to wrap it in dialogs or popups.
 
 #### Providers
 
-`@plotdb/uploadr` supports uploading to different kind of file hosting services. use `provider` to choose between the providers available as below.
+`@plotdb/uploadr` supports uploading to different kind of file hosting services. use `provider` to choose from the available providers below.
 
 To use a provider, you should make sure to
 
  - client side: initialize `uploadr` with proper provider configurations
  - server side: ensure to add API endpoint if needed.
 
-To upload without UI ( Uploadr Viewer ), use client side providers directly which are availables by:
+To upload without UI ( Uploadr Viewer ), use client side providers directly that are available via:
 
     uploadr.ext["<provider-name>"]
 
@@ -100,7 +100,7 @@ Client side providers are function accepting an object with the following fields
    - `percent`: progress. 0 ~ 1
    - `item`: uploading item object with fields described above in `files`.
  - `opt`: corresponding configs described in sections of each provider below.
- - `data`: additional data passed via `data` field ( accessible via `req.fields.data` in server side )
+ - `data`: additional data passed via the `data` field ( accessible via `req.fields.data` in server side )
 
 For example, to upload a file to Google Cloud Storage:
 
@@ -153,7 +153,7 @@ where config contains:
 
 ##### Dummy
 
-Dummy provide doesn't upload files to anywhere - it just responses with a dummy result. Include `providers/dummy.js` then:
+Dummy provider doesn't upload files to anywhere - it just responds with a dummy result. Include `providers/dummy.js` then:
 
     new uploadr({ host: "dummy" })
 
@@ -167,7 +167,7 @@ You can also add provider for services you'd like to use by simply adding a func
     uploadr.ext.myService = function ({files, progress, opt}) { ... }
 
 
-It's you job to implement the upload mechanism with the following parameters and requirements:
+It's your job to implement the upload mechanism with the following parameters and requirements:
 
  - Parameters
    - `files`: Array of `{thumb, file}` object with:
@@ -182,7 +182,7 @@ It's you job to implement the upload mechanism with the following parameters and
    - `data`: additional data to pass to server.
      - packed by `FormData` and accessible through `req.fields.data` as string when using `express-formidable`.
      - need to manually parse to JSON in server, if a JSON object is passed from client.
- - provider function should always return a Promise which resolves a list of objects when upload is finished.
+ - provider function should always return a Promise that resolves a list of objects when upload is finished.
    - resolved object in list should contain the following members:
      - `id`: unique id for this file.
      - `name`: name of this file. fallback to id if omitted.
@@ -274,7 +274,7 @@ Additionally:
  - `upload(req, ret)` - called when we expect a file storing slot is created.
  - `download(req, ret)` - called before file is served to user.
 
-where ret should be an object with the following fields:
+where the return value should be an object with the following fields:
 
  - `name`: filename
  - `id`: file id, provided by provider.
@@ -283,7 +283,7 @@ where ret should be an object with the following fields:
 both function should return a promise. `adopt` can be used to
  
  - return rejected promise to prevent file to be uploaded / downloaded
- - track upload / download
+ - track uploads / downloads
 
 The following is an example of using `adopt` in native provider:
 
@@ -299,7 +299,7 @@ The following is an example of using `adopt` in native provider:
 
 ### Native Provider
 
-Native provider accepts incoming request with files payload, and save them based on hashed id into specified location. Use `express-formidable` and `uploadr(...).route` to handle files:
+Native provider accepts incoming request with files payload, and save them based on a hashed id into a specified location. Use `express-formidable` and `uploadr(...).route` to handle files:
 
     up = uploader.provider {host: 'native', config: { ... }}
     app.post \/d/uploadr, express-formidable({multiples: true}), up.getUploadRouter!
@@ -333,7 +333,7 @@ config native provider with the following options:
 Following are the APIs exposed by native provider:
 
  - `handler(req, res, next)`: process req.files and return promise, resolving url, id and name as array of objects.
- - `router(req, res, next)`: wrap handler as a route which pass data to res.send, or report 500 on error.
+ - `router(req, res, next)`: wrap handler as a route that passes data to res.send, or report 500 on error.
  - `archive(opt)`: function that takes care of files
    - input: one of following ( name is optional in both case )
      - {path, name}
