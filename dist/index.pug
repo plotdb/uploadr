@@ -47,7 +47,7 @@ mixin uploadr-viewer(opt)
     else if(!opt) { opt = {}; }
     var name = name || opt.name || "uploadr-viewer";
     var type = opt.type || "image";
-  div(ld-scope=name)&attributes(attributes): .uploadr-viewer(ld="list",class=(type=="file"?"uploadr-file-viewer":""))
+  .uploadr-viewer(ld-scope=name,ld="list",class=(type=="file"?"uploadr-file-viewer":""))&attributes(attributes)
     if type == "file"
       .uploadr-item.uploadr-head
         .uploadr-item-cell Name

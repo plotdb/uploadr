@@ -1,8 +1,13 @@
 .uploadr-viewer
-  display: flex
-  flex-wrap: wrap
-  padding: .25em
+  overflow-y: scroll
+  scrollbar-gutter: stable
+  overscroll-behavior: contain
+  height: 100%
   .uploadr-item.uploadr-head
+    position: sticky
+    top: 0
+    background: #fff
+    z-index: 1
     border-bottom: 1px solid #eee
     padding-bottom: .25em
     margin-bottom: .25em
@@ -15,7 +20,7 @@
     display: flex
     align-items: center
     justify-content: center
-    margin: .25em
+    padding: .25em 1em
     text-align: center
     position: relative
     img[ld=thumb]
@@ -119,6 +124,7 @@
   display: flex
   align-items: center
   justify-content: center
+  user-select: none
 .uploadr-ctrl
   display: flex
   justify-content: space-between

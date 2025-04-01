@@ -30,8 +30,11 @@ html
         +uploadr({name: "uploadr", type: "file"})
 
       .ldcv.default-size(ld="ldcv-chooser"): .base
-        #chooserroot.inner.clickable.p-4(style="overflow-y:scroll;overscroll-behavior:contain")
-          +uploadr-viewer({name: "uploadr-viewer", type: "file"})
+        #chooserroot.inner.d-flex.flex-column
+          .flex-grow-1
+            +uploadr-viewer({name: "uploadr-viewer", type: "file"})
+          .d-flex.justify-content-end.p-2
+            .btn.btn-primary(data-ldcv-set="") Close
 
       .card.w-100.mx-auto.rwd.shadow.mb-4: .card-body.p-2
         +scope("file-viewer").d-flex.flex-wrap

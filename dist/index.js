@@ -251,17 +251,24 @@
                     }
                   }
                 },
-                handler: {
+                text: {
                   name: function(arg$){
-                    var node, ctx;
-                    node = arg$.node, ctx = arg$.ctx;
-                    return node.textContent = ctx.file.name;
+                    var ctx;
+                    ctx = arg$.ctx;
+                    return ctx.file.name;
                   },
                   size: function(arg$){
-                    var node, ctx;
-                    node = arg$.node, ctx = arg$.ctx;
-                    return node.textContent = parseSize(ctx.file.size);
+                    var ctx;
+                    ctx = arg$.ctx;
+                    return parseSize(ctx.file.size);
                   },
+                  modifiedtime: function(arg$){
+                    var ctx;
+                    ctx = arg$.ctx;
+                    return parseDate(ctx.file.lastModified);
+                  }
+                },
+                handler: {
                   thumb: function(arg$){
                     var node, ctx;
                     node = arg$.node, ctx = arg$.ctx;
@@ -353,20 +360,20 @@
               }
             },
             text: {
-              modifiedtime: function(arg$){
+              name: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
-                return parseDate(ctx.lastModified);
+                return ctx.name || 'unnamed';
               },
               size: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
                 return parseSize(ctx.size);
               },
-              name: function(arg$){
+              modifiedtime: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
-                return ctx.name || 'unnamed';
+                return parseDate(ctx.lastModified);
               }
             },
             handler: {

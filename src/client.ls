@@ -119,9 +119,11 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
                 if !~(idx = lc.files.indexOf(ctx)) => return
                 lc.files.splice(idx, 1)
                 lc.view.render \file
+            text:
+              name: ({ctx}) -> ctx.file.name
+              size: ({ctx}) -> parse-size ctx.file.size
+              modifiedtime: ({ctx}) -> parse-date ctx.file.lastModified
             handler:
-              name: ({node,ctx}) -> node.textContent = ctx.file.name
-              size: ({node,ctx}) -> node.textContent = parse-size ctx.file.size
               thumb: ({node,ctx}) ->
                 if node.nodeName.toLowerCase! == \img =>
                   node.setAttribute \src, ctx.thumb
@@ -165,10 +167,9 @@ uploadr.viewer = (opt) ->
         view:
           action: click: "@": ({ctx}) ~> @fire \choose, ctx
           text:
-            modifiedtime: ({ctx}) -> parse-date(ctx.lastModified)
-            size: ({ctx}) ->
-              parse-size ctx.size
             name: ({ctx}) -> ctx.name or 'unnamed'
+            size: ({ctx}) -> parse-size ctx.size
+            modifiedtime: ({ctx}) -> parse-date ctx.lastModified
           handler:
             thumb: ({node, ctx}) ->
               if node._load == ctx.url => return
