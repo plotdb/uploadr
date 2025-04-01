@@ -77,10 +77,10 @@
   flex: 3 0 auto;
 }
 .uploadr-file-viewer .uploadr-item:hover {
-  filter: invert(1);
+  font-weight: 700;
 }
 .uploadr-file-viewer .uploadr-head:hover {
-  filter: none;
+  font-weight: inherit;
 }
 .uploadr-file-viewer .uploadr-item {
   width: 100%;
