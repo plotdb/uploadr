@@ -14,15 +14,15 @@ In browser context, we need widgets for both file uploading and file choosing. B
 
 ### Installation
 
-    npm install --save @loadingio/ldpage @loadingio/debounce.js ldview ldloader proxise @plotdb/uploadr
+    npm install --save @loadingio/paginate @loadingio/debounce.js ldview ldloader proxise @plotdb/uploadr
 
 
 ### Usage
 
-include required js / css files and related dependencies ( `@loadingio/ldpage`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ):
+include required js / css files and related dependencies ( `@loadingio/paginate`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ):
 
     <link rel="stylesheet" type="text/css" href="@plotdb/uploadr/uploadr.css"/>
-    <script src="@loadingio/ldpage/index.min.js"></script>
+    <script src="@loadingio/paginate/index.min.js"></script>
     <script src="@loadingio/debounce.js/index.min.js"></script>
     <script src="proxise/index.min.js"></script>
     <script src="ldview/index.min.js"></script>
