@@ -37,19 +37,19 @@ For more information about provider, check [Provider section](#providers) below.
 
 ### Uploader
 
-If you only need an API endpoint for each provider, you can skip Uploadr viewer completely. In this case, check [Providers section](#providers) below.
+If you only need an API endpoint for each provider, you can skip the Uploadr viewer completely. In this case, check [Providers section](#providers) below.
 
 To upload files via uploadr viewer, create an `uploadr` object through its constructor:
 
     var up = new uploadr({ ... })
 
-with following options:
+with the following options:
 
  - `root`: root element ( or selector ) of the upload widget.
     - To customize widget, see [Widget Customization section](#widget-customization) below.
  - `provider`: object for provider information
    - For detail usage, See [Providers section](#providers) below.
-   - if omitted, fallback to `{config: {route: '/d/uploadr'}, host: 'native'}`
+   - if omitted, falls back to `{config: {route: '/d/uploadr'}, host: 'native'}`
 
 
 For root element - if you use Pug, you can use the `uploadr` mixin available in `uploadr.pug` to create the DOM needed:
@@ -87,16 +87,16 @@ To use a provider, you should make sure to
  - client side: initialize `uploadr` with proper provider configurations
  - server side: ensure to add API endpoint if needed.
 
-To upload without UI ( Uploadr Viewer ), use client side providers directly that are available via:
+To upload without UI ( Uploadr Viewer ), use the client-side providers directly, available via:
 
     uploadr.ext["<provider-name>"]
 
-Client side providers are function accepting an object with the following fields:
+Client side providers are functions accepting an object with the following fields:
 
  - `files`: Array of files to upload. Items for each file are objects with the following fields:
-   - `thumb`: thumbnail url
+   - `thumb`: thumbnail URL
    - `file`: corresponding file object
- - `progress(opt)`: progress event handler accepting opt object with the following fields:
+ - `progress(opt)`: progress event handler accepting an opt object with the following fields:
    - `percent`: progress. 0 ~ 1
    - `item`: uploading item object with fields described above in `files`.
  - `opt`: corresponding configs described in sections of each provider below.
@@ -145,15 +145,15 @@ where config contains:
 
  - `bucket`: bucket name in your google cloud storage to hold your files.
  - `domain`: domain name to access your files (including schema ).
-   - if omitted, fallback to `https://storage.googleapis.com`
+   - if omitted, falls back to `https://storage.googleapis.com`
    - this is for previewing / downloading files.
  - `route`: server route to request signed url for uploading files. 
-   - if omitted, fallback to `/d/uploadr/gcs`.
+   - if omitted, falls back to `/d/uploadr/gcs`.
 
 
 ##### Dummy
 
-Dummy provider doesn't upload files to anywhere - it just responds with a dummy result. Include `providers/dummy.js` then:
+Dummy provider doesn't upload files anywhere - it just responds with a dummy result. Include `providers/dummy.js` then:
 
     new uploadr({ host: "dummy" })
 
@@ -173,7 +173,7 @@ It's your job to implement the upload mechanism with the following parameters an
    - `files`: Array of `{thumb, file}` object with:
      - `thumb`: thumbnail link ( blob url )
      - `file`: file object ( blob ) from input element to upload.
-   - `progress({percent, val, len, item})`: function to be called when there are progress reported, with options:
+   - `progress({percent, val, len, item})`: function to be called when there is progress reported, with options:
      - `percent`: percent of size uploaded
      - `val`: actual bytes uploaded
      - `len`: file size
@@ -182,12 +182,12 @@ It's your job to implement the upload mechanism with the following parameters an
    - `data`: additional data to pass to server.
      - packed by `FormData` and accessible through `req.fields.data` as string when using `express-formidable`.
      - need to manually parse to JSON in server, if a JSON object is passed from client.
- - provider function should always return a Promise that resolves a list of objects when upload is finished.
+ - A provider function should always return a Promise that resolves a list of objects when upload is finished.
    - resolved object in list should contain the following members:
-     - `id`: unique id for this file.
-     - `name`: name of this file. fallback to id if omitted.
+     - `id`: unique ID for this file.
+     - `name`: name of this file. falls back to ID if omitted.
      - `url`: url for previewing this file.
-     - `download-url`: url for downloading this file. fallback to `url` if omitted.
+     - `download-url`: url for downloading this file. falls back to `url` if omitted.
      - `size`: file size. optional
      - `err`: information if uploading of this file failed.
 
@@ -214,7 +214,7 @@ To view and choose files, create an `uploadr.choose` object
 
     uploadr.viewer({ ... });
 
-with following options:
+with the following options:
 
  - `root`: object or selector for the root element of viewer DOM.
  - `page`: a `ldPage` object ( or options for constructor ) for loading file lists.
@@ -243,7 +243,7 @@ You can prepare the root element with Pug mixin `uploadr-viewer` after including
 
 ## Server Side
 
-To save files locally ( or after autheticated ), you will need a server side api. Based on how to store uploaded files, there are different implementation about the file storing mechanism. These different implementations are separated into different modules called `provider`.
+To save files locally ( or after autheticated ), you will need a server-side API. Depending on how you store uploaded files, the implementation will vary. These different implementations are separated into different modules called `provider`.
 
 
 ### Common Usage
@@ -256,7 +256,7 @@ To save files locally ( or after autheticated ), you will need a server side api
 Configuration:
 
  - `host`: provider name, such as `native`, `gcs`.
- - `config`: config for provider. check doc for each provider below for more information.
+ - `config`: provider configuration. check doc for each provider below for more information.
 
 Additionally:
  - `express-formidable({multiples: true})` is for passing form data. it depends on how you will use `uploadr` and can be tweaked accordingly.
@@ -299,7 +299,7 @@ The following is an example of using `adopt` in native provider:
 
 ### Native Provider
 
-Native provider accepts incoming request with files payload, and save them based on a hashed id into a specified location. Use `express-formidable` and `uploadr(...).route` to handle files:
+Native provider accepts incoming request with files payload, and save them using a hashed ID into a specified location. Use `express-formidable` and `uploadr(...).route` to handle files:
 
     up = uploader.provider {host: 'native', config: { ... }}
     app.post \/d/uploadr, express-formidable({multiples: true}), up.getUploadRouter!
@@ -315,7 +315,7 @@ config native provider with the following options:
 
  - `config`: native provider specific configs, including:
    - `folder`: fs path for saving all files. if omitted, fall back to `uploads`
-   - `url`: url prefix ( relative or absolute ). if omitted, fallback to `folder`
+   - `url`: URL prefix ( relative or absolute ). if omitted, falls back to `folder`
  - `adopt: (req, {name, path, url, id})`: post process function after files are saved.
    - if provided, will be called for each file saved.
    - options:
@@ -325,14 +325,14 @@ config native provider with the following options:
      - `url`: optional. `url` for accessing this file
      - `id`: `id` for the file
  - `catch: (err, req, res, next)`: Promise rejection handler.
-   - if omitted, fallback to `res.status(505).send()` when exception occurs.
- - `log`: log function. if omitted, fallback to `console.log`.
+   - if omitted, falls back to `res.status(505).send()` when exception occurs.
+ - `log`: log function. if omitted, falls back to `console.log`.
 
 #### APIs
 
 Following are the APIs exposed by native provider:
 
- - `handler(req, res, next)`: process req.files and return promise, resolving url, id and name as array of objects.
+ - `handler(req, res, next)`: process req.files and return promise, resolving URL, ID and name as array of objects.
  - `router(req, res, next)`: wrap handler as a route that passes data to res.send, or report 500 on error.
  - `archive(opt)`: function that takes care of files
    - input: one of following ( name is optional in both case )
