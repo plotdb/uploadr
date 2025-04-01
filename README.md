@@ -1,9 +1,9 @@
 # @plotdb/uploadr
 
-File upload library, including:
+A file upload library for modern web apps.
 
- - [client side](#client-side) - upload widget, file list viewer ( with pug template ) and provider adapters.
- - [server side](#server-side) - API endpoint for file storing with Express
+ - [Client Side](#client-side): Upload widget, file list viewer ( with a Pug template ) and provider adapters.
+ - [Server side](#server-side): API endpoint for file storage with Express
 
 
 
@@ -19,7 +19,7 @@ In a browser context, we need widgets for both file uploading and file choosing.
 
 ### Usage
 
-include required js / css files and related dependencies ( `@loadingio/paginate`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ):
+include required JS / CSS files and related dependencies ( `@loadingio/paginate`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ):
 
     <link rel="stylesheet" type="text/css" href="@plotdb/uploadr/uploadr.css"/>
     <script src="@loadingio/paginate/index.min.js"></script>
@@ -32,14 +32,14 @@ additionally, include a specific provider. For example, `native` provider:
 
     <script src="@plotdb/uploadr/providers/native.min.js"></script>
 
-For more information about provider, check [Provider section](#providers) below.
+For more information about provider, check the [Provider section](#providers) below.
 
 
 ### Uploader
 
-If you only need an API endpoint for each provider, you can skip the Uploadr viewer completely. In this case, check [Providers section](#providers) below.
+If you only need an API endpoint for each provider, you can skip the Uploadr viewer completely. In this case, check the [Providers section](#providers) below.
 
-To upload files via uploadr viewer, create an `uploadr` object through its constructor:
+To upload files via the uploadr viewer, create an `uploadr` object through its constructor:
 
     var up = new uploadr({ ... })
 
@@ -48,7 +48,7 @@ with the following options:
  - `root`: root element ( or selector ) of the upload widget.
     - To customize widget, see [Widget Customization section](#widget-customization) below.
  - `provider`: object for provider information
-   - For detail usage, See [Providers section](#providers) below.
+   - For detailed usage, see [Providers section](#providers) below.
    - if omitted, falls back to `{config: {route: '/d/uploadr'}, host: 'native'}`
 
 
@@ -80,7 +80,7 @@ Feel free to wrap it in dialogs or popups.
 
 #### Providers
 
-`@plotdb/uploadr` supports uploading to different kind of file hosting services. use `provider` to choose from the available providers below.
+`@plotdb/uploadr` supports uploading to different kinds of file hosting services. use `provider` to choose from the available providers below.
 
 To use a provider, you should make sure to
 
@@ -98,9 +98,9 @@ Client side providers are functions accepting an object with the following field
    - `file`: corresponding file object
  - `progress(opt)`: progress event handler accepting an opt object with the following fields:
    - `percent`: progress. 0 ~ 1
-   - `item`: uploading item object with fields described above in `files`.
+   - `item`: uploading item object with the same structure as described in `files`.
  - `opt`: corresponding configs described in sections of each provider below.
- - `data`: additional data passed via the `data` field ( accessible via `req.fields.data` in server side )
+ - `data`: additional data passed via the `data` field ( accessible via `req.fields.data` on the server side )
 
 For example, to upload a file to Google Cloud Storage:
 
@@ -110,16 +110,16 @@ For example, to upload a file to Google Cloud Storage:
       opt: {bucket: "my-gcs-bucket"}
     });
 
-Provider configurations for each provider is described as below.
+Provider configurations are described below.
 
 
 ##### Native
 
-upload files to local API endpoint. include `providers/native.js` then:
+Upload files to a local API endpoint. include `providers/native.js` then:
 
     new uploadr({ host: "native", config: { ... }});
 
-where config contains:
+where the config contains:
 
  - `route`: API endpoint
 
@@ -130,7 +130,7 @@ Upload images to ImgBB. Include `providers/imgbb.js` then:
 
     new uploadr({ host: "imgbb", config: { ... }});
 
-where config contains:
+where the config contains:
 
  - `key`: imgbb API key for uploading images.
 
@@ -141,13 +141,13 @@ Upload files to Google Cloud Storage directly from browser. Include `providers/g
 
     new uploadr({ host: "gcs", config: { ... }});
 
-where config contains:
+where the config contains:
 
  - `bucket`: bucket name in your google cloud storage to hold your files.
  - `domain`: domain name to access your files (including schema ).
    - if omitted, falls back to `https://storage.googleapis.com`
    - this is for previewing / downloading files.
- - `route`: server route to request signed url for uploading files. 
+ - `route`: server route to request signed URL for uploading files. 
    - if omitted, falls back to `/d/uploadr/gcs`.
 
 
@@ -171,9 +171,9 @@ It's your job to implement the upload mechanism with the following parameters an
 
  - Parameters
    - `files`: Array of `{thumb, file}` object with:
-     - `thumb`: thumbnail link ( blob url )
+     - `thumb`: thumbnail link ( blob URL )
      - `file`: file object ( blob ) from input element to upload.
-   - `progress({percent, val, len, item})`: function to be called when there is progress reported, with options:
+   - `progress({percent, val, len, item})`: function to be called when progress is reported, with options:
      - `percent`: percent of size uploaded
      - `val`: actual bytes uploaded
      - `len`: file size
@@ -186,8 +186,8 @@ It's your job to implement the upload mechanism with the following parameters an
    - resolved object in list should contain the following members:
      - `id`: unique ID for this file.
      - `name`: name of this file. falls back to ID if omitted.
-     - `url`: url for previewing this file.
-     - `download-url`: url for downloading this file. falls back to `url` if omitted.
+     - `url`: URL for previewing this file.
+     - `download-url`: URL for downloading this file. falls back to `url` if omitted.
      - `size`: file size. optional
      - `err`: information if uploading of this file failed.
 
@@ -218,7 +218,7 @@ with the following options:
 
  - `root`: object or selector for the root element of viewer DOM.
  - `page`: a `ldPage` object ( or options for constructor ) for loading file lists.
-   - items in returned list from fetch should contain at least a member `url` for showing the url of the image.
+   - items in returned list from fetch should contain at least a member `url` for showing the URL of the image.
 
 
 You can prepare the root element with Pug mixin `uploadr-viewer` after including required `uploadr.pug`:
@@ -230,7 +230,7 @@ You can prepare the root element with Pug mixin `uploadr-viewer` after including
 
 #### API
 
-`uploadr.viewer` object provides following APIs:
+`uploadr.viewer` object provides the following APIs:
 
  - `on(name, cb)`: listen to event `name` with callback function `cb`. Following events are available:
    - `fetch`: when fetching new items. list of items passed as parameter.
@@ -243,7 +243,7 @@ You can prepare the root element with Pug mixin `uploadr-viewer` after including
 
 ## Server Side
 
-To save files locally ( or after autheticated ), you will need a server-side API. Depending on how you store uploaded files, the implementation will vary. These different implementations are separated into different modules called `provider`.
+To save files locally ( or after authenticated ), you will need a server-side API. Depending on how you store uploaded files, the implementation will vary. These implementations are separated into different modules called `provider`.
 
 
 ### Common Usage
@@ -277,12 +277,12 @@ Additionally:
 where the return value should be an object with the following fields:
 
  - `name`: filename
- - `id`: file id, provided by provider.
+ - `id`: file ID, provided by provider.
  - `url`: optional. available for native provider.
 
 both function should return a promise. `adopt` can be used to
  
- - return rejected promise to prevent file to be uploaded / downloaded
+ - return a rejected promise to prevent the file from being uploaded or downloaded
  - track uploads / downloads
 
 The following is an example of using `adopt` in native provider:
@@ -304,16 +304,16 @@ Native provider accepts incoming request with files payload, and save them using
     up = uploader.provider {host: 'native', config: { ... }}
     app.post \/d/uploadr, express-formidable({multiples: true}), up.getUploadRouter!
 
-sample configurations:
+Example configurations:
 
     {folder: 'static/assets/files', url: '/assets/files'}
 
 
 #### Configurations
 
-config native provider with the following options:
+Configure the native provider with the following options:
 
- - `config`: native provider specific configs, including:
+ - `config`: the native provider specific configs, including:
    - `folder`: fs path for saving all files. if omitted, fall back to `uploads`
    - `url`: URL prefix ( relative or absolute ). if omitted, falls back to `folder`
  - `adopt: (req, {name, path, url, id})`: post process function after files are saved.
@@ -332,20 +332,20 @@ config native provider with the following options:
 
 Following are the APIs exposed by native provider:
 
- - `handler(req, res, next)`: process req.files and return promise, resolving URL, ID and name as array of objects.
+ - `handler(req, res, next)`: process req.files and return a promise that resolves with an array of `{url, id ,name}`.
  - `router(req, res, next)`: wrap handler as a route that passes data to res.send, or report 500 on error.
  - `archive(opt)`: function that takes care of files
    - input: one of following ( name is optional in both case )
      - {path, name}
      - {buf, name}
    - return:
-     - { name, url, id } if succeed
+     - { name, url, id } if successful
      - { name } otherwise
 
 
 ### GCS Provider
 
-GCS provide ( for Google Cloud Storage ) doesn't store files in local server so there is no file passed to server. Instead, an URL is passed to client for either upload / download files to an assigned bucket in Google cloud storage.
+The GCS provider ( for Google Cloud Storage ) doesn't store files on the local server so there is no file passed to server. Instead, a URL is returned to the client for uploading / downloading files to an assigned bucket in Google cloud storage.
 
 Basic usage is similar to native provider:
 
@@ -356,18 +356,18 @@ Basic usage is similar to native provider:
 #### Configurations
 
  - `config`: GCS config including following fields:
-   - `projectId`: project id. e.g., `sample-id`
+   - `projectId`: project ID. e.g., `sample-id`
    - `keyFilename`: path to your private key file for accessing specific project. e.g., `sample-prk.json`
    - `bucket`: bucket name. e.g., `sample-bucket`
    - `limit`: maximal amount of files in one shot. default 10 if omitted.
 
 #### CORS Note
 
-Before you can upload file via browser directly to Google Cloud Storage, you have to set cors policy with gsutil:
+Before you can upload file via browser directly to Google Cloud Storage, you have to set CORS policy with gsutil:
 
     gsutil cors set cors.json gs://<your-bucket-name>
 
-sample content of `cors.json`:
+Sample content of `cors.json`:
 
     [{
       "maxAgeSeconds": 3600,
