@@ -5,7 +5,7 @@ mixin uploadr(opt)
     else if(!opt) { opt = {}; }
     var name = name || opt.name || "uploadr";
     var type = opt.type || "image";
-  .uploadr(ld-scope=name)
+  .uploadr(ld-scope=name)&attributes(attributes)
     .uploadr-dropzone(ld="drop")
       .uploadr-hint: div Drag & drop #[br] file(s) here
       .uploadr-viewer(class=(type=="file"?"uploadr-file-viewer":""))
@@ -47,7 +47,7 @@ mixin uploadr-viewer(opt)
     else if(!opt) { opt = {}; }
     var name = name || opt.name || "uploadr-viewer";
     var type = opt.type || "image";
-  div(ld-scope=name): .uploadr-viewer(ld="list",class=(type=="file"?"uploadr-file-viewer":""))
+  div(ld-scope=name)&attributes(attributes): .uploadr-viewer(ld="list",class=(type=="file"?"uploadr-file-viewer":""))
     if type == "file"
       .uploadr-item.uploadr-head
         .uploadr-item-cell Name

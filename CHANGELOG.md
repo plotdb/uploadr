@@ -3,6 +3,7 @@
 ## v0.3.0 (upcoming)
 
  - migrate from `ldpage` to `@loadingio/paginate`, leading to breaking changes.
+ - support attributes in client pug mixin
 
 
 ## v0.2.2
