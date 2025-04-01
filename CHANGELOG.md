@@ -5,6 +5,7 @@
  - migrate from `ldpage` to `@loadingio/paginate`, leading to breaking changes.
  - support attributes in client pug mixin
  - support file-based file uploading instead of image-based uploading
+ - add i18n data
 
 
 ## v0.2.2
