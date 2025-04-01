@@ -217,7 +217,7 @@ To view and choose files, create an `uploadr.choose` object
 with the following options:
 
  - `root`: object or selector for the root element of viewer DOM.
- - `page`: a `ldPage` object ( or options for constructor ) for loading file lists.
+ - `page`: a `@loadingio/paginate` object ( or options for constructor ) for loading file lists.
    - items in returned list from fetch should contain at least a member `url` for showing the URL of the image.
 
 
