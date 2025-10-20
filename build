@@ -29,7 +29,7 @@ echo "build src/server.ls -> dist/server/index.js ..."
 ./node_modules/.bin/lsc -cbp src/server.ls > dist/server/index.js
 
 echo "copy pug file to dist/ ..."
-cp src/client.pug dist/index.pug
+cp src/client.pug dist/server/index.pug
 
 echo "deploy into local web ..."
 rm -rf web/static/assets/lib/uploadr/dev/
