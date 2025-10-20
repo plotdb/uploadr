@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.4.4
+
+ - rename `publish` script to `release`
+
+
 ## v0.4.3
 
  - update publish script
