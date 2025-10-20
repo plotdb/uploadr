@@ -1,6 +1,6 @@
 # Change Logs
 
-## v0.3.0 (upcoming)
+## v0.3.0
 
  - migrate from `ldpage` to `@loadingio/paginate`, leading to breaking changes.
  - support attributes in client pug mixin
