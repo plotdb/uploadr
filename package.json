@@ -24,8 +24,7 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "./node_modules/.bin/lsc web/server.ls",
-    "publish": "npx fedep publish"
+    "start": "./node_modules/.bin/lsc web/server.ls"
   },
   "devDependencies": {
     "@google-cloud/storage": "^5.7.3",
