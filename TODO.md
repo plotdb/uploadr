@@ -1,2 +1,0 @@
- - integrate google cloud storage
- - support non-image file uploading UI
