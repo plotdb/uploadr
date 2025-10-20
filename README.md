@@ -30,7 +30,7 @@ include required JS / CSS files and related dependencies ( `@loadingio/paginate`
 
 additionally, include a specific provider. For example, `native` provider:
 
-    <script src="@plotdb/uploadr/providers/native.min.js"></script>
+    <script src="@plotdb/uploadr/providers/native/index.min.js"></script>
 
 For more information about provider, check the [Provider section](#providers) below.
 
@@ -115,7 +115,7 @@ Provider configurations are described below.
 
 ##### Native
 
-Upload files to a local API endpoint. include `providers/native.js` then:
+Upload files to a local API endpoint. include `providers/native/index.min.js` then:
 
     new uploadr({ host: "native", config: { ... }});
 
@@ -126,7 +126,7 @@ where the config contains:
 
 ##### ImgBB
 
-Upload images to ImgBB. Include `providers/imgbb.js` then:
+Upload images to ImgBB. Include `providers/imgbb/index.min.js` then:
 
     new uploadr({ host: "imgbb", config: { ... }});
 
@@ -137,7 +137,7 @@ where the config contains:
 
 ##### GCS ( Google Cloud Storage )
 
-Upload files to Google Cloud Storage directly from browser. Include `providers/gcs.js` then initialize with:
+Upload files to Google Cloud Storage directly from browser. Include `providers/gcs/index.min.js` then initialize with:
 
     new uploadr({ host: "gcs", config: { ... }});
 
@@ -153,7 +153,7 @@ where the config contains:
 
 ##### Dummy
 
-Dummy provider doesn't upload files anywhere - it just responds with a dummy result. Include `providers/dummy.js` then:
+Dummy provider doesn't upload files anywhere - it just responds with a dummy result. Include `providers/dummy/index.min.js` then:
 
     new uploadr({ host: "dummy" })
 

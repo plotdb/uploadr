@@ -1,5 +1,11 @@
 # Change Logs
 
+## v0.4.0
+
+ - put provider js files into separated path
+ - use `exports` to implement server / client code separation
+
+
 ## v0.3.0
 
  - migrate from `ldpage` to `@loadingio/paginate`, leading to breaking changes.

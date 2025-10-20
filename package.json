@@ -6,10 +6,12 @@
   "version": "0.3.0",
   "style": "dist/index.min.css",
   "browser": "dist/index.min.js",
-  "main": "dist/server.js",
+  "exports": {
+    ".": "./dist/server/index.js",
+    "./*": "./dist/server/*"
+  },
   "files": [
-    "dist/**/*",
-    "providers/**/*"
+    "dist/**/*"
   ],
   "homepage": "https://github.com/plotdb/uploadr",
   "repository": {
@@ -21,7 +23,8 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "./node_modules/.bin/lsc web/server.ls"
+    "start": "./node_modules/.bin/lsc web/server.ls",
+    "publish": "npx fedep publish"
   },
   "devDependencies": {
     "@google-cloud/storage": "^5.7.3",
@@ -32,7 +35,7 @@
     "@zbryikt/template": "v2.4.1",
     "bootstrap": "^4.6.1",
     "express": "^4.17.1",
-    "fedep": "^1.4.3",
+    "fedep": "^1.5.0",
     "fs-extra": "^9.1.0",
     "ldcover": "^3.5.4",
     "ldiconfont": "^0.2.8",
