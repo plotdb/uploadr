@@ -3,7 +3,7 @@
   "name": "@plotdb/uploadr",
   "license": "MIT",
   "description": "File Upload Library",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "style": "dist/index.min.css",
   "browser": "dist/index.min.js",
   "exports": {
@@ -24,7 +24,8 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "./node_modules/.bin/lsc web/server.ls"
+    "start": "./node_modules/.bin/lsc web/server.ls",
+    "publish": "npx fedep publish; npx fedep publish -g"
   },
   "devDependencies": {
     "@google-cloud/storage": "^5.7.3",

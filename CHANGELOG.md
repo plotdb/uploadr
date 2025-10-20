@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.4.3
+
+ - update publish script
+
+
 ## v0.4.2
 
  - remove publish script
