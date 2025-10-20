@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.4.2
+
+ - remove publish script
+
+
 ## v0.4.1
 
  - add exports path for server-side providers
