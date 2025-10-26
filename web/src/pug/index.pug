@@ -2,7 +2,7 @@ doctype html
 html
   include @/@loadingio/bootstrap.ext/index.pug
   include @/ldview/index.pug
-  include @static/assets/lib/uploadr/dev/index.pug
+  include @static/assets/lib/uploadr/dev/server/index.pug
   head
     +css([
       { name: "bootstrap", path: "dist/css/bootstrap.min.css"},
@@ -52,7 +52,7 @@ html
       {name: "ldcover"},
       {name: "ldloader"},
       {name: "uploadr", version: "dev", path: "index.js"},
-      {name: "uploadr", version: "dev", path: "providers/gcs.js"},
-      {name: "uploadr", version: "dev", path: "providers/native.js"},
-      {url: "/js/index.js"}
+      {name: "uploadr", version: "dev", path: "providers/gcs/index.min.js"},
+      {name: "uploadr", version: "dev", path: "providers/native/index.min.js"}
     ])
+    script(type="module"): include:lsc index.ls
