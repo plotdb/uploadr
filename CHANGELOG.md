@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.4.6 (upcoming)
+
+ - use `ldview` instead of `ldView`
+
+
 ## v0.4.5
 
  - fix issue: `index.pug` isn't found when accessing via `@plotdb/uploadr/index.pug`. move it to server.

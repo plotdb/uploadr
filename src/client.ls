@@ -90,7 +90,7 @@ uploadr.prototype = Object.create(Object.prototype) <<< do
           img.src = src
         _ list
 
-    @lc.view = view = new ldView do
+    @lc.view = view = new ldview do
       root: @root
       action: do
         input: input: ({node, evt}) ->
@@ -152,7 +152,7 @@ uploadr.viewer = (opt) ->
   @evt-handler = {}
   @lc = lc = {}
   @files = lc.files = []
-  @view = view = new ldView do
+  @view = view = new ldview do
     root: @root
     action: click:
       load: ({node, evt}) ~> @page.fetch!

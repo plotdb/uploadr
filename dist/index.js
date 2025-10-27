@@ -176,7 +176,7 @@
             return _(list);
           });
         };
-        return this$.lc.view = view = new ldView({
+        return this$.lc.view = view = new ldview({
           root: this$.root,
           action: {
             input: {
@@ -319,7 +319,7 @@
     this.evtHandler = {};
     this.lc = lc = {};
     this.files = lc.files = [];
-    this.view = view = new ldView({
+    this.view = view = new ldview({
       root: this.root,
       action: {
         click: {
