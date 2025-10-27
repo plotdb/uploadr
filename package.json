@@ -30,7 +30,11 @@
   "devDependencies": {
     "@google-cloud/storage": "^5.7.3",
     "@loadingio/bootstrap.ext": "^0.0.12",
+    "@plotdb/block": "^5.5.4",
     "@plotdb/colors": "^0.0.3",
+    "@plotdb/csscope": "^5.0.4",
+    "@plotdb/rescope": "^5.0.15",
+    "@plotdb/semver": "^0.0.3",
     "@plotdb/srcbuild": "^0.0.69",
     "@plotdb/suuid": "^0.5.1",
     "@zbryikt/template": "v2.4.1",
@@ -48,8 +52,8 @@
   },
   "dependencies": {
     "@loadingio/debounce.js": "^1.0.1",
-    "@loadingio/paginate": "^0.1.1",
     "@loadingio/ldquery": "^3.0.6",
+    "@loadingio/paginate": "^0.1.1",
     "express-formidable": "github:plotdb/express-formidable",
     "imgtype": "github:plotdb/imgtype",
     "ldloader": "^3.0.3",
@@ -58,8 +62,8 @@
   },
   "peerDependencies": {
     "@loadingio/debounce.js": "^1.0.1",
-    "@loadingio/paginate": "^0.1.1",
     "@loadingio/ldquery": "^3.0.6",
+    "@loadingio/paginate": "^0.1.1",
     "ldloader": "^3.0.3",
     "ldview": "^1.5.1",
     "proxise": "^1.0.1"
@@ -71,11 +75,15 @@
       "@loadingio/bootstrap.ext",
       "@loadingio/ldquery",
       "@loadingio/paginate",
-      "ldiconfont",
       "@loadingio/debounce.js",
+      "@plotdb/semver",
+      "@plotdb/csscope",
+      "@plotdb/rescope",
+      "@plotdb/block",
       "proxise",
       "ldview",
       "ldcover",
+      "ldiconfont",
       "ldloader",
       "ldnotify"
     ]
