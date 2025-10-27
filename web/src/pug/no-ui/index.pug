@@ -1,4 +1,10 @@
 extends /base.pug
+block head
+  style(type="text/css"): :stylus
+    .gallery:empty:after
+      display: block
+      content: "No file uploaded. Upload some files to fill here up. Uploaded files will be stored under assets/files"
+      opacity: 0.75
 block body
   .w-1024.rwd.mx-auto.my-5
     h3 Simple Uploader with Native Provider
@@ -7,7 +13,7 @@ block body
       span Upload File
       input(ld="upload",type="file",multiple)
     hr
-    .d-flex.flex-wrap.g-4
+    .d-flex.flex-wrap.g-4.align-items-center.justify-content-center.gallery(style="min-height:400px")
       .rounded.shadow-sm.border.p-2.d-flex.flex-column.justify-content-center.align-items-center(ld-each="list")
         img(ld="img",style="width:300px;")
         .w-100.text-center(ld="name")
