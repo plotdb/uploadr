@@ -1,230 +1,188 @@
-parse-date = (d) ->
-  if !d => return 'n/a'
-  new Date(d).toLocaleString("zh-TW", {timeZoneName: "short", hour12: false}).replace(/[\[\]]/g,'')
+uploadr =
+  ext: {}
+  utils:
+    parse-date: (d) ->
+      if !d => return 'n/a'
+      new Date(d).toLocaleString("zh-TW", {timeZoneName: "short", hour12: false})
+        .replace(/[\[\]]/g,'').replace(/\s*GMT/,'')
+    parse-size: (size = 0) ->
+      s = +size
+      if !s or isNaN(s) => return "0 B"
+      sizes = <[B KB MB GB TB PB]>
+      p = Math.floor(Math.log(s) / Math.log(1024)) <? sizes.length
+      (s / Math.pow(1024, p)).toFixed(1) + (sizes[p] or '')
+  i18n:
+    en:
+      "Drag & drop": "Drag & drop"
+      "file(s) here": "file(s) here"
+      "Name": "Name"
+      "Size": "Size"
+      "Modified Date": "Modified Date"
+      "Add File ...": "Add File ..."
+      "div": "div"
+      "Upload": "Upload"
+      "Clear": "Clear"
+      "Close": "Close"
+      "Load More": "Load More"
+    "zh-TW":
+      "Drag & drop": "拖拉檔案"
+      "file(s) here": "至此處"
+      "Name": "檔名"
+      "Size": "檔案大小"
+      "Modified Date": "修改時間"
+      "Add File ...": "增加檔案 ..."
+      "Upload": "上傳"
+      "Clear": "清除"
+      "Close": "關閉"
+      "Load More": "載入更多"
 
-parse-size = (size = 0) ->
-  s = +size
-  if !s or isNaN(s) => return "0 B"
-  sizes = <[B KB MB GB TB PB]>
-  p = Math.floor(Math.log(s) / Math.log(1024)) <? sizes.length
-  (s / Math.pow(1024, p)).toFixed(1) + (sizes[p] or '')
-
-uploadr = (opt = {}) ->
-  @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
-  if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
-  @_ = evthdr: {}
-  @opt = {} <<< opt
-  @opt.provider = opt.provider or {host: 'native', config: {route: '/d/uploadr'}}
-  @progress = (v) ~>
-    if !(n = v.{}item.node) => return
-    if !(p = ld$.find n, '[ld=progress]' .0) => return
-    p.style.width = "#{(v.percent * 100)}%"
-    if v.percent >= 1 =>
-      debounce 500 .then ~>
-        ld$.remove n
-        if ~(i = @lc.files.indexOf(v.item)) => @lc.files.splice(i,1)
-  @lc = {files: []}
+uploadr.uploader = (opt = {}) ->
+  @_ =
+    evthdr: {}, files: []
+    opt: {} <<< opt
+    root: if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
+  @_.opt.provider = opt.provider or {host: \native, config: route: \/api/uploadr}
   @init = proxise.once ~> @_init!
+  if !@_.root => console.warn "[@plotdb/uploadr] warning: no node found for root ", opt.root
   @init!
   @
 
-uploadr.prototype = Object.create(Object.prototype) <<< do
-  on: (n, cb) -> @_.evthdr.[][n].push cb
+uploadr.uploader.prototype = Object.create(Object.prototype) <<< do
+  on: (n, cb) -> (if Array.isArray(n) => n else [n]).map (n) ~> @_.evthdr.[][n].push cb
   fire: (n, ...v) -> for cb in (@_.evthdr[n] or []) => cb.apply @, v
+  files: -> @_.files or []
   _init: -> Promise.resolve!then ~>
-    lc = @lc
-    preview = (files) ~>
-      preview = view.get(\preview)
-      promises = files.map (file) -> new Promise (res, rej) ->
-        img = new Image
-        img.onload = ->
-          if preview => preview.style
-            ..backgroundImage = "url(#{file.thumb})"
-            ..width = "#{img.width}px"
-            ..height = "#{img.height}px"
-          res {} <<< img{width, height} <<< file
-        img.src = file.thumb
-      Promise.all(promises)
-        .then ->
-          lc.files = (lc.files or []) ++  files
-          debounce 500
-        .then ~>
-          view.render!
-          @fire \preview.done
-          if @lc.loader => @lc.loader.off!
-          @fire \file.chosen, lc.files
-
-    thumbing = (list) ~>
-      @fire \preview.loading
-      if @lc.loader => @lc.loader.on!
-      list = Array.from(list)
-      new Promise (res, rej) ->
-        ret = []
-        _ = (list) ->
-          file = list.splice(0,1).0
-          if !file =>
-            return res ret
-          src = URL.createObjectURL(file)
-          img = new Image!
-          img.onerror = ->
-            svg = '''
-            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150">
-              <rect width="200" height="150" x="0" y="0" fill="#ccc"/>
-            </svg>
-            '''
-            ret.push f = {thumb: "data:image/svg+xml,#{encodeURIComponent(svg)}", file: file}
-            preview [f]
-            _ list
-          img.onload = ->
-            [w, h] = [img.width, img.height]
-            if w > 200 => [w, h] = [200, h * 200/w]
-            if h > 150 => [w, h] = [w * 150/h, 150]
-            c1 = document.createElement("canvas")
-            c1 <<< {width: w, height: h}
-            ctx = c1.getContext \2d
-            ctx.drawImage img, 0, 0, w, h
-            c1.toBlob (blob) ->
-              ret.push f = {thumb: URL.createObjectURL(blob), file: file}
-              preview [f]
-              _ list
-          img.src = src
-        _ list
-
-    @lc.view = view = new ldview do
-      root: @root
-      action: do
-        input: input: ({node, evt}) ->
-          thumbing node.files
-            .then (files) ->
-              node.value = null
-              if node.form => that.reset!
-
+    @_.view = view = new ldview do
+      root: @_.root
+      action:
+        input: input: ({node, evt}) ~>
+          (files) <~ @set node.files .then _
+          node.value = null
+          if node.form => that.reset!
         click:
           upload: ({node, evt}) ~> @upload!then ~> @clear!; return it
           clear: ({node, evt}) ~> @clear!
-        drop: do
-          drop: ({node, evt}) ~>
-            evt.preventDefault!
-            thumbing evt.dataTransfer.files
-        dragover: do
-          drop: ({node, evt}) -> evt.preventDefault!
-      init: do
-        loader: ({node}) ~> @lc.loader = new ldloader root: node
+        drop: drop: ({node, evt}) ~>
+          evt.preventDefault!
+          @set evt.dataTransfer.files
+        dragover: drop: ({evt}) -> evt.preventDefault!
+      init: loader: ({node}) ~> if ldloader? => @_.loader = new ldloader root: node
       handler:
         file:
-          list: -> lc.files or []
+          list: ~> @_.files or []
           view:
             action: click:
-              delete: ({ctx}) ->
-                if !~(idx = lc.files.indexOf(ctx)) => return
-                lc.files.splice(idx, 1)
-                lc.view.render \file
+              delete: ({ctx}) ~>
+                if !~(idx = @_.files.indexOf(ctx)) => return
+                @_.files.splice idx, 1
+                @_.view.render \file
             text:
               name: ({ctx}) -> ctx.file.name
-              size: ({ctx}) -> parse-size ctx.file.size
-              modifiedtime: ({ctx}) -> parse-date ctx.file.lastModified
+              size: ({ctx}) -> uploadr.utils.parse-size ctx.file.size
+              modifiedtime: ({ctx}) -> uploadr.utils.parse-date ctx.file.lastModified
             handler:
               thumb: ({node,ctx}) ->
-                if node.nodeName.toLowerCase! == \img =>
-                  node.setAttribute \src, ctx.thumb
+                if node.nodeName.toLowerCase! == \img => node.setAttribute \src, ctx.thumb
                 else node.style.backgroundImage = "url(#{ctx.thumb})"
-
-  get: -> return @lc.files
-  clear: -> @lc.files.splice(0); @lc.view.render!
+  set: (o) ->
+    @fire \preview:loading
+    if @_.loader => @_.loader.on!
+    [ret, files] = [[], if Array.isArray(o) => o else if o.length => Array.from(o) else [o]]
+    iterate = ~>
+      if !(file = files.splice(0,1).0) => return Promise.resolve(ret)
+      p = new Promise (res, rej) ->
+        img = new Image!
+        img.onerror = ->
+          svg = '''<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+          <rect width="400" height="400" x="0" y="0" fill="#ccc"/></svg>'''
+          ret.push f = {thumb: "data:image/svg+xml,#{encodeURIComponent(svg)}", file}
+          res f
+        img.onload = ->
+          [w, h] = [img.width, img.height]
+          if w > 400 => [w, h] = [400, h * 400/w]
+          if h > 400 => [w, h] = [w * 400/h, 400]
+          c1 = document.createElement(\canvas) <<< width: w, height: h
+          c1.getContext(\2d).drawImage img, 0, 0, w, h
+          (blob) <- c1.toBlob _
+          ret.push f = {thumb: URL.createObjectURL(blob), file}
+          res f
+        img.src = URL.createObjectURL(file)
+      (fobj) <~ p.then _
+      @_.[]files.push fobj
+      @_.view.render!
+      return iterate!
+    (ret) <~ iterate!then _
+    @_.view.render!
+    if @_.loader => @_.loader.off!
+    @fire \preview:loaded
+    @fire \file:chosen, @_.files
+    return ret
+  get: -> @_.files
+  clear: -> @_.files.splice(0); @_.view.render!
+  progress: (v) ->
+    if !(n = v.item?node) => return
+    if !(p = ld$.find n, '[ld=progress]' .0) => return
+    p.style.width = "#{(v.percent * 100)}%"
+    if v.percent < 1 => return
+    <~ debounce 500 .then _
+    if n.parentNode => n.parentNode.removeChild n
+    if ~(i = @_.files.indexOf v.item) => @_.files.splice i, 1
   upload: ->
-    ext[@opt.provider.host] {
-      files: @lc.files
-      progress: @progress
-      opt: @opt.provider.config
+    uploadr.ext[@_.opt.provider.host] {
+      files: @_.files
+      progress: ~> @progress.call @, arguments
+      opt: @_.opt.provider.config
     }
       .then ~>
-        @fire \upload.done, it
+        @fire \upload:done, it
         return it
       .catch ~>
-        @fire \upload.fail, it
+        @fire \upload:fail, it
         Promise.reject it
 
-uploadr.ext = ext = {}
 
 uploadr.viewer = (opt) ->
-  @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
-  if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
-  @_ = evthdr: {}
-  @lc = lc = {}
-  @files = lc.files = []
-  @view = view = new ldview do
-    root: @root
-    action: click:
-      load: ({node, evt}) ~> @page.fetch!
-      listx: ({node, evt}) ~>
-        if !(n = ld$.parent(evt.target, '[data-src]', node)) => return
-        src = n.getAttribute(\data-src)
-        @fire \choose, {url: src}
-    handler: do
-      file: do
-        list: -> lc.files or []
+  @_ =
+    evthdr: {}, files: []
+    root: if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
+  if !@_.root => console.warn "[uploadr] warning: no node found for root ", opt.root
+  @_.view = new ldview do
+    root: @_.root
+    action: click: load: ~> @_.page.fetch!
+    handler:
+      file:
+        list: ~> @_.files or []
         key: -> it._id
         view:
-          action: click: "@": ({ctx}) ~> @fire \choose, ctx
+          action: click: "@": ({ctx}) ~> @fire \file:chosen, ctx
           text:
             name: ({ctx}) -> ctx.name or 'unnamed'
-            size: ({ctx}) -> parse-size ctx.size
-            modifiedtime: ({ctx}) -> parse-date ctx.lastModified
+            size: ({ctx}) -> uploadr.utils.parse-size ctx.size
+            modifiedtime: ({ctx}) -> uploadr.utils.parse-date ctx.lastModified
           handler:
-            thumb: ({node, ctx}) ->
-              if node._load == ctx.url => return
-              node._load = ctx.url
-              node.style.opacity = 0
-              if node.nodeName.toLowerCase! == \img =>
-                node.setAttribute \src, ctx.url
-                node.onload = -> ld$.find(node.parentNode, 'div[ld=thumb]').map -> it.style.opacity = 1
-              else
-                node.style.backgroundImage = "url(#{ctx.url})"
-              node.setAttribute \data-src, ctx.url
-
-  @page = if opt.page instanceof paginate => opt.page else new paginate(opt.page or {})
-  @page.on \fetch, ~>
-    files = it.map -> it <<< {_id: Math.random!}
-    lc.files ++= files
-    view.render!
-    @fire \fetch, files
-  @page.on \finish, ~> @fire \finish
-  @page.on \empty, ~> @fire \empty
+            thumb: ({node, ctx, local}) -> 
+              if node.dataset.src == ctx.url => return
+              if node.nodeName.toLowerCase! == \img => node.setAttribute \src, ctx.url
+              else node.style.backgroundImage = "url(#{ctx.url})"
+              node.dataset.src = ctx.url
+  @_.page = if opt.page instanceof paginate => opt.page else new paginate(opt.page or {})
+  @_.page.on \fetch, ~>
+    files = it.map -> it <<< {_id: Math.random!toString(36)substring(2)}
+    @_.files ++= files
+    @_.view.render!
+    @fire \fetch:fetched, files
+  @_.page.on \finish, ~> @fire \fetch:end
+  @_.page.on \empty, ~> @fire \fetch:empty
   @
 
 uploadr.viewer.prototype = Object.create(Object.prototype) <<< do
-  on: (n, cb) -> @_.evthdr.[][n].push cb
+  on: (n, cb) -> (if Array.isArray(n) => n else [n]).map (n) ~> @_.evthdr.[][n].push cb
   fire: (n, ...v) -> for cb in (@_.evthdr[n] or []) => cb.apply @, v
-  fetch: -> @page.fetch!
+  fetch: -> @_.page.fetch!
   reset: ->
-    @page.reset!
-    @lc.files = []
-    @view.render!
-
-uploadr.i18n =
-  en:
-    "Drag & drop": "Drag & drop"
-    "file(s) here": "file(s) here"
-    "Name": "Name"
-    "Size": "Size"
-    "Modified Date": "Modified Date"
-    "Add File ...": "Add File ..."
-    "div": "div"
-    "Upload": "Upload"
-    "Clear": "Clear"
-    "Close": "Close"
-    "Load More": "Load More"
-  "zh-TW":
-    "Drag & drop": "拖拉檔案"
-    "file(s) here": "至此處"
-    "Name": "檔名"
-    "Size": "檔案大小"
-    "Modified Date": "修改時間"
-    "Add File ...": "增加檔案 ..."
-    "Upload": "上傳"
-    "Clear": "清除"
-    "Close": "關閉"
-    "Load More": "載入更多"
+    @_.page.reset!
+    @_.files = []
+    @_.view.render!
 
 if module? => module.exports = uploadr
 else if window? => window.uploadr = uploadr

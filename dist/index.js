@@ -1,76 +1,92 @@
 (function(){
-  var parseDate, parseSize, uploadr, ext;
-  parseDate = function(d){
-    if (!d) {
-      return 'n/a';
+  var uploadr;
+  uploadr = {
+    ext: {},
+    utils: {
+      parseDate: function(d){
+        if (!d) {
+          return 'n/a';
+        }
+        return new Date(d).toLocaleString("zh-TW", {
+          timeZoneName: "short",
+          hour12: false
+        }).replace(/[\[\]]/g, '').replace(/\s*GMT/, '');
+      },
+      parseSize: function(size){
+        var s, sizes, p, ref$, ref1$;
+        size == null && (size = 0);
+        s = +size;
+        if (!s || isNaN(s)) {
+          return "0 B";
+        }
+        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        p = (ref$ = Math.floor(Math.log(s) / Math.log(1024))) < (ref1$ = sizes.length) ? ref$ : ref1$;
+        return (s / Math.pow(1024, p)).toFixed(1) + (sizes[p] || '');
+      }
+    },
+    i18n: {
+      en: {
+        "Drag & drop": "Drag & drop",
+        "file(s) here": "file(s) here",
+        "Name": "Name",
+        "Size": "Size",
+        "Modified Date": "Modified Date",
+        "Add File ...": "Add File ...",
+        "div": "div",
+        "Upload": "Upload",
+        "Clear": "Clear",
+        "Close": "Close",
+        "Load More": "Load More"
+      },
+      "zh-TW": {
+        "Drag & drop": "拖拉檔案",
+        "file(s) here": "至此處",
+        "Name": "檔名",
+        "Size": "檔案大小",
+        "Modified Date": "修改時間",
+        "Add File ...": "增加檔案 ...",
+        "Upload": "上傳",
+        "Clear": "清除",
+        "Close": "關閉",
+        "Load More": "載入更多"
+      }
     }
-    return new Date(d).toLocaleString("zh-TW", {
-      timeZoneName: "short",
-      hour12: false
-    }).replace(/[\[\]]/g, '');
   };
-  parseSize = function(size){
-    var s, sizes, p, ref$, ref1$;
-    size == null && (size = 0);
-    s = +size;
-    if (!s || isNaN(s)) {
-      return "0 B";
-    }
-    sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-    p = (ref$ = Math.floor(Math.log(s) / Math.log(1024))) < (ref1$ = sizes.length) ? ref$ : ref1$;
-    return (s / Math.pow(1024, p)).toFixed(1) + (sizes[p] || '');
-  };
-  uploadr = function(opt){
+  uploadr.uploader = function(opt){
     var this$ = this;
     opt == null && (opt = {});
-    this.root = typeof opt.root === 'string'
-      ? document.querySelector(opt.root)
-      : opt.root;
-    if (!this.root) {
-      console.warn("[uploadr] warning: no node found for root ", opt.root);
-    }
     this._ = {
-      evthdr: {}
+      evthdr: {},
+      files: [],
+      opt: import$({}, opt),
+      root: typeof opt.root === 'string'
+        ? document.querySelector(opt.root)
+        : opt.root
     };
-    this.opt = import$({}, opt);
-    this.opt.provider = opt.provider || {
+    this._.opt.provider = opt.provider || {
       host: 'native',
       config: {
-        route: '/d/uploadr'
+        route: '/api/uploadr'
       }
-    };
-    this.progress = function(v){
-      var n, p;
-      if (!(n = (v.item || (v.item = {})).node)) {
-        return;
-      }
-      if (!(p = ld$.find(n, '[ld=progress]')[0])) {
-        return;
-      }
-      p.style.width = v.percent * 100 + "%";
-      if (v.percent >= 1) {
-        return debounce(500).then(function(){
-          var i;
-          ld$.remove(n);
-          if (~(i = this$.lc.files.indexOf(v.item))) {
-            return this$.lc.files.splice(i, 1);
-          }
-        });
-      }
-    };
-    this.lc = {
-      files: []
     };
     this.init = proxise.once(function(){
       return this$._init();
     });
+    if (!this._.root) {
+      console.warn("[@plotdb/uploadr] warning: no node found for root ", opt.root);
+    }
     this.init();
     return this;
   };
-  uploadr.prototype = import$(Object.create(Object.prototype), {
+  uploadr.uploader.prototype = import$(Object.create(Object.prototype), {
     on: function(n, cb){
-      var ref$;
-      return ((ref$ = this._.evthdr)[n] || (ref$[n] = [])).push(cb);
+      var this$ = this;
+      return (Array.isArray(n)
+        ? n
+        : [n]).map(function(n){
+        var ref$;
+        return ((ref$ = this$._.evthdr)[n] || (ref$[n] = [])).push(cb);
+      });
     },
     fire: function(n){
       var v, res$, i$, to$, ref$, len$, cb, results$ = [];
@@ -85,107 +101,21 @@
       }
       return results$;
     },
+    files: function(){
+      return this._.files || [];
+    },
     _init: function(){
       var this$ = this;
       return Promise.resolve().then(function(){
-        var lc, preview, thumbing, view;
-        lc = this$.lc;
-        preview = function(files){
-          var preview, promises;
-          preview = view.get('preview');
-          promises = files.map(function(file){
-            return new Promise(function(res, rej){
-              var img;
-              img = new Image;
-              img.onload = function(){
-                var x$, ref$;
-                if (preview) {
-                  x$ = preview.style;
-                  x$.backgroundImage = "url(" + file.thumb + ")";
-                  x$.width = img.width + "px";
-                  x$.height = img.height + "px";
-                }
-                return res(import$((ref$ = {}, ref$.width = img.width, ref$.height = img.height, ref$), file));
-              };
-              return img.src = file.thumb;
-            });
-          });
-          return Promise.all(promises).then(function(){
-            lc.files = (lc.files || []).concat(files);
-            return debounce(500);
-          }).then(function(){
-            view.render();
-            this$.fire('preview.done');
-            if (this$.lc.loader) {
-              this$.lc.loader.off();
-            }
-            return this$.fire('file.chosen', lc.files);
-          });
-        };
-        thumbing = function(list){
-          this$.fire('preview.loading');
-          if (this$.lc.loader) {
-            this$.lc.loader.on();
-          }
-          list = Array.from(list);
-          return new Promise(function(res, rej){
-            var ret, _;
-            ret = [];
-            _ = function(list){
-              var file, src, img;
-              file = list.splice(0, 1)[0];
-              if (!file) {
-                return res(ret);
-              }
-              src = URL.createObjectURL(file);
-              img = new Image();
-              img.onerror = function(){
-                var svg, f;
-                svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150">\n  <rect width="200" height="150" x="0" y="0" fill="#ccc"/>\n</svg>';
-                ret.push(f = {
-                  thumb: "data:image/svg+xml," + encodeURIComponent(svg),
-                  file: file
-                });
-                preview([f]);
-                return _(list);
-              };
-              img.onload = function(){
-                var ref$, w, h, c1, ctx;
-                ref$ = [img.width, img.height], w = ref$[0], h = ref$[1];
-                if (w > 200) {
-                  ref$ = [200, h * 200 / w], w = ref$[0], h = ref$[1];
-                }
-                if (h > 150) {
-                  ref$ = [w * 150 / h, 150], w = ref$[0], h = ref$[1];
-                }
-                c1 = document.createElement("canvas");
-                c1.width = w;
-                c1.height = h;
-                ctx = c1.getContext('2d');
-                ctx.drawImage(img, 0, 0, w, h);
-                return c1.toBlob(function(blob){
-                  var f;
-                  ret.push(f = {
-                    thumb: URL.createObjectURL(blob),
-                    file: file
-                  });
-                  preview([f]);
-                  return _(list);
-                });
-              };
-              return img.src = src;
-            };
-            return _(list);
-          });
-        };
-        return this$.lc.view = view = new ldview({
-          root: this$.root,
+        var view;
+        return this$._.view = view = new ldview({
+          root: this$._.root,
           action: {
             input: {
               input: function(arg$){
                 var node, evt;
                 node = arg$.node, evt = arg$.evt;
-                return thumbing(node.files).then(function(files){
+                return this$.set(node.files).then(function(files){
                   var that;
                   node.value = null;
                   if (that = node.form) {
@@ -214,13 +144,13 @@
                 var node, evt;
                 node = arg$.node, evt = arg$.evt;
                 evt.preventDefault();
-                return thumbing(evt.dataTransfer.files);
+                return this$.set(evt.dataTransfer.files);
               }
             },
             dragover: {
               drop: function(arg$){
-                var node, evt;
-                node = arg$.node, evt = arg$.evt;
+                var evt;
+                evt = arg$.evt;
                 return evt.preventDefault();
               }
             }
@@ -229,15 +159,17 @@
             loader: function(arg$){
               var node;
               node = arg$.node;
-              return this$.lc.loader = new ldloader({
-                root: node
-              });
+              if (typeof ldloader != 'undefined' && ldloader !== null) {
+                return this$._.loader = new ldloader({
+                  root: node
+                });
+              }
             }
           },
           handler: {
             file: {
               list: function(){
-                return lc.files || [];
+                return this$._.files || [];
               },
               view: {
                 action: {
@@ -245,11 +177,11 @@
                     'delete': function(arg$){
                       var ctx, idx;
                       ctx = arg$.ctx;
-                      if (!~(idx = lc.files.indexOf(ctx))) {
+                      if (!~(idx = this$._.files.indexOf(ctx))) {
                         return;
                       }
-                      lc.files.splice(idx, 1);
-                      return lc.view.render('file');
+                      this$._.files.splice(idx, 1);
+                      return this$._.view.render('file');
                     }
                   }
                 },
@@ -262,12 +194,12 @@
                   size: function(arg$){
                     var ctx;
                     ctx = arg$.ctx;
-                    return parseSize(ctx.file.size);
+                    return uploadr.utils.parseSize(ctx.file.size);
                   },
                   modifiedtime: function(arg$){
                     var ctx;
                     ctx = arg$.ctx;
-                    return parseDate(ctx.file.lastModified);
+                    return uploadr.utils.parseDate(ctx.file.lastModified);
                   }
                 },
                 handler: {
@@ -287,68 +219,146 @@
         });
       });
     },
+    set: function(o){
+      var ref$, ret, files, iterate, this$ = this;
+      this.fire('preview:loading');
+      if (this._.loader) {
+        this._.loader.on();
+      }
+      ref$ = [
+        [], Array.isArray(o)
+          ? o
+          : o.length
+            ? Array.from(o)
+            : [o]
+      ], ret = ref$[0], files = ref$[1];
+      iterate = function(){
+        var file, p;
+        if (!(file = files.splice(0, 1)[0])) {
+          return Promise.resolve(ret);
+        }
+        p = new Promise(function(res, rej){
+          var img;
+          img = new Image();
+          img.onerror = function(){
+            var svg, f;
+            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">\n<rect width="400" height="400" x="0" y="0" fill="#ccc"/></svg>';
+            ret.push(f = {
+              thumb: "data:image/svg+xml," + encodeURIComponent(svg),
+              file: file
+            });
+            return res(f);
+          };
+          img.onload = function(){
+            var ref$, w, h, c1;
+            ref$ = [img.width, img.height], w = ref$[0], h = ref$[1];
+            if (w > 400) {
+              ref$ = [400, h * 400 / w], w = ref$[0], h = ref$[1];
+            }
+            if (h > 400) {
+              ref$ = [w * 400 / h, 400], w = ref$[0], h = ref$[1];
+            }
+            c1 = (ref$ = document.createElement('canvas'), ref$.width = w, ref$.height = h, ref$);
+            c1.getContext('2d').drawImage(img, 0, 0, w, h);
+            return c1.toBlob(function(blob){
+              var f;
+              ret.push(f = {
+                thumb: URL.createObjectURL(blob),
+                file: file
+              });
+              return res(f);
+            });
+          };
+          return img.src = URL.createObjectURL(file);
+        });
+        return p.then(function(fobj){
+          var ref$;
+          ((ref$ = this$._).files || (ref$.files = [])).push(fobj);
+          this$._.view.render();
+          return iterate();
+        });
+      };
+      return iterate().then(function(ret){
+        this$._.view.render();
+        if (this$._.loader) {
+          this$._.loader.off();
+        }
+        this$.fire('preview:loaded');
+        this$.fire('file:chosen', this$._.files);
+        return ret;
+      });
+    },
     get: function(){
-      return this.lc.files;
+      return this._.files;
     },
     clear: function(){
-      this.lc.files.splice(0);
-      return this.lc.view.render();
+      this._.files.splice(0);
+      return this._.view.render();
+    },
+    progress: function(v){
+      var n, ref$, p, this$ = this;
+      if (!(n = (ref$ = v.item) != null ? ref$.node : void 8)) {
+        return;
+      }
+      if (!(p = ld$.find(n, '[ld=progress]')[0])) {
+        return;
+      }
+      p.style.width = v.percent * 100 + "%";
+      if (v.percent < 1) {
+        return;
+      }
+      return debounce(500).then(function(){
+        var i;
+        if (n.parentNode) {
+          n.parentNode.removeChild(n);
+        }
+        if (~(i = this$._.files.indexOf(v.item))) {
+          return this$._.files.splice(i, 1);
+        }
+      });
     },
     upload: function(){
       var this$ = this;
-      return ext[this.opt.provider.host]({
-        files: this.lc.files,
-        progress: this.progress,
-        opt: this.opt.provider.config
+      return uploadr.ext[this._.opt.provider.host]({
+        files: this._.files,
+        progress: function(){
+          return this$.progress.call(this$, arguments);
+        },
+        opt: this._.opt.provider.config
       }).then(function(it){
-        this$.fire('upload.done', it);
+        this$.fire('upload:done', it);
         return it;
       })['catch'](function(it){
-        this$.fire('upload.fail', it);
+        this$.fire('upload:fail', it);
         return Promise.reject(it);
       });
     }
   });
-  uploadr.ext = ext = {};
   uploadr.viewer = function(opt){
-    var lc, view, this$ = this;
-    this.root = typeof opt.root === 'string'
-      ? document.querySelector(opt.root)
-      : opt.root;
-    if (!this.root) {
+    var this$ = this;
+    this._ = {
+      evthdr: {},
+      files: [],
+      root: typeof opt.root === 'string'
+        ? document.querySelector(opt.root)
+        : opt.root
+    };
+    if (!this._.root) {
       console.warn("[uploadr] warning: no node found for root ", opt.root);
     }
-    this._ = {
-      evthdr: {}
-    };
-    this.lc = lc = {};
-    this.files = lc.files = [];
-    this.view = view = new ldview({
-      root: this.root,
+    this._.view = new ldview({
+      root: this._.root,
       action: {
         click: {
-          load: function(arg$){
-            var node, evt;
-            node = arg$.node, evt = arg$.evt;
-            return this$.page.fetch();
-          },
-          listx: function(arg$){
-            var node, evt, n, src;
-            node = arg$.node, evt = arg$.evt;
-            if (!(n = ld$.parent(evt.target, '[data-src]', node))) {
-              return;
-            }
-            src = n.getAttribute('data-src');
-            return this$.fire('choose', {
-              url: src
-            });
+          load: function(){
+            return this$._.page.fetch();
           }
         }
       },
       handler: {
         file: {
           list: function(){
-            return lc.files || [];
+            return this$._.files || [];
           },
           key: function(it){
             return it._id;
@@ -359,7 +369,7 @@
                 "@": function(arg$){
                   var ctx;
                   ctx = arg$.ctx;
-                  return this$.fire('choose', ctx);
+                  return this$.fire('file:chosen', ctx);
                 }
               }
             },
@@ -372,64 +382,62 @@
               size: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
-                return parseSize(ctx.size);
+                return uploadr.utils.parseSize(ctx.size);
               },
               modifiedtime: function(arg$){
                 var ctx;
                 ctx = arg$.ctx;
-                return parseDate(ctx.lastModified);
+                return uploadr.utils.parseDate(ctx.lastModified);
               }
             },
             handler: {
               thumb: function(arg$){
-                var node, ctx;
-                node = arg$.node, ctx = arg$.ctx;
-                if (node._load === ctx.url) {
+                var node, ctx, local;
+                node = arg$.node, ctx = arg$.ctx, local = arg$.local;
+                if (node.dataset.src === ctx.url) {
                   return;
                 }
-                node._load = ctx.url;
-                node.style.opacity = 0;
                 if (node.nodeName.toLowerCase() === 'img') {
                   node.setAttribute('src', ctx.url);
-                  node.onload = function(){
-                    return ld$.find(node.parentNode, 'div[ld=thumb]').map(function(it){
-                      return it.style.opacity = 1;
-                    });
-                  };
                 } else {
                   node.style.backgroundImage = "url(" + ctx.url + ")";
                 }
-                return node.setAttribute('data-src', ctx.url);
+                return node.dataset.src = ctx.url;
               }
             }
           }
         }
       }
     });
-    this.page = opt.page instanceof paginate
+    this._.page = opt.page instanceof paginate
       ? opt.page
       : new paginate(opt.page || {});
-    this.page.on('fetch', function(it){
-      var files;
+    this._.page.on('fetch', function(it){
+      var files, ref$;
       files = it.map(function(it){
-        return it._id = Math.random(), it;
+        return it._id = Math.random().toString(36).substring(2), it;
       });
-      lc.files = lc.files.concat(files);
-      view.render();
-      return this$.fire('fetch', files);
+      (ref$ = this$._).files = ref$.files.concat(files);
+      this$._.view.render();
+      return this$.fire('fetch:fetched', files);
     });
-    this.page.on('finish', function(){
-      return this$.fire('finish');
+    this._.page.on('finish', function(){
+      return this$.fire('fetch:end');
     });
-    this.page.on('empty', function(){
-      return this$.fire('empty');
+    this._.page.on('empty', function(){
+      return this$.fire('fetch:empty');
     });
     return this;
   };
   uploadr.viewer.prototype = import$(Object.create(Object.prototype), {
     on: function(n, cb){
-      var ref$;
-      return ((ref$ = this._.evthdr)[n] || (ref$[n] = [])).push(cb);
+      var this$ = this;
+      return (Array.isArray(n)
+        ? n
+        : [n]).map(function(n){
+        var ref$;
+        return ((ref$ = this$._.evthdr)[n] || (ref$[n] = [])).push(cb);
+      });
     },
     fire: function(n){
       var v, res$, i$, to$, ref$, len$, cb, results$ = [];
@@ -445,41 +453,14 @@
       return results$;
     },
     fetch: function(){
-      return this.page.fetch();
+      return this._.page.fetch();
     },
     reset: function(){
-      this.page.reset();
-      this.lc.files = [];
-      return this.view.render();
+      this._.page.reset();
+      this._.files = [];
+      return this._.view.render();
     }
   });
-  uploadr.i18n = {
-    en: {
-      "Drag & drop": "Drag & drop",
-      "file(s) here": "file(s) here",
-      "Name": "Name",
-      "Size": "Size",
-      "Modified Date": "Modified Date",
-      "Add File ...": "Add File ...",
-      "div": "div",
-      "Upload": "Upload",
-      "Clear": "Clear",
-      "Close": "Close",
-      "Load More": "Load More"
-    },
-    "zh-TW": {
-      "Drag & drop": "拖拉檔案",
-      "file(s) here": "至此處",
-      "Name": "檔名",
-      "Size": "檔案大小",
-      "Modified Date": "修改時間",
-      "Add File ...": "增加檔案 ...",
-      "Upload": "上傳",
-      "Clear": "清除",
-      "Close": "關閉",
-      "Load More": "載入更多"
-    }
-  };
   if (typeof module != 'undefined' && module !== null) {
     module.exports = uploadr;
   } else if (typeof window != 'undefined' && window !== null) {

@@ -1,6 +1,22 @@
 <-(->it!) _
 
 lc = {files: []}
+ldcv = {}
+inline = {}
+
+page-cfg = (host) -> 
+  host: host
+  fetch-on-scroll: true
+  limit: 9
+  boundary: 100
+  fetch: -> new Promise (res, rej) ->
+    res [1,2,3,4,5,6,7,8,9].map ->
+      {
+        url: "/assets/img/sample/#{it}.jpg"
+        size: Math.round(Math.random! * (1048576 * 1024))
+        name: "DSC_" + "#{Math.floor(Math.random!*10000)}".padStart(4, "0") + ".jpg"
+        lastModified: Date.now! - Math.round(Math.random! * 1000 * 1440 * 365)
+      }
 
 providers = do
   native: host: \native, config: {route: \/api/uploadr/native}
@@ -11,7 +27,34 @@ providers = do
     domain: "https://storage.googleapis.com"
   }
 
-up = new uploadr do
+view = new ldview do
+  root: document.body
+  init:
+    inline: ({node}) ->
+      base = node.querySelector('[ld-scope]')
+      name = base.getAttribute \ld-scope
+      inline[name] = node
+      node.classList.toggle \d-none, true
+      if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base)
+      else new uploadr.uploader root: base, provider: providers.native
+    ldcv: ({node}) ->
+      base = node.querySelector('[ld-scope]')
+      name = base.getAttribute \ld-scope
+      ldcv[name] = new ldcover root: node
+      if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base)
+      else new uploadr.uploader root: base, provider: providers.native
+  action: click:
+    "toggle-ldcv": ({node}) ->
+      name = node.dataset.name
+      ldcv[name].toggle!
+    "toggle-inline": ({node}) ->
+      name = node.dataset.name
+      for k,v of inline => v.classList.toggle \d-none, true
+      inline[name].classList.toggle \d-none, false
+
+
+/*
+up = new uploadr.uploader do
   root: '[ld-scope=uploadr]'
   provider: providers.native
 
@@ -67,3 +110,4 @@ viewer-maker = (root, host) ->
 
 viewer-maker '[ld-scope=uploadr-viewer]', chooserroot
 viewer-maker '[ld-scope=uploadr-viewer2]', document.body
+*/

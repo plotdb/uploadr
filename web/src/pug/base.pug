@@ -2,8 +2,7 @@
 doctype html
 html
   include @/@loadingio/bootstrap.ext/index.pug
-  include @/ldview/index.pug
-  include @static/assets/lib/uploadr/dev/server/index.pug
+  include @static/assets/lib/@plotdb/uploadr/dev/server/index.pug
   block vars
   head
     block prehead
@@ -14,7 +13,7 @@ html
       { name: "ldloader"},
       { name: "ldnotify"},
       { name: "ldiconfont"},
-      { name: "uploadr", version: "dev"},
+      { name: "@plotdb/uploadr", version: "dev"},
     ])
     block head
   body
@@ -32,8 +31,8 @@ html
       {name: "@plotdb/rescope"},
       {name: "@plotdb/csscope"},
       {name: "@plotdb/block"},
-      {name: "uploadr", version: "dev", path: "index.js"},
-      {name: "uploadr", version: "dev", path: "providers/gcs/index.min.js"},
-      {name: "uploadr", version: "dev", path: "providers/native/index.min.js"}
+      {name: "@plotdb/uploadr", version: "dev", path: "index.js"},
+      {name: "@plotdb/uploadr", version: "dev", path: "providers/gcs/index.min.js"},
+      {name: "@plotdb/uploadr", version: "dev", path: "providers/native/index.min.js"}
     ])
     block script

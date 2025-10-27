@@ -1,8 +1,17 @@
 # Change Logs
 
-## v0.4.6 (upcoming)
+## v0.5.0 (upcoming)
 
- - use `ldview` instead of `ldView`
+ - breaking changes
+   - rewrite widget code
+     - tweak style
+     - tweak DOM structure
+     - tweak APIs and Events
+   - tweak uploadr object structure:
+     - Use `uploadr.viewer` and `uploadr.uploader` for widgets, `uploadr.ext` for providers.
+ - rewrite all demostration page
+ - update document
+ - add block-based widgegt
 
 
 ## v0.4.5

@@ -28,11 +28,17 @@ echo "minifying index.css ..."
 echo "build src/server.ls -> dist/server/index.js ..."
 ./node_modules/.bin/lsc -cbp src/server.ls > dist/server/index.js
 
+echo "build src/block/uploader/index.pug -> dist/index.html"
+./node_modules/.bin/srcbuild-pug src/block/uploader/index.pug > dist/index.html
+echo "build src/block/viewer/index.pug -> dist/viewer"
+mkdir -p dist/viewer
+./node_modules/.bin/srcbuild-pug src/block/viewer/index.pug > dist/viewer/index.html
+
 echo "copy pug file to dist/ ..."
 cp src/client.pug dist/server/index.pug
 
 echo "deploy into local web ..."
-rm -rf web/static/assets/lib/uploadr/dev/
-mkdir -p web/static/assets/lib/uploadr/dev/
-cp -R dist/* web/static/assets/lib/uploadr/dev/
+rm -rf web/static/assets/lib/@plotdb/uploadr/dev/
+mkdir -p web/static/assets/lib/@plotdb/uploadr/dev/
+cp -R dist/* web/static/assets/lib/@plotdb/uploadr/dev/
 echo "done."

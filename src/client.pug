@@ -1,24 +1,29 @@
 //- module
-mixin uploadr(opt)
+mixin uploadr-uploader(opt)
   -
     if(typeof(opt) == "string") { name = opt; }
     else if(!opt) { opt = {}; }
     var name = name || opt.name || "uploadr";
     var type = opt.type || "image";
-  .uploadr(ld-scope=name)&attributes(attributes)
+  .uploadr.uploadr-uploader(ld-scope=name)&attributes(attributes)
+    .uploadr-ctrl
+      .uploadr-button #[span(t) Add File ...] #[input(type="file",ld="input",multiple)]
+      .uploadr-ctrl-group
+        .uploadr-button(ld="upload",t) Upload
+        .uploadr-button(ld="clear",t) Clear
+        .uploadr-button(ld="close",data-ldcv-set="",t) Close
     .uploadr-dropzone(ld="drop")
       .uploadr-hint: div #[span(t) Drag & drop] #[br] #[span(t) file(s) here]
-      .uploadr-viewer(class=(type=="file"?"uploadr-file-viewer":""))
+      .uploadr-list(class=(type=="file"?"uploadr-list-file":"uploadr-list-image"))
         if type != "file"
           .uploadr-item(ld-each="file")
-            img(ld="thumb")
             .img(ld="thumb")
             .uploadr-item-ctrl
-              div(ld="progress")
+              .uploadr-progress(ld="progress")
               .inner
                 div(ld="name")
                 div(ld="size")
-                div(ld="delete") &times;
+                div(ld="delete") ✕
         else
           .uploadr-item.uploadr-head
             .uploadr-item-cell(t) Name
@@ -28,18 +33,12 @@ mixin uploadr(opt)
           .uploadr-item(ld-each="file")
             .uploadr-item-cell(style="position:relative")
               span(ld="name")
-              div(ld="progress")
+              .uploadr-progress(ld="progress")
             .uploadr-item-cell(ld="size")
             .uploadr-item-cell(ld="modifiedtime")
-            .uploadr-item-cell(ld="delete") &times;
+            .uploadr-item-cell(ld="delete") ✕
 
       .uploadr-loader: .ldld.default(ld="loader")
-    .uploadr-ctrl
-      .flex-grow-1.mr-2: .btn.btn-primary.btn-upload #[span(t) Add File ...] #[input(type="file",ld="input",multiple)]
-      div
-        .btn.btn-primary.ml-2(ld="upload",t) Upload
-        .btn.btn-primary.ml-2(ld="clear,t") Clear
-        .btn.btn-primary.ml-2(ld="close",data-ldcv-set="",t) Close
 
 mixin uploadr-viewer(opt)
   -
@@ -47,18 +46,19 @@ mixin uploadr-viewer(opt)
     else if(!opt) { opt = {}; }
     var name = name || opt.name || "uploadr-viewer";
     var type = opt.type || "image";
-  .uploadr-viewer(ld-scope=name,ld="list",class=(type=="file"?"uploadr-file-viewer":""))&attributes(attributes)
-    if type == "file"
-      .uploadr-item.uploadr-head
-        .uploadr-item-cell(t) Name
-        .uploadr-item-cell(t) Size
-        .uploadr-item-cell(t) Modified Date
-    .uploadr-item(ld-each="file")
-      if type == "image"
-        img(ld="thumb")
-        .img(ld="thumb")
+  .uploadr.uploadr-viewer(ld-scope=name)&attributes(attributes)
+    .uploadr-list(class=(type=="file"?"uploadr-list-file":"uploadr-list-image"))
       if type == "file"
-        .uploadr-item-cell(ld="name")
-        .uploadr-item-cell(ld="size")
-        .uploadr-item-cell(ld="modifiedtime")
-    .uploadr-item.uploadr-load(ld="load",t) Load More
+        .uploadr-item.uploadr-head
+          .uploadr-item-cell(t) Name
+          .uploadr-item-cell(t) Size
+          .uploadr-item-cell(t) Modified Date
+      .uploadr-item(ld-each="file")
+        if type == "image"
+          img(ld="thumb")
+          //-.img(ld="thumb")
+        if type == "file"
+          .uploadr-item-cell(ld="name")
+          .uploadr-item-cell(ld="size")
+          .uploadr-item-cell(ld="modifiedtime")
+      .uploadr-item.uploadr-load(ld="load",t) Load More

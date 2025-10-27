@@ -1,30 +1,75 @@
 extends /base.pug
+block head
+  style(type="text/css"): :stylus
+    .panel .uploadr-dropzone { min-height: 300px }
 block body
   .w-1024.rwd.typeset.heading-contrast.mx-auto.p-4
     .d-flex.align-items-end
       .flex-grow-1
         h2 uploadr
-        p file uploader widgets and express route
-      div
-        .btn.btn-primary(ld="toggle-uploader") Upload #[i.i-upload]
-        .btn.btn-primary.ml-2(ld="toggle-chooser") Choose #[i.i-book]
+        p this page demonstrate builtin widgets including uploader and viewer, in dialog / inline &times; image / file mode.
     hr
+    .d-flex.g-4.mb-4
 
-    .ldcv.default-size(ld="ldcv-uploadr"): .base: .inner
-      +uploadr({name: "uploadr", type: "file"})
+      div
+        .font-weight-bold(style="font-size:1.15em") Inline
+        .d-flex.g-4
+          div
+            div Image Listing
+            .btn-group
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-inline",data-name="image-uploader") Uploader #[i.i-upload]
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-inline",data-name="image-viewer") Viewer #[i.i-book]
+          div
+            div File Listing
+            .btn-group
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-inline",data-name="file-uploader") Uploader #[i.i-upload]
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-inline",data-name="file-viewer") Viewer #[i.i-book]
 
-    .ldcv.default-size(ld="ldcv-chooser"): .base
-      #chooserroot.inner.d-flex.flex-column
-        .flex-grow-1
-          +uploadr-viewer({name: "uploadr-viewer", type: "file"})
-        .d-flex.justify-content-end.p-2
-          .btn.btn-primary(data-ldcv-set="") Close
+      div
+        .font-weight-bold(style="font-size:1.15em") Dialog
+        .d-flex.g-4
+          div
+            div Image Listing
+            .btn-group
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="image-uploader") Uploader #[i.i-upload]
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="image-viewer") Viewer #[i.i-book]
+          div
+            div File Listing
+            .btn-group
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="file-uploader") Uploader #[i.i-upload]
+              .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="file-viewer") Viewer #[i.i-book]
+    .border.rounded.shadow-sm.p-4.mt-4
+      .panel(ld="inline"): +uploadr-uploader({name: "image-uploader", type: "image"})
+      .panel(ld="inline"): +uploadr-viewer({name: "image-viewer", type: "image"})
+      .panel(ld="inline"): +uploadr-uploader({name: "file-uploader", type: "file"})
+      .panel(ld="inline"): +uploadr-viewer({name: "file-viewer", type: "file"})
 
-    .card.w-100.mx-auto.rwd.shadow.mb-4: .card-body.p-2
-      +scope("file-viewer").d-flex.flex-wrap
-        .d-none(ld="empty") no files uploaded
-        .d-flex.align-items-center.justify-content-center.bg-light.border.rounded-sm(ld-each="file",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
-    .card.w-100.mx-auto.rwd.shadow: .card-body.p-2
-      +uploadr-viewer({name: "uploadr-viewer2", type: "file"})
+    .ldcv.default-size(ld="ldcv"): .base: .inner
+      +uploadr-uploader({name: "image-uploader", type: "image"})
+    .ldcv.default-size(ld="ldcv"): .base: .inner(style="overflow-y:scroll")
+      +uploadr-viewer({name: "image-viewer", type: "image"})
+    .ldcv.default-size(ld="ldcv"): .base: .inner
+      +uploadr-uploader({name: "file-uploader", type: "file"})
+    .ldcv.default-size(ld="ldcv"): .base: .inner(style="overflow-y:scroll")
+      +uploadr-viewer({name: "file-viewer", type: "file"})
+
+    //-
+      .ldcv.default-size(ld="ldcv-uploadr"): .base: .inner
+        +uploadr({name: "uploadr", type: "image"})
+
+      .ldcv.default-size(ld="ldcv-chooser"): .base
+        #chooserroot.inner(style="overflow-y:scroll")
+          .d-flex.justify-content-end.p-2.sticky.z-fixed.border-bottom.bg-white(style="top:0")
+            .btn.btn-outline-secondary(data-ldcv-set="") Close
+          .flex-grow-1
+            +uploadr-viewer({name: "uploadr-viewer", type: "image"})
+
+      .card.w-100.mx-auto.rwd.shadow.mb-4: .card-body.p-2
+        +scope("file-viewer").d-flex.flex-wrap
+          .d-none(ld="empty") no files uploaded
+          .d-flex.align-items-center.justify-content-center.bg-light.border.rounded-sm(ld-each="file",style="width:300px;height:200px;background-size:cover;background-position:center center;background-repeat:no-repeat")
+      .card.w-100.mx-auto.rwd.shadow: .card-body.p-2
+        +uploadr-viewer({name: "uploadr-viewer2", type: "image"})
+
 block script
     script(type="module"): include:lsc index.ls

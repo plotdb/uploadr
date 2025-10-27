@@ -6,27 +6,42 @@ A file upload library for modern web apps.
  - [Server side](#server-side): API endpoint for file storage with Express
 
 
+## Installation
+
+Install @plotdb/uploadr via npm, along with its dependencies:
+
+    npm install --save @plotdb/uploadr @loadingio/ldquery
+
+
+and following dependencies for widgets, optionally only if you use builtin widgets:
+
+    npm install --save @loadingio/paginate @loadingio/debounce.js ldview ldloader proxise
+
 
 ## Client Side
 
-In a browser context, we need widgets for both file uploading and file choosing. Both parts share the same basic usage as described below; other parts will be covered separately in following sections.
+In a browser context, we need 2 parts:
+
+ - uploader for a specific provider
+ - widgets for both file uploading and file choosing
+
+Before using, you need to include required files; for using without widgets, include main lib and @loadingio/ldquery:
 
 
-### Installation
+    <script src="path/to/@loadingio/ldquery/index.min.js"></script>
+    <script src="path/to/@plotdb/uploadr/index.min.js"></script>
 
-    npm install --save @loadingio/paginate @loadingio/debounce.js ldview ldloader proxise @plotdb/uploadr
 
-
-### Usage
-
-include required JS / CSS files and related dependencies ( `@loadingio/paginate`, `@loadingio/debounce.js`, `proxise`, `ldloader` and `ldview` ):
+and dependencies if you want to use with widgets:
 
     <link rel="stylesheet" type="text/css" href="@plotdb/uploadr/uploadr.css"/>
-    <script src="@loadingio/paginate/index.min.js"></script>
-    <script src="@loadingio/debounce.js/index.min.js"></script>
-    <script src="proxise/index.min.js"></script>
-    <script src="ldview/index.min.js"></script>
-    <script src="@plotdb/uploadr/index.min.js"></script>
+    <script src="path/to/@loadingio/ldquery/index.min.js"></script>
+    <script src="path/to/@loadingio/paginate/index.min.js"></script>
+    <script src="path/to/@loadingio/debounce.js/index.min.js"></script>
+    <script src="path/to/proxise/index.min.js"></script>
+    <script src="path/to/ldview/index.min.js"></script>
+    <script src="path/to/@plotdb/uploadr/index.min.js"></script>
+
 
 additionally, include a specific provider. For example, `native` provider:
 
@@ -35,13 +50,26 @@ additionally, include a specific provider. For example, `native` provider:
 For more information about provider, check the [Provider section](#providers) below.
 
 
-### Uploader
+### Usage, without widgets
 
-If you only need an API endpoint for each provider, you can skip the Uploadr viewer completely. In this case, check the [Providers section](#providers) below.
+Upload with a specific provider is simple. For example, upload with the native provider:
 
-To upload files via the uploadr viewer, create an `uploadr` object through its constructor:
+    uploadr.ext.native({
+      files: [{file: blobToUpload}, ...]
+      progress: function ({percent, val, len, item}) { ... }
+      opt: {route: "path-to-your-native-provider-api-endpoint"}
+    })
 
-    var up = new uploadr({ ... })
+While @plotdb/uploadr provides upload widgets, in this case no UI is involved. If this is all what you need and don't need uploadr widgets, you can skip to the [Providers section](#providers) below. Check `no-ui/` page under demo site for a working example of uploading without widgets.
+
+
+### Usage, with widgets
+
+Uploadr widget provides a headless controller based on ldview so you can design your own widgets, yet a pair of Pug mixin as a predefined HTML template within a pug file are also available for you to use. Additionally, `@plotdb/block` modules corresponding to viewer and uploader are also available.
+
+To upload files via the uploadr viewer, create an `uploadr.uploader` object through its constructor:
+
+    var up = new uploadr.uploader({ ... })
 
 with the following options:
 
@@ -49,20 +77,38 @@ with the following options:
     - To customize widget, see [Widget Customization section](#widget-customization) below.
  - `provider`: object for provider information
    - For detailed usage, see [Providers section](#providers) below.
-   - if omitted, falls back to `{config: {route: '/d/uploadr'}, host: 'native'}`
+   - if omitted, falls back to `{config: {route: '/api/uploadr'}, host: 'native'}`
 
 
-For root element - if you use Pug, you can use the `uploadr` mixin available in `uploadr.pug` to create the DOM needed:
+For root element - if you use Pug, you can use the `uploadr-uploader` mixin available in `uploadr.pug` to create the DOM needed:
 
     include <path-to-uploadr.pug>
-    div.some-tag-to-wrap-uploader: +uploadr("scope-name")
+    div.some-tag-to-wrap-uploader: +uploadr-uploader("scope-name")
 
-Feel free to wrap it in dialogs or popups.
+Or, create a `uploadr.viewer` object to browse and choose files:
+
+    var up = new uploadr.viewer({ ... })
+
+with the following options:
+
+ - `root`: root element ( or selector ) of the upload widget.
+    - To customize widget, see [Widget Customization section](#widget-customization) below.
+ - `page`: an object for configuration for fetching new content.
+   - this object wil be passed to `@loadingio/paginate`. See `@loadingio/paginate` for documentation.
+   - items in returned list from fetch should contain at least a member `url` for showing the URL of the image.
+
+Similar to `uploadr.uploader`, a mixin `uploadr-viewer` is available by including `uploadr.pug`:
+
+    include <path-to-uploadr.pug>
+    div.some-tag-to-wrap-uploader-viewer: +uploadr-viewer("scope-name")
 
 
-#### API
+Feel free to wrap uploader or viewer in dialogs or popups. See demo site for more examples.
 
-`uploadr` object provides the following APIs:
+
+### API
+
+`uploadr.uploader` object provides following APIs:
 
   - `init` - initialize uploadr, return a promise that resolves when initialized.
     - constructor initializes uploadr automatically.
@@ -71,14 +117,24 @@ Feel free to wrap it in dialogs or popups.
   - `clear` - clear chosen files.
   - `get` - get chosen files.
   - `on(name, cb)` - listen to `name` event with `cb` callback. Following events are available:
-    - `preview.done`
-    - `preview.loading`
-    - `file.chosen`
-    - `upload.done`
-    - `upload.fail`
+    - `preview:loading`
+    - `preview:loaded`
+    - `file:chosen`
+    - `upload:done`
+    - `upload:fail`
+
+`uploader.viewer` object provides following APIs:
+
+  - `fetch` - force fetching new content.
+  - `reset` - reset viewer content
+  - `on(name, cb)` - listen to `name` event with `cb` callback. Following events are available:
+    - `file:chosen`: when an item is chosen. `cb` called with `{url}` object as parameter.
+    - `fetch:fetched`: when fetching new items. list of items passed as parameter.
+    - `fetch:end`:  when there is no new item available.
+    - `fetch:empty`:  when list is empty.
 
 
-#### Providers
+### Providers
 
 `@plotdb/uploadr` supports uploading to different kinds of file hosting services. use `provider` to choose from the available providers below.
 
@@ -110,36 +166,39 @@ For example, to upload a file to Google Cloud Storage:
       opt: {bucket: "my-gcs-bucket"}
     });
 
+It always return a Promise resolved with a list of object with fields listed in the `Other Providers` section, check it for more information.
+
+
 Provider configurations are described below.
 
 
-##### Native
+#### Native
 
 Upload files to a local API endpoint. include `providers/native/index.min.js` then:
 
-    new uploadr({ host: "native", config: { ... }});
+    new uploadr({provider: { host: "native", config: { ... }}});
 
 where the config contains:
 
  - `route`: API endpoint
 
 
-##### ImgBB
+#### ImgBB
 
 Upload images to ImgBB. Include `providers/imgbb/index.min.js` then:
 
-    new uploadr({ host: "imgbb", config: { ... }});
+    new uploadr({provider: { host: "imgbb", config: { ... }}});
 
 where the config contains:
 
  - `key`: imgbb API key for uploading images.
 
 
-##### GCS ( Google Cloud Storage )
+#### GCS ( Google Cloud Storage )
 
 Upload files to Google Cloud Storage directly from browser. Include `providers/gcs/index.min.js` then initialize with:
 
-    new uploadr({ host: "gcs", config: { ... }});
+    new uploadr({provider: {host: "gcs", config: { ... }}});
 
 where the config contains:
 
@@ -147,20 +206,20 @@ where the config contains:
  - `domain`: domain name to access your files (including schema ).
    - if omitted, falls back to `https://storage.googleapis.com`
    - this is for previewing / downloading files.
- - `route`: server route to request signed URL for uploading files. 
+ - `route`: server route to request signed URL for uploading files.
    - if omitted, falls back to `/d/uploadr/gcs`.
 
 
-##### Dummy
+#### Dummy
 
 Dummy provider doesn't upload files anywhere - it just responds with a dummy result. Include `providers/dummy/index.min.js` then:
 
-    new uploadr({ host: "dummy" })
+    new uploadr({provider: { host: "dummy" }})
 
 and there is no config for dummy provider.
 
 
-##### Other providers
+#### Other providers
 
 You can also add provider for services you'd like to use by simply adding a function in `uploadr.ext`:
 
@@ -192,53 +251,30 @@ It's your job to implement the upload mechanism with the following parameters an
      - `err`: information if uploading of this file failed.
 
 
-#### Widget Customization
+### Widget Customization
 
 Uploadr client library uses [ldview](https://github.com/loadingio/ldview) for UI abstraction. If you design your own upload widget, simply add the following `ld` names on corresponding elements.
+
+Here is for uploader:
 
  - `drop`: area for dropping files to choose them.
  - `file`: `ld-each` type name. preview of chosen files. with the following nested `ld` names:
    - `thumb`: element for showing preview image. should also be an `<img>` tag.
    - `progress`: upload progress indicator
-   - `size`: size of chosen file.
+   - `name`: name of the chosen file.
+   - `size`: size of the chosen file.
+   - `modifiedtime`: modified time of the chosen file.
    - `delete`: file is un-chosen when element with `delete` name is clicked.
  - `input`: `input` element with `type='file'` attribute. For manually uploading with file picker dialog.
  - `upload`: upload chosen files to server when clicked.
  - `clear`: clear all files when clicked.
  - `loader`: a `running` class will be added to element(s) with this name.
 
+and here is for viewer:
 
-### Viewer
+ - `file`: same with uploadr, along with the selector under `file`.
+ - `load`: a DOM element triggering additional load when clicking.
 
-To view and choose files, create an `uploadr.choose` object
-
-    uploadr.viewer({ ... });
-
-with the following options:
-
- - `root`: object or selector for the root element of viewer DOM.
- - `page`: a `@loadingio/paginate` object ( or options for constructor ) for loading file lists.
-   - items in returned list from fetch should contain at least a member `url` for showing the URL of the image.
-
-
-You can prepare the root element with Pug mixin `uploadr-viewer` after including required `uploadr.pug`:
-
-    include <path-to-ldview.pug>
-    include <path-to-uploadr.pug>
-    div.some-tag-to-wrap-uploader-viewer: +uploadr-viewer("scope-name")
-
-
-#### API
-
-`uploadr.viewer` object provides the following APIs:
-
- - `on(name, cb)`: listen to event `name` with callback function `cb`. Following events are available:
-   - `fetch`: when fetching new items. list of items passed as parameter.
-   - `finish`: when there is no new item available.
-   - `empty`: when list is empty.
-   - `choose`: when an item is chosen. `cb` called with `{url}` object as parameter.
- - `fetch`: initiate a new fetch
- - `reset`: reset pager and list.
 
 
 ## Server Side
@@ -281,7 +317,7 @@ where the return value should be an object with the following fields:
  - `url`: optional. available for native provider.
 
 both function should return a promise. `adopt` can be used to
- 
+
  - return a rejected promise to prevent the file from being uploaded or downloaded
  - track uploads / downloads
 
@@ -327,6 +363,7 @@ Configure the native provider with the following options:
  - `catch: (err, req, res, next)`: Promise rejection handler.
    - if omitted, falls back to `res.status(505).send()` when exception occurs.
  - `log`: log function. if omitted, falls back to `console.log`.
+
 
 #### APIs
 
