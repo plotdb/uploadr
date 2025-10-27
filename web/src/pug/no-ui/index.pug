@@ -1,0 +1,15 @@
+extends /base.pug
+block body
+  .w-1024.rwd.mx-auto.my-5
+    h3 Simple Uploader with Native Provider
+    p this page demonstrates how to use @plotdb/uploadr + native provider to upload files without using widgets. Try clicking `Upload File` below to upload image files and the uploaded files with be shown below.
+    .btn.btn-upload.btn-outline-secondary
+      span Upload File
+      input(ld="upload",type="file",multiple)
+    hr
+    .d-flex.flex-wrap.g-4
+      .rounded.shadow-sm.border.p-2.d-flex.flex-column.justify-content-center.align-items-center(ld-each="list")
+        img(ld="img",style="width:300px;")
+        .w-100.text-center(ld="name")
+block script
+  script(type="module"): include:lsc index.ls
