@@ -1,0 +1,39 @@
+//- module
+doctype html
+html
+  include @/@loadingio/bootstrap.ext/index.pug
+  include @/ldview/index.pug
+  include @static/assets/lib/uploadr/dev/server/index.pug
+  block vars
+  head
+    block prehead
+    +css([
+      { name: "bootstrap", path: "dist/css/bootstrap.min.css"},
+      { name: "@loadingio/bootstrap.ext"},
+      { name: "ldcover"},
+      { name: "ldloader"},
+      { name: "ldnotify"},
+      { name: "ldiconfont"},
+      { name: "uploadr", version: "dev"},
+    ])
+    block head
+  body
+    block body
+    +script([
+      {name: "@loadingio/debounce.js"},
+      {name: "@loadingio/ldquery"},
+      {name: "@loadingio/paginate"},
+      {name: "proxise"},
+      {name: "ldview"},
+      {name: "ldnotify"},
+      {name: "ldcover"},
+      {name: "ldloader"},
+      {name: "@plotdb/semver"},
+      {name: "@plotdb/rescope"},
+      {name: "@plotdb/csscope"},
+      {name: "@plotdb/block"},
+      {name: "uploadr", version: "dev", path: "index.js"},
+      {name: "uploadr", version: "dev", path: "providers/gcs/index.min.js"},
+      {name: "uploadr", version: "dev", path: "providers/native/index.min.js"}
+    ])
+    block script
