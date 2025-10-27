@@ -38,6 +38,7 @@
     "@plotdb/srcbuild": "^0.0.69",
     "@plotdb/suuid": "^0.5.1",
     "@zbryikt/template": "v2.4.1",
+    "body-parser": "^2.2.0",
     "bootstrap": "^4.6.1",
     "express": "^4.17.1",
     "fedep": "^1.5.0",
