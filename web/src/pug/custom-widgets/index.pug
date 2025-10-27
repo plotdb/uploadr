@@ -1,0 +1,23 @@
+extends /base.pug
+block head
+  style(type="text/css"): include:stylus index.styl
+block body
+  .w-1024.rwd.mx-auto.my-5
+    h3 Custom Widgets
+    p @plotdb/uploadr widgets are ldview-based so you can customize DOM by nature.
+    hr
+    div(ld-scope,ld="uploadr")
+      .w-100.dropper(ld="drop",style="height:100px")
+        input(ld="input",type="file",multiple)
+      .rounded.shadow-sm.border.p-2.d-flex.flex-wrap.g-2.gallery.align-items-center.justify-content-center.my-2
+        div(ld-each="file"): img(ld="thumb",style="width:200px")
+      .text-center: .btn.btn-outline-secondary(ld="upload") Confirm Upload
+    hr
+    div(ld-scope,ld="uploadr-viewer")
+      .rounded.shadow-sm.border.p-2.d-flex.flex-wrap.g-2.gallery.align-items-center.justify-content-center.my-2
+        div(ld-each="file")
+          div(ld="thumb",style="background-size:cover"): img(ld="thumb",style="width:200px")
+      .text-center: .btn.btn-outline-secondary(ld="load") Load More
+
+block script
+  script(type="module"): include:lsc index.ls
