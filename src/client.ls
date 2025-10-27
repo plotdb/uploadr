@@ -12,7 +12,7 @@ parse-size = (size = 0) ->
 uploadr = (opt = {}) ->
   @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
-  @evt-handler = {}
+  @_ = evthdr: {}
   @opt = {} <<< opt
   @opt.provider = opt.provider or {host: 'native', config: {route: '/d/uploadr'}}
   @progress = (v) ~>
@@ -29,8 +29,8 @@ uploadr = (opt = {}) ->
   @
 
 uploadr.prototype = Object.create(Object.prototype) <<< do
-  on: (n, cb) -> @evt-handler.[][n].push cb
-  fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
+  on: (n, cb) -> @_.evthdr.[][n].push cb
+  fire: (n, ...v) -> for cb in (@_.evthdr[n] or []) => cb.apply @, v
   _init: -> Promise.resolve!then ~>
     lc = @lc
     preview = (files) ~>
@@ -149,7 +149,7 @@ uploadr.ext = ext = {}
 uploadr.viewer = (opt) ->
   @root = if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if !@root => console.warn "[uploadr] warning: no node found for root ", opt.root
-  @evt-handler = {}
+  @_ = evthdr: {}
   @lc = lc = {}
   @files = lc.files = []
   @view = view = new ldview do
@@ -193,8 +193,8 @@ uploadr.viewer = (opt) ->
   @
 
 uploadr.viewer.prototype = Object.create(Object.prototype) <<< do
-  on: (n, cb) -> @evt-handler.[][n].push cb
-  fire: (n, ...v) -> for cb in (@evt-handler[n] or []) => cb.apply @, v
+  on: (n, cb) -> @_.evthdr.[][n].push cb
+  fire: (n, ...v) -> for cb in (@_.evthdr[n] or []) => cb.apply @, v
   fetch: -> @page.fetch!
   reset: ->
     @page.reset!

@@ -29,7 +29,9 @@
     if (!this.root) {
       console.warn("[uploadr] warning: no node found for root ", opt.root);
     }
-    this.evtHandler = {};
+    this._ = {
+      evthdr: {}
+    };
     this.opt = import$({}, opt);
     this.opt.provider = opt.provider || {
       host: 'native',
@@ -68,7 +70,7 @@
   uploadr.prototype = import$(Object.create(Object.prototype), {
     on: function(n, cb){
       var ref$;
-      return ((ref$ = this.evtHandler)[n] || (ref$[n] = [])).push(cb);
+      return ((ref$ = this._.evthdr)[n] || (ref$[n] = [])).push(cb);
     },
     fire: function(n){
       var v, res$, i$, to$, ref$, len$, cb, results$ = [];
@@ -77,7 +79,7 @@
         res$.push(arguments[i$]);
       }
       v = res$;
-      for (i$ = 0, len$ = (ref$ = this.evtHandler[n] || []).length; i$ < len$; ++i$) {
+      for (i$ = 0, len$ = (ref$ = this._.evthdr[n] || []).length; i$ < len$; ++i$) {
         cb = ref$[i$];
         results$.push(cb.apply(this, v));
       }
@@ -316,7 +318,9 @@
     if (!this.root) {
       console.warn("[uploadr] warning: no node found for root ", opt.root);
     }
-    this.evtHandler = {};
+    this._ = {
+      evthdr: {}
+    };
     this.lc = lc = {};
     this.files = lc.files = [];
     this.view = view = new ldview({
@@ -425,7 +429,7 @@
   uploadr.viewer.prototype = import$(Object.create(Object.prototype), {
     on: function(n, cb){
       var ref$;
-      return ((ref$ = this.evtHandler)[n] || (ref$[n] = [])).push(cb);
+      return ((ref$ = this._.evthdr)[n] || (ref$[n] = [])).push(cb);
     },
     fire: function(n){
       var v, res$, i$, to$, ref$, len$, cb, results$ = [];
@@ -434,7 +438,7 @@
         res$.push(arguments[i$]);
       }
       v = res$;
-      for (i$ = 0, len$ = (ref$ = this.evtHandler[n] || []).length; i$ < len$; ++i$) {
+      for (i$ = 0, len$ = (ref$ = this._.evthdr[n] || []).length; i$ < len$; ++i$) {
         cb = ref$[i$];
         results$.push(cb.apply(this, v));
       }
