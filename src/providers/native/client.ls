@@ -21,5 +21,5 @@ uploadr.ext.native = ({files, progress, opt, data}) -> new Promise (res, rej) ->
         .then ->
           ret.push o = it.0
           _ list
-        .catch -> ret.push o = {name: item.file.name, error: it}
+        .catch -> ret.push o = {name: item.file.name, err: it}
     _ files
