@@ -11,13 +11,21 @@ page-cfg = (host) ->
   limit: 9
   boundary: 100
   fetch: -> new Promise (res, rej) ->
-    res [1,2,3,4,5,6,7,8,9].map ->
-      {
-        url: "/assets/img/sample/#{it}.jpg"
-        size: Math.round(Math.random! * (1048576 * 1024))
-        name: "DSC_" + "#{Math.floor(Math.random!*10000)}".padStart(4, "0") + ".jpg"
-        lastModified: Date.now! - Math.round(Math.random! * 1000 * 1440 * 365)
-      }
+    res [1,2,3,4,5,6,7,8,9,10].map (idx) ->
+      if idx == 10 =>
+        return {
+          url: "/assets/img/sample/10.pdf"
+          size: Math.round(Math.random! * (1048576 * 1024))
+          name: "sample-file-name" + "#{Math.floor(Math.random!*10000)}".padStart(4, "0") + ".pdf"
+          lastModified: Date.now! - Math.round(Math.random! * 1000 * 1440 * 365)
+        }
+      else
+        return {
+          url: "/assets/img/sample/#{idx}.jpg"
+          size: Math.round(Math.random! * (1048576 * 1024))
+          name: "DSC_" + "#{Math.floor(Math.random!*10000)}".padStart(4, "0") + ".jpg"
+          lastModified: Date.now! - Math.round(Math.random! * 1000 * 1440 * 365)
+        }
 
 providers = do
   native: host: \native, config: {route: \/api/uploadr/native}

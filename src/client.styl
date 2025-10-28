@@ -60,14 +60,27 @@
   color: #fff
   background: rgba(0,0,0,.4)
   font-size: .75em
-  & > .inner
+  & > .uploadr-item-ctrl-info
     position: relative
     z-index: 2
     display: flex
     justify-content: space-between
     align-items: center
     padding: .25em .5em
-    *[ld=delete]
+    gap: .5em
+    .uploadr-item-ctrl-name
+      width: 60%
+      flex-grow: 1
+      overflow: hidden
+      text-overflow: ellipsis
+      text-align: left
+    .uploadr-item-ctrl-size
+      width: calc(30% - 1em)
+      flex-grow: 1
+      overflow: hidden
+      text-overflow: ellipsis
+      text-align: right
+    .uploadr-item-ctrl-delete
       cursor: pointer
 
 .uploadr-item-ctrl .uploadr-progress

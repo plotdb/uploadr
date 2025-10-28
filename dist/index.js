@@ -2,6 +2,9 @@
   var uploadr;
   uploadr = {
     ext: {},
+    assets: {
+      thumbholder: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5400 -5400 12000 12000"><rect width="12000" height="12000" x="-5400" y="-5400" fill="#ccc"/><path fill="#777" d="M1099.7 345.4v-.4a49.8 49.8 0 0 0-9.4-24.6l-.2-.2-1.2-1.5-.3-.4-1.3-1.4c0-.2-.2-.3-.3-.5a50 50 0 0 0-1.7-1.8l-300-300-1.8-1.6-.4-.4-1.5-1.2c0-.2-.2-.3-.4-.4l-1.5-1.2s-.2 0-.3-.2l-1.7-1.2A49.7 49.7 0 0 0 754.8.2h-.3A50.3 50.3 0 0 0 750 0H150a50 50 0 0 0-50 50v1100a50 50 0 0 0 50 50h900a50 50 0 0 0 50-50V350a49.7 49.7 0 0 0-.2-4.6zM800 170.7 929.3 300H800V170.7zM200 1100V100h500v250a50 50 0 0 0 50 50h250v700H200z"/></svg>')
+    },
     utils: {
       parseDate: function(d){
         if (!d) {
@@ -220,7 +223,7 @@
       });
     },
     set: function(o){
-      var ref$, ret, files, iterate, this$ = this;
+      var ref$, fobjs, files, iterate, this$ = this;
       this.fire('preview:loading');
       if (this._.loader) {
         this._.loader.on();
@@ -231,20 +234,19 @@
           : o.length
             ? Array.from(o)
             : [o]
-      ], ret = ref$[0], files = ref$[1];
+      ], fobjs = ref$[0], files = ref$[1];
       iterate = function(){
         var file, p;
         if (!(file = files.splice(0, 1)[0])) {
-          return Promise.resolve(ret);
+          return Promise.resolve(fobjs);
         }
         p = new Promise(function(res, rej){
           var img;
           img = new Image();
           img.onerror = function(){
-            var svg, f;
-            svg = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">\n<rect width="400" height="400" x="0" y="0" fill="#ccc"/></svg>';
-            ret.push(f = {
-              thumb: "data:image/svg+xml," + encodeURIComponent(svg),
+            var f;
+            fobjs.push(f = {
+              thumb: uploadr.assets.thumbholder,
               file: file
             });
             return res(f);
@@ -262,7 +264,7 @@
             c1.getContext('2d').drawImage(img, 0, 0, w, h);
             return c1.toBlob(function(blob){
               var f;
-              ret.push(f = {
+              fobjs.push(f = {
                 thumb: URL.createObjectURL(blob),
                 file: file
               });
@@ -339,6 +341,7 @@
     this._ = {
       evthdr: {},
       files: [],
+      running: false,
       root: typeof opt.root === 'string'
         ? document.querySelector(opt.root)
         : opt.root
@@ -351,7 +354,18 @@
       action: {
         click: {
           load: function(){
-            return this$._.page.fetch();
+            return this$.fetch();
+          }
+        }
+      },
+      init: {
+        loader: function(arg$){
+          var node;
+          node = arg$.node;
+          if (typeof ldloader != 'undefined' && ldloader !== null) {
+            return this$._.loader = new ldloader({
+              root: node
+            });
           }
         }
       },
@@ -398,9 +412,9 @@
                   return;
                 }
                 if (node.nodeName.toLowerCase() === 'img') {
-                  node.setAttribute('src', ctx.url);
+                  node.setAttribute('src', ctx.thumb);
                 } else {
-                  node.style.backgroundImage = "url(" + ctx.url + ")";
+                  node.style.backgroundImage = "url(" + ctx.thumb + ")";
                 }
                 return node.dataset.src = ctx.url;
               }
@@ -413,18 +427,44 @@
       ? opt.page
       : new paginate(opt.page || {});
     this._.page.on('fetch', function(it){
-      var files, ref$;
+      var files, ps;
       files = it.map(function(it){
         return it._id = Math.random().toString(36).substring(2), it;
       });
-      (ref$ = this$._).files = ref$.files.concat(files);
-      this$._.view.render();
-      return this$.fire('fetch:fetched', files);
+      ps = Promise.all(files.map(function(file){
+        return new Promise(function(res, rej){
+          var img;
+          img = new Image();
+          img.onerror = function(){
+            file.thumb = uploadr.assets.thumbholder;
+            return res();
+          };
+          img.onload = function(){
+            file.thumb = file.url;
+            return res();
+          };
+          return img.src = file.url;
+        });
+      }));
+      return ps.then(function(){
+        return debounce(2000).then(function(){
+          var ref$;
+          (ref$ = this$._).files = ref$.files.concat(files);
+          this$._.view.render();
+          if (this$._.loader) {
+            this$._.loader.off();
+          }
+          this$._.running = false;
+          return this$.fire('fetch:fetched', files);
+        });
+      });
     });
     this._.page.on('finish', function(){
+      this$._.running = false;
       return this$.fire('fetch:end');
     });
     this._.page.on('empty', function(){
+      this$._.running = false;
       return this$.fire('fetch:empty');
     });
     return this;
@@ -453,6 +493,11 @@
       return results$;
     },
     fetch: function(){
+      if (this._.running) {
+        return;
+      }
+      this._.loader.on();
+      this._.running = true;
       return this._.page.fetch();
     },
     reset: function(){

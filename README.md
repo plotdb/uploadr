@@ -274,6 +274,7 @@ and here is for viewer:
 
  - `file`: same with uploadr, along with the selector under `file`.
  - `load`: a DOM element triggering additional load when clicking.
+ - `loader`: a `running` class will be added to element(s) with this name.
 
 
 

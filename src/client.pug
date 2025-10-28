@@ -20,10 +20,10 @@ mixin uploadr-uploader(opt)
             .img(ld="thumb")
             .uploadr-item-ctrl
               .uploadr-progress(ld="progress")
-              .inner
-                div(ld="name")
-                div(ld="size")
-                div(ld="delete") ✕
+              .uploadr-item-ctrl-info
+                .uploadr-item-ctrl-name(ld="name",style="width:60%")
+                .uploadr-item-ctrl-size(ld="size",style="width:calc(30% - 1em)")
+                .uploadr-item-ctrl-delete(ld="delete") ✕
         else
           .uploadr-item.uploadr-head
             .uploadr-item-cell(t) Name
@@ -56,9 +56,10 @@ mixin uploadr-viewer(opt)
       .uploadr-item(ld-each="file")
         if type == "image"
           img(ld="thumb")
-          //-.img(ld="thumb")
         if type == "file"
           .uploadr-item-cell(ld="name")
           .uploadr-item-cell(ld="size")
           .uploadr-item-cell(ld="modifiedtime")
-      .uploadr-item.uploadr-load(ld="load",t) Load More
+      .uploadr-item.uploadr-load.position-relative(ld="load",t)
+        span Load More
+        .uploadr-loader: .ldld.default(ld="loader")

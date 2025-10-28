@@ -1,5 +1,7 @@
 uploadr =
   ext: {}
+  assets:
+    thumbholder: "data:image/svg+xml,#{encodeURIComponent('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5400 -5400 12000 12000"><rect width="12000" height="12000" x="-5400" y="-5400" fill="#ccc"/><path fill="#777" d="M1099.7 345.4v-.4a49.8 49.8 0 0 0-9.4-24.6l-.2-.2-1.2-1.5-.3-.4-1.3-1.4c0-.2-.2-.3-.3-.5a50 50 0 0 0-1.7-1.8l-300-300-1.8-1.6-.4-.4-1.5-1.2c0-.2-.2-.3-.4-.4l-1.5-1.2s-.2 0-.3-.2l-1.7-1.2A49.7 49.7 0 0 0 754.8.2h-.3A50.3 50.3 0 0 0 750 0H150a50 50 0 0 0-50 50v1100a50 50 0 0 0 50 50h900a50 50 0 0 0 50-50V350a49.7 49.7 0 0 0-.2-4.6zM800 170.7 929.3 300H800V170.7zM200 1100V100h500v250a50 50 0 0 0 50 50h250v700H200z"/></svg>''')}"
   utils:
     parse-date: (d) ->
       if !d => return 'n/a'
@@ -87,15 +89,13 @@ uploadr.uploader.prototype = Object.create(Object.prototype) <<< do
   set: (o) ->
     @fire \preview:loading
     if @_.loader => @_.loader.on!
-    [ret, files] = [[], if Array.isArray(o) => o else if o.length => Array.from(o) else [o]]
+    [fobjs, files] = [[], if Array.isArray(o) => o else if o.length => Array.from(o) else [o]]
     iterate = ~>
-      if !(file = files.splice(0,1).0) => return Promise.resolve(ret)
+      if !(file = files.splice(0,1).0) => return Promise.resolve fobjs
       p = new Promise (res, rej) ->
         img = new Image!
         img.onerror = ->
-          svg = '''<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
-          <rect width="400" height="400" x="0" y="0" fill="#ccc"/></svg>'''
-          ret.push f = {thumb: "data:image/svg+xml,#{encodeURIComponent(svg)}", file}
+          fobjs.push f = {thumb: uploadr.assets.thumbholder, file}
           res f
         img.onload = ->
           [w, h] = [img.width, img.height]
@@ -104,7 +104,7 @@ uploadr.uploader.prototype = Object.create(Object.prototype) <<< do
           c1 = document.createElement(\canvas) <<< width: w, height: h
           c1.getContext(\2d).drawImage img, 0, 0, w, h
           (blob) <- c1.toBlob _
-          ret.push f = {thumb: URL.createObjectURL(blob), file}
+          fobjs.push f = {thumb: URL.createObjectURL(blob), file}
           res f
         img.src = URL.createObjectURL(file)
       (fobj) <~ p.then _
@@ -143,12 +143,13 @@ uploadr.uploader.prototype = Object.create(Object.prototype) <<< do
 
 uploadr.viewer = (opt) ->
   @_ =
-    evthdr: {}, files: []
+    evthdr: {}, files: [], running: false
     root: if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   if !@_.root => console.warn "[uploadr] warning: no node found for root ", opt.root
   @_.view = new ldview do
     root: @_.root
-    action: click: load: ~> @_.page.fetch!
+    action: click: load: ~> @fetch!
+    init: loader: ({node}) ~> if ldloader? => @_.loader = new ldloader root: node
     handler:
       file:
         list: ~> @_.files or []
@@ -162,23 +163,38 @@ uploadr.viewer = (opt) ->
           handler:
             thumb: ({node, ctx, local}) -> 
               if node.dataset.src == ctx.url => return
-              if node.nodeName.toLowerCase! == \img => node.setAttribute \src, ctx.url
-              else node.style.backgroundImage = "url(#{ctx.url})"
+              if node.nodeName.toLowerCase! == \img => node.setAttribute \src, ctx.thumb
+              else node.style.backgroundImage = "url(#{ctx.thumb})"
               node.dataset.src = ctx.url
   @_.page = if opt.page instanceof paginate => opt.page else new paginate(opt.page or {})
   @_.page.on \fetch, ~>
+    # @loadingio/paginate always fire fetch even if empty or finish, and is before them.
+    # if this is not the case, we may have to check if _.running is still on here.
     files = it.map -> it <<< {_id: Math.random!toString(36)substring(2)}
+    ps = Promise.all files.map (file) ~> new Promise (res, rej) ~>
+      img = new Image!
+      img.onerror= -> file.thumb = uploadr.assets.thumbholder; res!
+      img.onload = -> file.thumb = file.url; res!
+      img.src = file.url
+    <~ ps.then _
+    <~ debounce 2000 .then _
     @_.files ++= files
     @_.view.render!
+    if @_.loader => @_.loader.off!
+    @_.running = false
     @fire \fetch:fetched, files
-  @_.page.on \finish, ~> @fire \fetch:end
-  @_.page.on \empty, ~> @fire \fetch:empty
+  @_.page.on \finish, ~> @_.running = false; @fire \fetch:end
+  @_.page.on \empty, ~> @_.running = false; @fire \fetch:empty
   @
 
 uploadr.viewer.prototype = Object.create(Object.prototype) <<< do
   on: (n, cb) -> (if Array.isArray(n) => n else [n]).map (n) ~> @_.evthdr.[][n].push cb
   fire: (n, ...v) -> for cb in (@_.evthdr[n] or []) => cb.apply @, v
-  fetch: -> @_.page.fetch!
+  fetch: ->
+    if @_.running => return
+    @_.loader.on!
+    @_.running = true
+    @_.page.fetch!
   reset: ->
     @_.page.reset!
     @_.files = []
