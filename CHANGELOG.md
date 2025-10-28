@@ -15,6 +15,7 @@
  - support file extension limitation
  - add loader in viewer
  - support thumb placeholder for non-image files
+ - i18n support
 
 
 ## v0.4.5
