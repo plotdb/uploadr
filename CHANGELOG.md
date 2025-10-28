@@ -12,6 +12,9 @@
  - rewrite all demostration page
  - update document
  - add block-based widgegt
+ - support file extension limitation
+ - add loader in viewer
+ - support thumb placeholder for non-image files
 
 
 ## v0.4.5
