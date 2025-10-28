@@ -1,8 +1,12 @@
 <-(->it!) _
 
+i18ncfg = lng: \zh-TW
+
+<- i18next.init(i18ncfg).then _
 lc = {files: []}
 ldcv = {}
 inline = {}
+widget = {}
 panel = tab: \default
 
 page-cfg = (host) -> 
@@ -43,17 +47,24 @@ view = new ldview do
       base = node.querySelector('[ld-scope]')
       name = base.getAttribute \ld-scope
       inline[name] = node
-      if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base)
-      else new uploadr.uploader root: base, provider: providers.native, accept: ''
+      ret = if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base), i18n: i18next
+      else new uploadr.uploader root: base, provider: providers.native, accept: '', i18n: i18next
+      ret.i18n!
+      widget{}inline[name] = ret
     ldcv: ({node}) ->
       base = node.querySelector('[ld-scope]')
       name = base.getAttribute \ld-scope
       ldcv[name] = new ldcover root: node
-      if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base)
-      else new uploadr.uploader root: base, provider: providers.native
+      ret = if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base), i18n: i18next
+      else new uploadr.uploader root: base, provider: providers.native, i18n: i18next
+      ret.i18n!
+      widget{}ldcv[name] = ret
   handler:
     panel: ({node}) -> node.classList.toggle \d-none, panel.tab != node.dataset.name
   action: click:
+    lng: ({node}) ->
+      i18next.changeLanguage node.dataset.lng
+      for type,obj of widget => for k,v of obj => v.i18n!
     "toggle-ldcv": ({node}) ->
       name = node.dataset.name
       ldcv[name].toggle!

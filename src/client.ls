@@ -44,7 +44,9 @@ uploadr.uploader = (opt = {}) ->
     opt: {} <<< opt
     accept: (opt.accept or '').split(',').map(->".#{it.replace('.','')}")
     root: if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
+    i18n: opt.i18n
   @_.opt.provider = opt.provider or {host: \native, config: route: \/api/uploadr}
+  if @_.i18n => for k,v of uploadr.i18n => @_.i18n.addResourceBundle k, "@plotdb/uploadr:uploader", v, true, true
   @init = proxise.once ~> @_init!
   if !@_.root => console.warn "[@plotdb/uploadr] warning: no node found for root ", opt.root
   @init!
@@ -54,6 +56,12 @@ uploadr.uploader.prototype = Object.create(Object.prototype) <<< do
   on: (n, cb) -> (if Array.isArray(n) => n else [n]).map (n) ~> @_.evthdr.[][n].push cb
   fire: (n, ...v) -> for cb in (@_.evthdr[n] or []) => cb.apply @, v
   files: -> @_.files or []
+  i18n: (lng) ->
+    if !@_.i18n => return
+    Array.from(@_.root.querySelectorAll('[t]')).map (node) ~>
+      if !(v = node.getAttribute(\t)) => node.setAttribute(\t, v = node.textContent)
+      node.textContent = @_.i18n.t(v, {ns: "@plotdb/uploadr:uploader", lng})
+
   _init: -> Promise.resolve!then ~>
     @_.view = view = new ldview do
       root: @_.root
@@ -152,8 +160,10 @@ uploadr.uploader.prototype = Object.create(Object.prototype) <<< do
 uploadr.viewer = (opt) ->
   @_ =
     evthdr: {}, files: [], running: false
+    i18n: opt.i18n
     root: if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
-  if !@_.root => console.warn "[uploadr] warning: no node found for root ", opt.root
+  if !@_.root => console.warn "[@plotdb/uploadr] warning: no node found for root ", opt.root
+  if @_.i18n => for k,v of uploadr.i18n => @_.i18n.addResourceBundle k, "@plotdb/uploadr:viewer", v, true, true
   @_.view = new ldview do
     root: @_.root
     action: click: load: ~> @fetch!
@@ -207,6 +217,11 @@ uploadr.viewer.prototype = Object.create(Object.prototype) <<< do
     @_.page.reset!
     @_.files = []
     @_.view.render!
+  i18n: (lng) ->
+    if !@_.i18n => return
+    Array.from(@_.root.querySelectorAll('[t]')).map (node) ~>
+      if !(v = node.getAttribute(\t)) => node.setAttribute(\t, v = node.textContent)
+      node.textContent = @_.i18n.t(v, {ns: "@plotdb/uploadr:viewer", lng})
 
 if module? => module.exports = uploadr
 else if window? => window.uploadr = uploadr

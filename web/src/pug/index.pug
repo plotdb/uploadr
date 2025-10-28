@@ -10,7 +10,6 @@ block body
         p this page demonstrate builtin widgets including uploader and viewer, in dialog / inline &times; image / file mode.
     hr
     .d-flex.g-4.mb-4
-
       div
         .font-weight-bold(style="font-size:1.15em") Inline
         .d-flex.g-4
@@ -24,7 +23,6 @@ block body
             .btn-group
               .btn.btn-sm.btn-outline-secondary(ld="toggle-inline",data-name="file-uploader") Uploader #[i.i-upload]
               .btn.btn-sm.btn-outline-secondary(ld="toggle-inline",data-name="file-viewer") Viewer #[i.i-book]
-
       div
         .font-weight-bold(style="font-size:1.15em") Dialog
         .d-flex.g-4
@@ -38,6 +36,13 @@ block body
             .btn-group
               .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="file-uploader") Uploader #[i.i-upload]
               .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="file-viewer") Viewer #[i.i-book]
+      div
+        .font-weight-bold(style="font-size:1.15em") &nbsp;
+        div
+          div i18n
+          .btn-group
+            .btn.btn-sm.btn-outline-secondary(ld="lng",data-lng="zh-TW") zh-TW
+            .btn.btn-sm.btn-outline-secondary(ld="lng",data-lng="en") en
     .border.rounded.shadow-sm.p-4.mt-4
       .panel.d-none.text-center.text-muted(
       ld="panel",data-name="default") select any inline listing to toggle panel here

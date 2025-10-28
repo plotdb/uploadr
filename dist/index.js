@@ -56,7 +56,7 @@
     }
   };
   uploadr.uploader = function(opt){
-    var this$ = this;
+    var k, ref$, v, this$ = this;
     opt == null && (opt = {});
     this._ = {
       evthdr: {},
@@ -67,7 +67,8 @@
       }),
       root: typeof opt.root === 'string'
         ? document.querySelector(opt.root)
-        : opt.root
+        : opt.root,
+      i18n: opt.i18n
     };
     this._.opt.provider = opt.provider || {
       host: 'native',
@@ -75,6 +76,12 @@
         route: '/api/uploadr'
       }
     };
+    if (this._.i18n) {
+      for (k in ref$ = uploadr.i18n) {
+        v = ref$[k];
+        this._.i18n.addResourceBundle(k, "@plotdb/uploadr:uploader", v, true, true);
+      }
+    }
     this.init = proxise.once(function(){
       return this$._init();
     });
@@ -109,6 +116,22 @@
     },
     files: function(){
       return this._.files || [];
+    },
+    i18n: function(lng){
+      var this$ = this;
+      if (!this._.i18n) {
+        return;
+      }
+      return Array.from(this._.root.querySelectorAll('[t]')).map(function(node){
+        var v;
+        if (!(v = node.getAttribute('t'))) {
+          node.setAttribute('t', v = node.textContent);
+        }
+        return node.textContent = this$._.i18n.t(v, {
+          ns: "@plotdb/uploadr:uploader",
+          lng: lng
+        });
+      });
     },
     _init: function(){
       var this$ = this;
@@ -356,17 +379,24 @@
     }
   });
   uploadr.viewer = function(opt){
-    var this$ = this;
+    var k, ref$, v, this$ = this;
     this._ = {
       evthdr: {},
       files: [],
       running: false,
+      i18n: opt.i18n,
       root: typeof opt.root === 'string'
         ? document.querySelector(opt.root)
         : opt.root
     };
     if (!this._.root) {
-      console.warn("[uploadr] warning: no node found for root ", opt.root);
+      console.warn("[@plotdb/uploadr] warning: no node found for root ", opt.root);
+    }
+    if (this._.i18n) {
+      for (k in ref$ = uploadr.i18n) {
+        v = ref$[k];
+        this._.i18n.addResourceBundle(k, "@plotdb/uploadr:viewer", v, true, true);
+      }
     }
     this._.view = new ldview({
       root: this._.root,
@@ -523,6 +553,22 @@
       this._.page.reset();
       this._.files = [];
       return this._.view.render();
+    },
+    i18n: function(lng){
+      var this$ = this;
+      if (!this._.i18n) {
+        return;
+      }
+      return Array.from(this._.root.querySelectorAll('[t]')).map(function(node){
+        var v;
+        if (!(v = node.getAttribute('t'))) {
+          node.setAttribute('t', v = node.textContent);
+        }
+        return node.textContent = this$._.i18n.t(v, {
+          ns: "@plotdb/uploadr:viewer",
+          lng: lng
+        });
+      });
     }
   });
   if (typeof module != 'undefined' && module !== null) {

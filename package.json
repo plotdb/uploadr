@@ -43,6 +43,7 @@
     "express": "^4.17.1",
     "fedep": "^1.5.0",
     "fs-extra": "^9.1.0",
+    "i18next": "^25.6.0",
     "ldcover": "^3.5.4",
     "ldiconfont": "^0.2.8",
     "ldnotify": "^0.0.6",
@@ -81,12 +82,13 @@
       "@plotdb/csscope",
       "@plotdb/rescope",
       "@plotdb/block",
-      "proxise",
+      "i18next",
       "ldview",
       "ldcover",
       "ldiconfont",
       "ldloader",
-      "ldnotify"
+      "ldnotify",
+      "proxise"
     ]
   }
 }

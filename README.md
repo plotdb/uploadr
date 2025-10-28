@@ -79,6 +79,8 @@ with the following options:
    - For detailed usage, see [Providers section](#providers) below.
    - if omitted, falls back to `{config: {route: '/api/uploadr'}, host: 'native'}`
  - `accept`: comma-separated string of file extensions, such as `jpg,jpeg,png` or `pdf`
+ - `i18n`: a i18next compatible i18n object.
+   - It should at least supports `t()` and `addResourceBundle()` with namespace support.
 
 
 For root element - if you use Pug, you can use the `uploadr-uploader` mixin available in `uploadr.pug` to create the DOM needed:
@@ -97,6 +99,7 @@ with the following options:
  - `page`: an object for configuration for fetching new content.
    - this object wil be passed to `@loadingio/paginate`. See `@loadingio/paginate` for documentation.
    - items in returned list from fetch should contain at least a member `url` for showing the URL of the image.
+ - `i18n`: see `uploader` option.
 
 Similar to `uploadr.uploader`, a mixin `uploadr-viewer` is available by including `uploadr.pug`:
 
@@ -105,6 +108,23 @@ Similar to `uploadr.uploader`, a mixin `uploadr-viewer` is available by includin
 
 
 Feel free to wrap uploader or viewer in dialogs or popups. See demo site for more examples.
+
+
+### Usage, with @plotdb/block
+
+Load uploader or viewer widget by following:
+
+    manager = new block.manager registry: -> /* your registry definition */
+    <- manager.from({name: "@plotdb/uploadr"}, {root: document.body, data: ...}).then _
+    <- manager.from({name: "@plotdb/uploadr", path: "viewer/index.html"}, {root: document.body, data: ...}).then _
+
+Where data is the constructor option of corresponding widget, except for the `root` and `i18n` fields (these are managed by `@plotdb/block` mechanism).
+
+
+You can also use them along with ldcvmgr:
+
+    mgr = new ldcvmgr({...})
+    <- mgr.get({name: "@plotdb/uploadr"}, {root: document.body, data: ...}).then _
 
 
 ### API
@@ -123,6 +143,9 @@ Feel free to wrap uploader or viewer in dialogs or popups. See demo site for mor
     - `file:chosen`
     - `upload:done`
     - `upload:fail`
+  - `i18n(lng)`: translate text used in widget.
+    - parameter lng is optional. default language of the translation module will be used if omitted.
+    - only available if i18n object is provided during initialization.
 
 `uploader.viewer` object provides following APIs:
 
@@ -133,6 +156,8 @@ Feel free to wrap uploader or viewer in dialogs or popups. See demo site for mor
     - `fetch:fetched`: when fetching new items. list of items passed as parameter.
     - `fetch:end`:  when there is no new item available.
     - `fetch:empty`:  when list is empty.
+  - `i18n(lng)`: translate text used in widget. parameter lng is optional.
+    - only available if i18n object is provided during initialization.
 
 
 ### Providers

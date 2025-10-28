@@ -1,8 +1,11 @@
+<- i18next.init {lng: \zh-TW} .then _
+block.i18n.use i18next
 <-(.apply {}) _
 
 manager = new block.manager registry: ({ns,name,version,path,type}) ->
   path = path or if type == \block => \index.html else if type == \js => \index.js else \index.css
-  "/assets/lib/#name/#{version or 'dev'}/#{path}"
+  version = if /@plotdb\/uploadr/.exec(name) => \dev else \main
+  "/assets/lib/#name/#{version}/#{path}"
 
 page-cfg = (host) -> 
   host: host
@@ -20,6 +23,7 @@ page-cfg = (host) ->
 
 view = new ldview do
   root: document.body
+  action: click: lng: ({node}) -> i18next.changeLanguage node.dataset.lng
 
 Promise.resolve!
   .then ->
