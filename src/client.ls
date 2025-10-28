@@ -169,6 +169,7 @@ uploadr.viewer = (opt) ->
     action: click: load: ~> @fetch!
     init: loader: ({node}) ~> if ldloader? => @_.loader = new ldloader root: node
     handler:
+      load: ({node}) ~> node.classList.toggle \d-none, !@_.page.fetchable!
       file:
         list: ~> @_.files or []
         key: -> it._id
@@ -209,7 +210,7 @@ uploadr.viewer.prototype = Object.create(Object.prototype) <<< do
   on: (n, cb) -> (if Array.isArray(n) => n else [n]).map (n) ~> @_.evthdr.[][n].push cb
   fire: (n, ...v) -> for cb in (@_.evthdr[n] or []) => cb.apply @, v
   fetch: ->
-    if @_.running => return
+    if @_.running or !@_.page.fetchable! => return
     @_.loader.on!
     @_.running = true
     @_.page.fetch!

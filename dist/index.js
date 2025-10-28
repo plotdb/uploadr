@@ -419,6 +419,11 @@
         }
       },
       handler: {
+        load: function(arg$){
+          var node;
+          node = arg$.node;
+          return node.classList.toggle('d-none', !this$._.page.fetchable());
+        },
         file: {
           list: function(){
             return this$._.files || [];
@@ -542,7 +547,7 @@
       return results$;
     },
     fetch: function(){
-      if (this._.running) {
+      if (this._.running || !this._.page.fetchable()) {
         return;
       }
       this._.loader.on();
