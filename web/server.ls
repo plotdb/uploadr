@@ -45,8 +45,8 @@ backend = do
           stat = fs.lstat-sync file
           url: "/assets/files/#url"
           size: stat.size
-          name: file
-          id: file
+          name: path.basename file
+          id: path.basename file
           createdtime: stat.mtime
       res.send files.splice(offset, limit)
 
