@@ -1,6 +1,6 @@
 # Change Logs
 
-## v0.5.0 (upcoming)
+## v0.5.0
 
  - breaking changes
    - rewrite widget code
