@@ -42,6 +42,7 @@ uploadr.uploader = (opt = {}) ->
   @_ =
     evthdr: {}, files: []
     opt: {} <<< opt
+    accept: (opt.accept or '').split(',').map(->".#{it.replace('.','')}")
     root: if typeof(opt.root) == \string => document.querySelector(opt.root) else opt.root
   @_.opt.provider = opt.provider or {host: \native, config: route: \/api/uploadr}
   @init = proxise.once ~> @_init!
@@ -66,10 +67,17 @@ uploadr.uploader.prototype = Object.create(Object.prototype) <<< do
           clear: ({node, evt}) ~> @clear!
         drop: drop: ({node, evt}) ~>
           evt.preventDefault!
-          @set evt.dataTransfer.files
+          files = Array.from(evt.dataTransfer.files)
+          if @_.accept =>
+            re = new RegExp("\." + @_.accept.split(',').join(\|) + "$")
+            files = files.filter -> !!re.exec(it.name)
+          @set files
         dragover: drop: ({evt}) -> evt.preventDefault!
       init: loader: ({node}) ~> if ldloader? => @_.loader = new ldloader root: node
       handler:
+        input: ({node}) ~>
+          if @_.accept => node.setAttribute \accept, @_.accept
+          else node.removeAttribute \accept
         file:
           list: ~> @_.files or []
           view:

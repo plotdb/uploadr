@@ -78,6 +78,7 @@ with the following options:
  - `provider`: object for provider information
    - For detailed usage, see [Providers section](#providers) below.
    - if omitted, falls back to `{config: {route: '/api/uploadr'}, host: 'native'}`
+ - `accept`: comma-separated string of file extensions, such as `jpg,jpeg,png` or `pdf`
 
 
 For root element - if you use Pug, you can use the `uploadr-uploader` mixin available in `uploadr.pug` to create the DOM needed:

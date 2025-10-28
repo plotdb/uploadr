@@ -44,7 +44,7 @@ view = new ldview do
       name = base.getAttribute \ld-scope
       inline[name] = node
       if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base)
-      else new uploadr.uploader root: base, provider: providers.native
+      else new uploadr.uploader root: base, provider: providers.native, accept: ''
     ldcv: ({node}) ->
       base = node.querySelector('[ld-scope]')
       name = base.getAttribute \ld-scope

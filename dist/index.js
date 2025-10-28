@@ -62,6 +62,9 @@
       evthdr: {},
       files: [],
       opt: import$({}, opt),
+      accept: (opt.accept || '').split(',').map(function(it){
+        return "." + it.replace('.', '');
+      }),
       root: typeof opt.root === 'string'
         ? document.querySelector(opt.root)
         : opt.root
@@ -144,10 +147,17 @@
             },
             drop: {
               drop: function(arg$){
-                var node, evt;
+                var node, evt, files, re;
                 node = arg$.node, evt = arg$.evt;
                 evt.preventDefault();
-                return this$.set(evt.dataTransfer.files);
+                files = Array.from(evt.dataTransfer.files);
+                if (this$._.accept) {
+                  re = new RegExp("." + this$._.accept.split(',').join('|') + "$");
+                  files = files.filter(function(it){
+                    return !!re.exec(it.name);
+                  });
+                }
+                return this$.set(files);
               }
             },
             dragover: {
@@ -170,6 +180,15 @@
             }
           },
           handler: {
+            input: function(arg$){
+              var node;
+              node = arg$.node;
+              if (this$._.accept) {
+                return node.setAttribute('accept', this$._.accept);
+              } else {
+                return node.removeAttribute('accept');
+              }
+            },
             file: {
               list: function(){
                 return this$._.files || [];
