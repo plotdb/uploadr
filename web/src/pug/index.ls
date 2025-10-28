@@ -3,6 +3,7 @@
 lc = {files: []}
 ldcv = {}
 inline = {}
+panel = tab: \default
 
 page-cfg = (host) -> 
   host: host
@@ -34,7 +35,6 @@ view = new ldview do
       base = node.querySelector('[ld-scope]')
       name = base.getAttribute \ld-scope
       inline[name] = node
-      node.classList.toggle \d-none, true
       if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base)
       else new uploadr.uploader root: base, provider: providers.native
     ldcv: ({node}) ->
@@ -43,6 +43,8 @@ view = new ldview do
       ldcv[name] = new ldcover root: node
       if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base)
       else new uploadr.uploader root: base, provider: providers.native
+  handler:
+    panel: ({node}) -> node.classList.toggle \d-none, panel.tab != node.dataset.name
   action: click:
     "toggle-ldcv": ({node}) ->
       name = node.dataset.name
@@ -50,7 +52,9 @@ view = new ldview do
     "toggle-inline": ({node}) ->
       name = node.dataset.name
       for k,v of inline => v.classList.toggle \d-none, true
-      inline[name].classList.toggle \d-none, false
+      panel.tab = name
+      view.render \panel
+
 
 
 /*

@@ -39,10 +39,16 @@ block body
               .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="file-uploader") Uploader #[i.i-upload]
               .btn.btn-sm.btn-outline-secondary(ld="toggle-ldcv",data-name="file-viewer") Viewer #[i.i-book]
     .border.rounded.shadow-sm.p-4.mt-4
-      .panel(ld="inline"): +uploadr-uploader({name: "image-uploader", type: "image"})
-      .panel(ld="inline"): +uploadr-viewer({name: "image-viewer", type: "image"})
-      .panel(ld="inline"): +uploadr-uploader({name: "file-uploader", type: "file"})
-      .panel(ld="inline"): +uploadr-viewer({name: "file-viewer", type: "file"})
+      .panel.d-none.text-center.text-muted(
+      ld="panel",data-name="default") select any inline listing to toggle panel here
+      .panel.d-none(ld="panel inline",data-name="image-uploader")
+        +uploadr-uploader({name: "image-uploader", type: "image"})
+      .panel.d-none(ld="panel inline",data-name="image-viewer")
+        +uploadr-viewer({name: "image-viewer", type: "image"})
+      .panel.d-none(ld="panel inline",data-name="file-uploader")
+        +uploadr-uploader({name: "file-uploader", type: "file"})
+      .panel.d-none(ld="panel inline",data-name="file-viewer")
+        +uploadr-viewer({name: "file-viewer", type: "file"})
 
     .ldcv.default-size(ld="ldcv"): .base: .inner
       +uploadr-uploader({name: "image-uploader", type: "image"})
