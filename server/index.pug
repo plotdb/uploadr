@@ -26,16 +26,16 @@ mixin uploadr-uploader(opt)
                 .uploadr-item-ctrl-delete(ld="delete") ✕
         else
           .uploadr-item.uploadr-head
-            .uploadr-item-cell(t) Name
-            .uploadr-item-cell(t) Size
-            .uploadr-item-cell(t) Modified Date
+            .uploadr-item-cell.uploadr-item-name(t) Name
+            .uploadr-item-cell.uploadr-item-size(t) Size
+            .uploadr-item-cell.uploadr-item-modifiedtime(t) Modified Date
             .uploadr-item-cell &nbsp;
           .uploadr-item(ld-each="file")
-            .uploadr-item-cell(style="position:relative")
+            .uploadr-item-cell.uploadr-item-name(style="position:relative")
               span(ld="name")
               .uploadr-progress(ld="progress")
-            .uploadr-item-cell(ld="size")
-            .uploadr-item-cell(ld="modifiedtime")
+            .uploadr-item-cell.uploadr-item-size(ld="size")
+            .uploadr-item-cell.uploadr-item-modifiedtime(ld="modifiedtime")
             .uploadr-item-cell(ld="delete") ✕
 
       .uploadr-loader: .ldld.default(ld="loader")
@@ -50,16 +50,16 @@ mixin uploadr-viewer(opt)
     .uploadr-list(class=(type=="file"?"uploadr-list-file":"uploadr-list-image"))
       if type == "file"
         .uploadr-item.uploadr-head
-          .uploadr-item-cell(t) Name
-          .uploadr-item-cell(t) Size
-          .uploadr-item-cell(t) Modified Date
+          .uploadr-item-cell.uploadr-item-name(t) Name
+          .uploadr-item-cell.uploadr-item-size(t) Size
+          .uploadr-item-cell.uploadr-item-modifiedtime(t) Modified Date
       .uploadr-item(ld-each="file")
         if type == "image"
           img(ld="thumb")
         if type == "file"
-          .uploadr-item-cell(ld="name")
-          .uploadr-item-cell(ld="size")
-          .uploadr-item-cell(ld="modifiedtime")
+          .uploadr-item-cell.uploadr-item-name(ld="name")
+          .uploadr-item-cell.uploadr-item-size(ld="size")
+          .uploadr-item-cell.uploadr-item-modifiedtime(ld="modifiedtime")
       .uploadr-item.uploadr-load.position-relative(ld="load",t)
         span Load More
         .uploadr-loader: .ldld.default(ld="loader")

@@ -1,5 +1,14 @@
 # Change Logs
 
+## v0.5.1
+
+ - tweak file list style
+ - prevent selection on load button
+ - add css classes in file list
+ - prevent fetching if paginate is not fetchable
+ - hide load button if not fetchable
+
+
 ## v0.5.0
 
  - breaking changes
