@@ -54,7 +54,7 @@
             var o;
             return ret.push(o = {
               name: item.file.name,
-              error: it
+              err: it
             });
           });
         };

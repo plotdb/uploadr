@@ -1,5 +1,24 @@
 # Change Logs
 
+## v0.5.0
+
+ - breaking changes
+   - rewrite widget code
+     - tweak style
+     - tweak DOM structure
+     - tweak APIs and Events
+   - tweak uploadr object structure:
+     - Use `uploadr.viewer` and `uploadr.uploader` for widgets, `uploadr.ext` for providers.
+ - rewrite all demostration page
+ - update document
+ - add block-based widgegt
+ - support file extension limitation
+ - add loader in viewer
+ - support thumb placeholder for non-image files
+ - i18n support
+ - native provider: check and fallback file ext used
+
+
 ## v0.4.5
 
  - fix issue: `index.pug` isn't found when accessing via `@plotdb/uploadr/index.pug`. move it to server.
