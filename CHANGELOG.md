@@ -16,6 +16,7 @@
  - add loader in viewer
  - support thumb placeholder for non-image files
  - i18n support
+ - native provider: check and fallback file ext used
 
 
 ## v0.4.5

@@ -63,8 +63,21 @@
           hk = hk.substring(10);
           dir = path.join(this$.folder, target, t1, t2);
           return imgtype(buf).then(function(arg$){
-            var ext, des, url, ref$;
-            ext = arg$.ext;
+            var ext, parts, des, url, ref$;
+            ext = (arg$ != null
+              ? arg$
+              : {}).ext;
+            if (!ext) {
+              parts = file.name.split('.');
+              ext = parts.length < 2
+                ? ''
+                : parts[parts.length - 1];
+              ext = ext.toLowerCase() || 'obj';
+            }
+            if (ext.length > 10) {
+              ext = ext.substring(0, 10);
+            }
+            ext = ext.replace(/[^a-zA-Z0-9]/g, '_');
             des = path.join(dir, hk);
             url = path.join(this$.rooturl, target, t1, t2, hk);
             if (ext) {

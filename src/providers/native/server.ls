@@ -38,7 +38,13 @@ provider-native.prototype = Object.create(Object.prototype) <<< do
         hk = hk.substring(10)
         dir = path.join(@folder, target, t1, t2)
         imgtype(buf)
-          .then ({ext}) ~>
+          .then ({ext} = {}) ~>
+            if !ext =>
+              parts = file.name.split('.')
+              ext = if parts.length < 2 => '' else parts[* - 1]
+              ext = ext.toLowerCase! or \obj
+            if ext.length > 10 => ext = ext.substring(0,10)
+            ext = ext.replace(/[^a-zA-Z0-9]/g,'_')
             des = path.join(dir, hk)
             url = path.join(@rooturl, target, t1, t2, hk)
             if ext => [des,url] = ["#des.#ext", "#url.#ext"]
