@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.5.2 (upcoming)
+
+ - fix bug: loader isn't shown when loading.
+
+
 ## v0.5.1
 
  - tweak file list style
