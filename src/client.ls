@@ -182,7 +182,7 @@ uploadr.viewer = (opt) ->
         list: ~> @_.files or []
         key: -> it._id
         view:
-          action: click: "@": ({ctx}) ~> @fire \file:chosen, ctx
+          action: click: "@": ({ctx}) ~> @fire \file:chosen, [ctx]
           text:
             name: ({ctx}) -> ctx.name or 'unnamed'
             size: ({ctx}) -> uploadr.utils.parse-size ctx.size

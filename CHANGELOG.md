@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.5.3
+
+ - fix bug: `file:chosen` event should provide a list of file instead of a single file object
+
+
 ## v0.5.2
 
  - fix bug: loader isn't shown when loading.

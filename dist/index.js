@@ -454,7 +454,7 @@
                 "@": function(arg$){
                   var ctx;
                   ctx = arg$.ctx;
-                  return this$.fire('file:chosen', ctx);
+                  return this$.fire('file:chosen', [ctx]);
                 }
               }
             },
