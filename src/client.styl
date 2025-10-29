@@ -92,12 +92,14 @@
   background: rgba(0,128,255,.5)
   transition: width .15s ease-in-out
 
-.uploadr-load
+.uploadr-load, .uploadr-end, .uploadr-reset
   user-select: none
   height: fit-content
   width: 100%
   max-width: 100%
   margin: .5em 0
+.uploadr-end
+  cursor: default
 
 .uploadr-list-file
   flex-direction: column
@@ -116,7 +118,7 @@
     position: static
     .uploadr-item-ctrl-info
       width: 100%
-  .uploadr-load
+  .uploadr-load, .uploadr-end, .uploadr-reset
     margin: 0
     justify-content: center
   .uploadr-item-name

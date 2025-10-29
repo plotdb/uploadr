@@ -299,7 +299,9 @@ Here is for uploader:
 and here is for viewer:
 
  - `file`: same with uploadr, along with the selector under `file`.
- - `load`: a DOM element triggering additional load when clicking.
+ - `load`: a DOM element triggering additional load when clicking. Hidden when no more content to load.
+ - `end`: a DOM element to show when there's no more content to load.
+ - `reset`: a DOM element to trigger list reset. Also, only show when there's no more content to load.
  - `loader`: a `running` class will be added to element(s) with this name.
 
 

@@ -26,6 +26,8 @@ uploadr =
       "Clear": "Clear"
       "Close": "Close"
       "Load More": "Load More"
+      "End of List": "End of List"
+      "Reload": "Reload"
     "zh-TW":
       "Drag & drop": "拖拉檔案"
       "file(s) here": "至此處"
@@ -37,6 +39,8 @@ uploadr =
       "Clear": "清除"
       "Close": "關閉"
       "Load More": "載入更多"
+      "End of List": "列表結尾"
+      "Reload": "重新載入"
 
 uploadr.uploader = (opt = {}) ->
   @_ =
@@ -166,10 +170,14 @@ uploadr.viewer = (opt) ->
   if @_.i18n => for k,v of uploadr.i18n => @_.i18n.addResourceBundle k, "@plotdb/uploadr:viewer", v, true, true
   @_.view = new ldview do
     root: @_.root
-    action: click: load: ~> @fetch!
+    action: click:
+      load: ~> @fetch!
+      reset: ~> @reset!
     init: loader: ({node}) ~> if ldloader? => @_.loader = new ldloader root: node
     handler:
       load: ({node}) ~> node.classList.toggle \d-none, !@_.page.fetchable!
+      end: ({node}) ~> node.classList.toggle \d-none, !!@_.page.fetchable!
+      reset: ({node}) ~> node.classList.toggle \d-none, !!@_.page.fetchable!
       file:
         list: ~> @_.files or []
         key: -> it._id
@@ -215,7 +223,7 @@ uploadr.viewer.prototype = Object.create(Object.prototype) <<< do
     @_.running = true
     @_.page.fetch!
   reset: ->
-    @_.page.reset!
+    <~ @_.page.reset!then _
     @_.files = []
     @_.view.render!
   i18n: (lng) ->
