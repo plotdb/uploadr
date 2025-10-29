@@ -152,7 +152,12 @@ You can also use them along with ldcvmgr:
   - `fetch` - force fetching new content.
   - `reset` - reset viewer content
   - `on(name, cb)` - listen to `name` event with `cb` callback. Following events are available:
-    - `file:chosen`: when an item is chosen. `cb` called with `{url}` object as parameter.
+    - `file:chosen`: when an item (or a list of items) is chosen.
+      - `cb` called with an object (or a list of such object) with following fields:
+        - `url`: file url
+        - `size`: file size
+        - `name`: file name
+        - `lastModified`: file last modified time
     - `fetch:fetched`: when fetching new items. list of items passed as parameter.
     - `fetch:end`:  when there is no new item available.
     - `fetch:empty`:  when list is empty.
