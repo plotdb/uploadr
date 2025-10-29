@@ -12,9 +12,10 @@ panel = tab: \default
 page-cfg = (host) -> 
   host: host
   fetch-on-scroll: true
-  limit: 9
+  limit: 10
   boundary: 100
-  fetch: -> new Promise (res, rej) ->
+  fetch: -> new Promise (res, rej) ~>
+    if @offset > 9 => return res []
     res [1,2,3,4,5,6,7,8,9,10].map (idx) ->
       if idx == 10 =>
         return {
@@ -50,6 +51,7 @@ view = new ldview do
       ret = if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base), i18n: i18next
       else new uploadr.uploader root: base, provider: providers.native, accept: '', i18n: i18next
       ret.i18n!
+      ret.on \file:chosen, -> console.log "choose: ", it
       widget{}inline[name] = ret
     ldcv: ({node}) ->
       base = node.querySelector('[ld-scope]')
@@ -58,6 +60,7 @@ view = new ldview do
       ret = if /viewer/.exec(name) => new uploadr.viewer root: base, page: page-cfg(base), i18n: i18next
       else new uploadr.uploader root: base, provider: providers.native, i18n: i18next
       ret.i18n!
+      ret.on \file:chosen, -> console.log "choose: ", it
       widget{}ldcv[name] = ret
   handler:
     panel: ({node}) -> node.classList.toggle \d-none, panel.tab != node.dataset.name
