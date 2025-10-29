@@ -39,7 +39,9 @@
         "Upload": "Upload",
         "Clear": "Clear",
         "Close": "Close",
-        "Load More": "Load More"
+        "Load More": "Load More",
+        "End of List": "End of List",
+        "Reload": "Reload"
       },
       "zh-TW": {
         "Drag & drop": "拖拉檔案",
@@ -51,7 +53,9 @@
         "Upload": "上傳",
         "Clear": "清除",
         "Close": "關閉",
-        "Load More": "載入更多"
+        "Load More": "載入更多",
+        "End of List": "列表結尾",
+        "Reload": "重新載入"
       }
     }
   };
@@ -404,6 +408,9 @@
         click: {
           load: function(){
             return this$.fetch();
+          },
+          reset: function(){
+            return this$.reset();
           }
         }
       },
@@ -423,6 +430,16 @@
           var node;
           node = arg$.node;
           return node.classList.toggle('d-none', !this$._.page.fetchable());
+        },
+        end: function(arg$){
+          var node;
+          node = arg$.node;
+          return node.classList.toggle('d-none', !!this$._.page.fetchable());
+        },
+        reset: function(arg$){
+          var node;
+          node = arg$.node;
+          return node.classList.toggle('d-none', !!this$._.page.fetchable());
         },
         file: {
           list: function(){
@@ -555,9 +572,11 @@
       return this._.page.fetch();
     },
     reset: function(){
-      this._.page.reset();
-      this._.files = [];
-      return this._.view.render();
+      var this$ = this;
+      return this._.page.reset().then(function(){
+        this$._.files = [];
+        return this$._.view.render();
+      });
     },
     i18n: function(lng){
       var this$ = this;

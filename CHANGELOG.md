@@ -1,5 +1,11 @@
 # Change Logs
 
+## v0.5.2
+
+ - fix bug: loader isn't shown when loading.
+ - add `end` and `reset` selector for uploadr viewer widget
+
+
 ## v0.5.1
 
  - tweak file list style
